@@ -2,6 +2,8 @@ package com.example.birdstagram;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ImageButton;
 
 import androidx.appcompat.app.AppCompatActivity;
 import org.osmdroid.api.IMapController;
@@ -12,11 +14,20 @@ import org.osmdroid.views.MapView;
 public class Map extends AppCompatActivity {
 
     private MapView map;
+    private ImageButton menuButton;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.map);
+
+        menuButton = findViewById(R.id.menu_button);
+        menuButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
 
         map = findViewById(R.id.map);
         map.setTileSource(TileSourceFactory.MAPNIK);
