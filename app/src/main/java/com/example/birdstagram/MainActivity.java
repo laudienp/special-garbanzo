@@ -19,7 +19,7 @@ import com.example.birdstagram.inscription.SignUpActivity;
 public class MainActivity extends AppCompatActivity {
 
     TextView text;
-    private final Class startingActivity = SignUpActivity.class;
+    private final Class startingActivity = MapActivity.class;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

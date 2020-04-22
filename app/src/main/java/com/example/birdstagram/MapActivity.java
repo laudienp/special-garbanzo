@@ -11,7 +11,7 @@ import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
 
-public class Map extends AppCompatActivity {
+public class MapActivity extends AppCompatActivity {
 
     private MapView map;
     private ImageButton menuButton;
@@ -26,7 +26,8 @@ public class Map extends AppCompatActivity {
         menuButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent intent = new Intent(getApplicationContext(), MenuActivity.class);
+                startActivity(intent);
             }
         });
 
