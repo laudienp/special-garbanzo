@@ -5,48 +5,136 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".inscription.SignUpActivity"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    android:clickable="true"
+    android:id="@+id/signup"
     >
+
     <TextView
         android:id="@+id/birdStagramView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="20sp"
+        android:textSize="40sp"
         android:text="Bird Stragram"
+        android:fontFamily="sans-serif-medium"
+        android:paddingTop="20sp"
+        android:gravity="center"
         />
 
-    <EditText
-        android:id="@+id/pseudo"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:autofillHints="username"
-        android:inputType="text"
-        tools:ignore="LabelFor"
-        />
+        android:layout_height="60dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="60sp"
+        >
+        <EditText
+            android:id="@+id/pseudo"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/square"
+            android:paddingLeft="5dp"
+            android:hint="Pseudo"
+            android:inputType="text"
+            />
+        <TextView
+            android:id="@+id/pseudo_textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="7dp"
+            android:background="#ffffff"
+            android:text="Pseudo" />
+    </RelativeLayout>
 
-    <EditText
-        android:id="@+id/email"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:autofillHints="username"
-        android:inputType="text"
-        tools:ignore="LabelFor"
-        />
+        android:layout_height="60dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp">
+        <EditText
+            android:id="@+id/email"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/square"
+            android:paddingLeft="5dp"
+            android:hint="Email"
+            android:inputType="text"
+            />
+        <TextView
+            android:id="@+id/email_textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="7dp"
+            android:background="#ffffff"
+            android:text="Email" />
+    </RelativeLayout>
 
-    <EditText
-        android:id="@+id/password"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Mot de passe"
-        android:inputType="textPassword"
-        />
+        android:layout_height="60dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp">
+        <EditText
+            android:id="@+id/password"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/square"
+            android:paddingLeft="5dp"
+            android:hint="Mot de passe"
+            android:inputType="textPassword"
+            />
+        <TextView
+            android:id="@+id/password_textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="7dp"
+            android:background="#ffffff"
+            android:text="Mot de passe" />
+    </RelativeLayout>
 
-    <EditText
-        android:id="@+id/confirmPassword"
+    <RelativeLayout
         android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp">
+        <EditText
+            android:id="@+id/confirmPassword"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/square"
+            android:paddingLeft="5dp"
+            android:hint="Confirmer le mot de passe"
+            android:inputType="textPassword"
+            />
+        <TextView
+            android:id="@+id/confirmPassword_textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="7dp"
+            android:background="#ffffff"
+            android:text="Confirmer le mot de passe" />
+    </RelativeLayout>
+
+    <Button
+        android:id="@+id/signUpButton"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:autofillHints="username"
-        android:hint="Confirmer le mot de passe"
-        android:inputType="textPassword"
+        android:textSize="30sp"
+        android:text="S'inscrire"
+        android:textColor="@color/black"
+        android:gravity="center"
+        android:layout_marginLeft="105sp"
+        android:layout_marginTop="180sp"
+
         />
 
 </LinearLayout>

@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import com.example.birdstagram.inscription.SignUpActivity;
 
+
 public class MainActivity extends AppCompatActivity {
 
     TextView text;
@@ -73,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
                     Intent intent = new Intent(getApplicationContext(), startingActivity);
                     startActivity(intent);
                 } else {
-                    text.setText("Nique ta mère");
+                    text.setText("Dehors");
                 }
             }
         }
