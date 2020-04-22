@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    tools:context=".inscription.SignUpActivity"
     >
     <TextView
         android:id="@+id/birdStagramView"
@@ -19,6 +20,7 @@
         android:layout_height="wrap_content"
         android:autofillHints="username"
         android:inputType="text"
+        tools:ignore="LabelFor"
         />
 
     <EditText

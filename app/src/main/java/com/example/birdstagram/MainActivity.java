@@ -3,7 +3,6 @@ package com.example.birdstagram;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 
 import android.Manifest;
 import android.content.Context;
@@ -19,6 +18,7 @@ import com.example.birdstagram.inscription.SignUpActivity;
 public class MainActivity extends AppCompatActivity {
 
     TextView text;
+    private final Class startingActivity = SignUpActivity.class;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
         };
 
         if (hasPermissions(this, PERMISSIONS)){
-            Intent intent = new Intent(getApplicationContext(), Map.class);
+            Intent intent = new Intent(getApplicationContext(), startingActivity);
             startActivity(intent);
         } else {
             requestPermissions(PERMISSIONS, 1);
@@ -70,7 +70,7 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 if (allPermissionsAccepted) {
-                    Intent intent = new Intent(getApplicationContext(), Map.class);
+                    Intent intent = new Intent(getApplicationContext(), startingActivity);
                     startActivity(intent);
                 } else {
                     text.setText("Nique ta mère");
