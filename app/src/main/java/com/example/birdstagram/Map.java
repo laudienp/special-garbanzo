@@ -15,6 +15,7 @@ public class Map extends AppCompatActivity {
 
     private MapView map;
     private ImageButton menuButton;
+    private ImageButton cameraButton;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -26,6 +27,15 @@ public class Map extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
+            }
+        });
+
+        cameraButton = findViewById(R.id.camera_button);
+        cameraButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
+                startActivity(intent);
             }
         });
 
