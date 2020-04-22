@@ -8,6 +8,8 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.widget.Toast;
 
+import com.example.birdstagram.inscription.SignUpActivity;
+
 public class MainActivity extends AppCompatActivity {
 
     @Override
