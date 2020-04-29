@@ -27,6 +27,7 @@
         <activity android:name=".MapActivity"/>
         <activity android:name=".inscription.SignUpActivity"/>
         <activity android:name=".MenuActivity"/>
+        <activity android:name=".LocateBirdActivity"/>
     </application>
 
 </manifest>
