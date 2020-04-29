@@ -13,9 +13,6 @@ import android.os.Bundle;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.birdstagram.inscription.ProfileActivity;
-import com.example.birdstagram.inscription.SignUpActivity;
-
 
 public class MainActivity extends AppCompatActivity {
 
