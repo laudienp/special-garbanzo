@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".inscription.ProfileActivity"
+    android:orientation="vertical"
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="78dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/profil_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="140dp"
+            android:text="Profil"
+            android:textSize="40sp"></TextView>
+
+        <Button
+            android:layout_width="74dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/social3">
+
+        </Button>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        >
+
+        <ImageView
+            android:id="@+id/profil_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/user_image"
+            android:contentDescription="ProfileImage">
+
+        </ImageView>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="30dp"
+                android:text="Name"
+                >
+
+            </TextView>
+
+            <EditText
+                android:id="@+id/name_editView"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:autofillHints="Nom"
+                android:inputType="text"
+                >
+
+            </EditText>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="30dp"
+                android:text="Age"
+                >
+
+            </TextView>
+
+            <EditText
+                android:id="@+id/age_editView"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:autofillHints="Nom"
+                android:inputType="number"
+                android:maxLength="2"
+                >
+
+            </EditText>
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20dp"
+        android:text="Email"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="30dp"
+        >
+
+    </TextView>
+
+    <EditText
+        android:id="@+id/email_editView"
+        android:layout_width="350dp"
+        android:layout_height="wrap_content"
+        android:autofillHints="Nom"
+        android:inputType="textEmailAddress"
+        android:layout_marginLeft="30dp"
+        >
+
+    </EditText>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20dp"
+        android:text="Mot de passe"
+        android:layout_marginLeft="30dp"
+
+        >
+
+    </TextView>
+
+    <EditText
+        android:id="@+id/password_editView"
+        android:layout_width="350dp"
+        android:layout_height="wrap_content"
+        android:autofillHints="Nom"
+        android:inputType="textPassword"
+        android:layout_marginLeft="30dp"
+
+        >
+
+    </EditText>
+
+    <Button
+        android:layout_marginTop="30dp"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:text="Appliquer les changements"
+        android:textSize="15dp"
+        android:layout_marginLeft="70dp"
+        android:gravity="center"
+        >
+
+    </Button>
+
+    <View
+        android:layout_marginTop="10sp"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/black"
+        >
+    </View>
+
+    <TextView
+        android:id="@+id/nb_of_subs"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="30sp"
+        android:text="280 subscribers"
+        android:layout_marginLeft="20sp"
+        >
+    </TextView>
+
+    <TextView
+        android:id="@+id/nb_of_likes"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="30sp"
+        android:text="84K likes"
+        android:layout_marginLeft="20sp"
+        >
+
+    </TextView>
+
+    <TextView
+        android:id="@+id/nb_of_posts"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="30sp"
+        android:text="67 posts"
+        android:layout_marginLeft="20sp"
+        >
+    </TextView>
+
+
+</LinearLayout>
