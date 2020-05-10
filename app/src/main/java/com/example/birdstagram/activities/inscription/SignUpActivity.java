@@ -208,17 +208,18 @@ public class SignUpActivity extends AppCompatActivity implements View.OnFocusCha
     }
 
     public void newSubscription(View view){
-        if(name.toString() == null || surname.toString() == null || age.toString() == null || pseudo.toString() == null || email.toString() == null || password.toString() == null || checkPassword.toString() == null){
+        if(name.getText().toString().isEmpty() || surname.getText().toString().isEmpty() || age.getText().toString().isEmpty() || pseudo.getText().toString().isEmpty() || email.getText().toString().isEmpty() || password.getText().toString().isEmpty() || checkPassword.getText().toString().isEmpty()){
             Toast.makeText(getApplicationContext(), "Veuillez remplir tous les champs.", Toast.LENGTH_LONG).show();
         }
+
         else{
-            String userName = name.toString();
-            String userSurname = surname.toString();
-            String userPseudo = pseudo.toString();
-            int userAge = Integer.parseInt(age.toString());
-            String userEmail = email.toString();
-            String userPassword = password.toString();
-            String userCheckPassword = checkPassword.toString();
+            String userName = name.getText().toString();
+            String userSurname = surname.getText().toString();
+            String userPseudo = pseudo.getText().toString();
+            int userAge = Integer.parseInt(age.getText().toString());
+            String userEmail = email.getText().toString();
+            String userPassword = password.getText().toString();
+            String userCheckPassword = checkPassword.getText().toString();
             if(userPassword.equalsIgnoreCase(userCheckPassword)){
                 User newUser = new User(userName, userSurname, userPseudo, userAge, userEmail, userPassword);
                 myDb.insertDataUser(newUser);

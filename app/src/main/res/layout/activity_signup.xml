@@ -22,12 +22,13 @@
         android:gravity="center"
         />
 
+
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        android:layout_marginTop="60sp"
         >
         <EditText
             android:id="@+id/pseudo"
@@ -201,7 +202,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="105sp"
-        android:layout_marginTop="180sp"
         android:gravity="center"
         android:text="S'inscrire"
         android:textColor="@color/black"
