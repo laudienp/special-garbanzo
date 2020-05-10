@@ -28,7 +28,7 @@
         app:layout_constraintTop_toBottomOf="@+id/birdStagramView"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        android:layout_marginTop="70dp"
+        android:layout_marginTop="60dp"
         android:textSize="18sp"
         android:text="Add Bird Position" />
 
@@ -53,29 +53,34 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         android:layout_marginTop="70dp"
-
-        android:textSize="18dp"
+        android:layout_marginBottom="60dp"
+        android:textSize="18sp"
         android:text="Profil" />
 
     <TextView
         android:id="@+id/onlineView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@+id/textureView"
+        android:text="Online"
+        android:textColor="@android:color/holo_green_dark"
+        android:textSize="30sp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        android:text="Online"
-        android:textSize="30sp"
-        android:textColor="@android:color/holo_green_dark" />
+        app:layout_constraintBottom_toTopOf="@id/divider"
+         />
 
-    <TextureView
-        android:id="@+id/textureView"
+    <View
+        android:id="@+id/divider"
         android:layout_width="match_parent"
-        android:layout_marginRight="10dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginBottom="10dp"
-        app:layout_constraintBottom_toTopOf="@+id/icons"
-        android:layout_height="2dp" />
+        android:layout_height="2dp"
+        android:background="?android:attr/listDivider"
+        android:divider="@color/black"
+        app:layout_constraintBottom_toTopOf="@id/icons"
+        android:layout_marginBottom="15dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"/>
 
     <LinearLayout
         android:id="@+id/icons"
@@ -93,7 +98,8 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="50dp"
             android:background="@null"
-            app:srcCompat="@drawable/map" />
+            app:srcCompat="@drawable/map"
+            android:contentDescription="map"/>
 
         <ImageButton
             android:id="@+id/menuIcon"
@@ -101,7 +107,8 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="50dp"
             android:background="@null"
-            app:srcCompat="@drawable/menu" />
+            app:srcCompat="@drawable/menu"
+            android:contentDescription="menu"/>
 
         <ImageButton
             android:id="@+id/reglageIcon"
@@ -109,7 +116,8 @@
             android:layout_height="wrap_content"
 
             android:background="@null"
-            app:srcCompat="@drawable/reglage" />
+            app:srcCompat="@drawable/reglage"
+            android:contentDescription="settings"/>
 
 
     </LinearLayout>
