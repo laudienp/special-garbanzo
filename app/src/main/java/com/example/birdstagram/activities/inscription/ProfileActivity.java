@@ -1,4 +1,4 @@
-package com.example.birdstagram.inscription;
+package com.example.birdstagram.activities.inscription;
 
 import android.Manifest;
 import android.app.Activity;

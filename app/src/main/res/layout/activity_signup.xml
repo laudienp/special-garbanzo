@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".inscription.SignUpActivity"
+    tools:context=".activities.inscription.SignUpActivity"
     android:focusable="true"
     android:focusableInTouchMode="true"
     android:clickable="true"
@@ -37,7 +37,6 @@
             android:background="@drawable/square"
             android:paddingLeft="5dp"
             android:hint="Pseudo"
-            android:inputType="text"
             />
         <TextView
             android:id="@+id/pseudo_textView"
@@ -47,6 +46,79 @@
             android:layout_marginTop="7dp"
             android:background="#ffffff"
             android:text="Pseudo" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp">
+        <EditText
+            android:id="@+id/name"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/square"
+            android:paddingLeft="5dp"
+            android:hint="Prénom"
+            />
+        <TextView
+            android:id="@+id/name_textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="7dp"
+            android:background="#ffffff"
+            android:text="Prénom" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp">
+        <EditText
+            android:id="@+id/surname"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/square"
+            android:paddingLeft="5dp"
+            android:hint="Nom"
+            />
+        <TextView
+            android:id="@+id/surname_textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="7dp"
+            android:background="#ffffff"
+            android:text="Nom" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp">
+        <EditText
+            android:id="@+id/age"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/square"
+            android:paddingLeft="5dp"
+            android:hint="Age"
+            android:inputType="number"
+            />
+        <TextView
+            android:id="@+id/age_textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="7dp"
+            android:background="#ffffff"
+            android:text="Age" />
     </RelativeLayout>
 
     <RelativeLayout
@@ -128,13 +200,13 @@
         android:id="@+id/signUpButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="30sp"
-        android:text="S'inscrire"
-        android:textColor="@color/black"
-        android:gravity="center"
         android:layout_marginLeft="105sp"
         android:layout_marginTop="180sp"
-
+        android:gravity="center"
+        android:text="S'inscrire"
+        android:textColor="@color/black"
+        android:textSize="30sp"
+        android:onClick="newSubscription"
         />
 
 </LinearLayout>
