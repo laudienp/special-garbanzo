@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
         };
 
         if (hasPermissions(this, PERMISSIONS)){
-            Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+            Intent intent = new Intent(getApplicationContext(), startingActivity);
             startActivity(intent);
         } else {
             requestPermissions(PERMISSIONS, REQUEST_PERMISSIONS);
