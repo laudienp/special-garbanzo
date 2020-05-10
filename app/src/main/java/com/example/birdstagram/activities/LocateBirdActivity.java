@@ -1,8 +1,10 @@
-package com.example.birdstagram;
+package com.example.birdstagram.activities;
 
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.birdstagram.R;
 
 public class LocateBirdActivity extends AppCompatActivity {
 

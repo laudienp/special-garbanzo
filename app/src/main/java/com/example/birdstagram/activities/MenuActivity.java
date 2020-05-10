@@ -1,4 +1,4 @@
-package com.example.birdstagram;
+package com.example.birdstagram.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,6 +8,8 @@ import android.widget.Button;
 import com.example.birdstagram.inscription.ProfileActivity;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.birdstagram.R;
 
 public class MenuActivity extends AppCompatActivity {
 

@@ -1,4 +1,4 @@
-package com.example.birdstagram.inscription;
+package com.example.birdstagram.activities.inscription;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;

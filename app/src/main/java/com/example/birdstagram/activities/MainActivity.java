@@ -1,4 +1,4 @@
-package com.example.birdstagram;
+package com.example.birdstagram.activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -13,9 +13,13 @@ import android.os.Bundle;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.birdstagram.R;
+import com.example.birdstagram.activities.inscription.ProfileActivity;
+import com.example.birdstagram.tools.DatabaseHelper;
+
 
 public class MainActivity extends AppCompatActivity {
-
+    public static DatabaseHelper myDb;
     TextView text;
     private final Class startingActivity = MapActivity.class;
 
@@ -23,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        myDb = new DatabaseHelper(this);
 
         text = findViewById(R.id.text);
 
