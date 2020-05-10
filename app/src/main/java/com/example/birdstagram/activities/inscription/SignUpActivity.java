@@ -1,15 +1,12 @@
 package com.example.birdstagram.activities.inscription;
 
 import com.example.birdstagram.R;
-import com.example.birdstagram.activities.MainActivity;
 import com.example.birdstagram.data.tools.User;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
@@ -17,7 +14,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.DrawableRes;
 import androidx.appcompat.app.AppCompatActivity;
 
 import static com.example.birdstagram.activities.MainActivity.myDb;
@@ -38,7 +34,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnFocusCha
     private TextView ageLabel;
     private TextView emailLabel;
     private TextView passwordLabel;
-    private TextView checkPasswprdLabel;
+    private TextView checkPasswordLabel;
 
     public SignUpActivity() {
 
@@ -52,6 +48,13 @@ public class SignUpActivity extends AppCompatActivity implements View.OnFocusCha
 
         initializeAttributes();
         setAllOnFocusListener();
+
+        signupButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                newSubscription(v);
+            }
+        });
     }
 
     @Override
@@ -145,14 +148,14 @@ public class SignUpActivity extends AppCompatActivity implements View.OnFocusCha
                 break;
             case R.id.confirmPassword:
                 if (hasFocus) {
-                    checkPasswprdLabel.setVisibility(View.VISIBLE);
+                    checkPasswordLabel.setVisibility(View.VISIBLE);
                     checkPassword.setBackground(boarder);
                     checkPassword.setHint(" ");
 
                 } else if (checkPassword.getText().length() != 0) {
                     checkPassword.setBackground(square);
                 } else {
-                    checkPasswprdLabel.setVisibility(View.INVISIBLE);
+                    checkPasswordLabel.setVisibility(View.INVISIBLE);
                     checkPassword.setBackground(square);
                     checkPassword.setHint("Cofirmer le mot de passe");
 
@@ -181,7 +184,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnFocusCha
         pseudoLabel = findViewById(R.id.pseudo_textView);
         emailLabel = findViewById(R.id.email_textView);
         passwordLabel = findViewById(R.id.password_textView);
-        checkPasswprdLabel = findViewById(R.id.confirmPassword_textView);
+        checkPasswordLabel = findViewById(R.id.confirmPassword_textView);
 
         makeLabelsInvisible();
     }
@@ -193,7 +196,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnFocusCha
         pseudoLabel.setVisibility(View.INVISIBLE);
         emailLabel.setVisibility(View.INVISIBLE);
         passwordLabel.setVisibility(View.INVISIBLE);
-        checkPasswprdLabel.setVisibility(View.INVISIBLE);
+        checkPasswordLabel.setVisibility(View.INVISIBLE);
     }
 
     void setAllOnFocusListener(){
@@ -223,6 +226,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnFocusCha
             if(userPassword.equalsIgnoreCase(userCheckPassword)){
                 User newUser = new User(userName, userSurname, userPseudo, userAge, userEmail, userPassword);
                 myDb.insertDataUser(newUser);
+                Toast.makeText(getApplicationContext(), "Compte Crée", Toast.LENGTH_LONG).show();
             }
             else{
                 Toast.makeText(getApplicationContext(), "Les mots de passes ne correspondent pas.", Toast.LENGTH_LONG);

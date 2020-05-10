@@ -2,14 +2,17 @@ package com.example.birdstagram.activities.inscription;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -27,7 +30,7 @@ public class ProfileActivity extends AppCompatActivity {
     private EditText age;
     private EditText email;
     private EditText password;
-
+    private Button apply_Btn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +43,7 @@ public class ProfileActivity extends AppCompatActivity {
         age = findViewById(R.id.age_editView);
         email = findViewById(R.id.email_editView);
         password = findViewById(R.id.password_editView);
+        apply_Btn = findViewById(R.id.apply_button);
 
         imageProfile.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -56,6 +60,14 @@ public class ProfileActivity extends AppCompatActivity {
                     intent.setType("image/*");
                     startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE);*/
                 }
+            }
+        });
+
+        apply_Btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+              //Confirmation de l'utilisateur
+
             }
         });
     }

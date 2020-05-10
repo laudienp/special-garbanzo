@@ -18,13 +18,13 @@ import android.widget.Toast;
 import com.example.birdstagram.R;
 import com.example.birdstagram.activities.connexion.LoginActivity;
 import com.example.birdstagram.activities.inscription.ProfileActivity;
+import com.example.birdstagram.activities.inscription.SignUpActivity;
 import com.example.birdstagram.tools.DatabaseHelper;
-
 
 public class MainActivity extends AppCompatActivity {
     public static DatabaseHelper myDb;
     TextView text;
-    private final Class startingActivity = MapActivity.class;
+    private final Class startingActivity = SignUpActivity.class;
     static final int REQUEST_IMAGE_CAPTURE = 1;
     static final int REQUEST_PERMISSIONS = 2;
 

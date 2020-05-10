@@ -113,10 +113,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
-    public Cursor getConnectionUser(String pseudo, String password){
+    public Cursor getConnectionUser(String email, String password){
         SQLiteDatabase db = this.getWritableDatabase();
-        Cursor res = db.rawQuery("SELECT * FROM " + USER_TABLE + " WHERE " + USER_PSEUDO + " = " + pseudo + " AND " + USER_PASSWORD + " = " + password, null);
-        return res;
+        return db.rawQuery("SELECT * FROM " + USER_TABLE + " WHERE " + USER_MAIL + " = " + email + " AND " + USER_PASSWORD + " = " + password, null);
     }
 
 }
