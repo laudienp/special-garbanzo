@@ -3,13 +3,20 @@ package com.example.birdstagram.activities;
 import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ComponentInfo;
 import android.content.pm.PackageManager;
 import android.annotation.SuppressLint;
 import android.graphics.Bitmap;
+import android.location.Criteria;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -25,18 +32,24 @@ import org.osmdroid.config.Configuration;
 
 import java.util.ArrayList;
 
-public class MapActivity extends AppCompatActivity {
+public class MapActivity extends AppCompatActivity implements LocationListener {
 
     private final int REQUEST_PERMISSIONS_REQUEST_CODE = 1;
     private MapView map;
     private ImageButton menuButton;
     private ImageButton cameraButton;
 
+    LocationManager locationManager = null;
+    Location location;
+    private String provider;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.map);
+
+
 
         menuButton = findViewById(R.id.menu_button);
         menuButton.setOnClickListener(new View.OnClickListener() {
@@ -62,7 +75,6 @@ public class MapActivity extends AppCompatActivity {
 
         map = findViewById(R.id.map);
         map.setTileSource(TileSourceFactory.MAPNIK);
-        //map.setBuiltInZoomControls(true);
 
         requestPermissionsIfNecessary(new String[]
                 {
@@ -75,6 +87,8 @@ public class MapActivity extends AppCompatActivity {
         IMapController mapController = map.getController();
         mapController.setZoom(16.0);
         mapController.setCenter(startPoint);
+
+        initLoc();
     }
 
     @SuppressLint("MissingSuperCall")
@@ -98,22 +112,69 @@ public class MapActivity extends AppCompatActivity {
         map.onResume();
     }
 
-    private void requestPermissionsIfNecessary(String[] permissions)
-    {
+    private void requestPermissionsIfNecessary(String[] permissions) {
         ArrayList<String> permissionsToRequest = new ArrayList<>();
-        for(String permission : permissions)
-        {
-            if(ContextCompat.checkSelfPermission(this, permission)
-                != PackageManager.PERMISSION_GRANTED)
+        for (String permission : permissions) {
+            if (ContextCompat.checkSelfPermission(this, permission)
+                    != PackageManager.PERMISSION_GRANTED)
                 permissionsToRequest.add(permission);
         }
-        if(permissionsToRequest.size() > 0)
-        {
+        if (permissionsToRequest.size() > 0) {
             ActivityCompat.requestPermissions(
                     this,
                     permissionsToRequest.toArray(new String[0]),
                     REQUEST_PERMISSIONS_REQUEST_CODE
             );
         }
+    }
+
+    @SuppressLint("MissingPermission")
+    private void initLoc() {
+        if (locationManager == null) {
+            locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+            Criteria criteria = new Criteria();
+            criteria.setAccuracy(Criteria.ACCURACY_FINE);
+            criteria.setAltitudeRequired(true);
+            criteria.setCostAllowed(true);
+
+            criteria.setPowerRequirement(Criteria.POWER_HIGH);
+
+            provider = locationManager.getBestProvider(criteria, true);
+            Log.d("GPS", "provider : " + provider);
+        }
+
+        if (provider != null) {
+            requestPermissionsIfNecessary(new String[] { Manifest.permission.WRITE_EXTERNAL_STORAGE});
+            Location location = locationManager.getLastKnownLocation(provider);
+
+            if(location != null)
+                this.onLocationChanged(location);
+
+            locationManager.requestLocationUpdates(provider, 15000, 10, this);
+        }
+    }
+
+    public void onLocationChanged(Location localisation)
+    {
+        Log.d("GPS", "localisation: " + localisation.toString());
+        IMapController mapController = map.getController();
+        mapController.setCenter(new GeoPoint(localisation.getLatitude(), localisation.getLongitude()));
+    }
+
+    @Override
+    public void onStatusChanged(String provider, int status, Bundle extras) {
+        Toast.makeText(this, provider+ " state: " + status, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onProviderEnabled(String fournisseur)
+    {
+        Toast.makeText( getApplicationContext(),fournisseur + " enabled!", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onProviderDisabled(String prov)
+    {
+        Toast.makeText(this, prov+" disabled!", Toast.LENGTH_SHORT).show();
     }
 }
