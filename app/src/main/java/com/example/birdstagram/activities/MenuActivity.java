@@ -7,6 +7,7 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageButton;
 
+import com.example.birdstagram.GalleryActivity;
 import com.example.birdstagram.activities.inscription.ProfileActivity;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -30,20 +31,32 @@ public class MenuActivity extends AppCompatActivity {
             }
         });
 
+
 /*        Button subscriptionButton = findViewById(R.id.subscription);
-        subscriptionButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), SignUpActivity.class);
-                startActivity(intent);
-            }
-        });*/
+//        subscriptionButton.setOnClickListener(new View.OnClickListener() {
+
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent = new Intent(getApplicationContext(), SignUpActivity.class);
+//                startActivity(intent);
+//            }
+//        }); */
 
         Button profilButton = findViewById(R.id.profil);
         profilButton.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), ProfileActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        Button galleryButton = findViewById(R.id.gallery);
+        galleryButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v){
+                Intent intent = new Intent(getApplicationContext(), GalleryActivity.class);
                 startActivity(intent);
             }
         });
