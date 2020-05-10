@@ -1,30 +1,20 @@
 package com.example.birdstagram.inscription;
 
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Debug;
-import android.os.Environment;
-import android.provider.MediaStore;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 
-import com.example.birdstagram.R;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 
-import java.io.File;
+import com.example.birdstagram.R;
 
 public class ProfileActivity extends AppCompatActivity {
     private static final int PICK_IMAGE = 2;
@@ -55,12 +45,10 @@ public class ProfileActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                if (checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED)
-                {
+                if (checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
                     requestPermissions(new String[]{Manifest.permission.CAMERA}, MY_CAMERA_PERMISSION_CODE);
-                }
-                else
-                {
+                } else
+                    {
                     Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE); // directly open camera
                     startActivityForResult(cameraIntent, CAMERA_REQUEST);
                     /*Intent intent = new Intent(Intent.ACTION_GET_CONTENT); //Directly choose from gallery
@@ -82,8 +70,7 @@ public class ProfileActivity extends AppCompatActivity {
             imageProfile.setBackgroundResource(0);
             imageProfile.setImageURI(selectedImage);
         }
-        if (requestCode == CAMERA_REQUEST && resultCode == Activity.RESULT_OK)
-        {
+        if (requestCode == CAMERA_REQUEST && resultCode == Activity.RESULT_OK) {
             Bitmap photo = (Bitmap) data.getExtras().get("data");
             imageProfile.setBackgroundResource(0);
             imageProfile.setImageBitmap(photo);
