@@ -1,111 +1,126 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".activities.LocateBirdActivity">
 
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        tools:srcCompat="@tools:sample/avatars[11]"
+
+
+    <ImageButton
+        android:id="@+id/imageButton"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="30dp"
         android:layout_marginBottom="15dp"
-        android:layout_marginTop="30dp"/>
+        app:srcCompat="@drawable/camera_icon" />
 
     <TextView
         android:id="@+id/textBirdSpecie"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="TextView"
-        tools:text="Bird species"
-        android:textSize="20dp"
-        android:textStyle="bold"
-        android:textColor="@android:color/black"
+        app:layout_constraintTop_toBottomOf="@id/imageButton"
+        app:layout_constraintLeft_toLeftOf="parent"
         android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
-        android:layout_marginTop="5dp"/>
+        android:layout_marginTop="20dp"
+        android:text="Bird species"
+        android:textColor="@android:color/black"
+        android:textSize="20sp"
+        android:textStyle="bold" />
 
     <Spinner
         android:id="@+id/spinner"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textBirdSpecie"
         android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
-        android:layout_marginBottom="15dp" />
+        android:layout_marginRight="15dp" />
 
     <TextView
         android:id="@+id/textDescription"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="TextView"
-        tools:text="Description"
-        android:textSize="20dp"
-        android:textStyle="bold"
-        android:textColor="@android:color/black"
         android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
-        android:layout_marginTop="5dp"/>
+        android:layout_marginTop="20dp"
+        app:layout_constraintTop_toBottomOf="@id/spinner"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:text="Description"
+        android:textColor="@android:color/black"
+        android:textSize="20sp"
+        android:textStyle="bold" />
 
     <EditText
         android:id="@+id/inputDescription"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="I saw it around the rocks near to the sea..."
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
-        android:layout_marginBottom="15dp"></EditText>
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textDescription"
+        android:hint="I saw it around the rocks near to the sea..."
+        android:inputType="textLongMessage" />
 
     <TextView
         android:id="@+id/textLocation"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="TextView"
-        tools:text="Location"
-        android:textSize="20dp"
-        android:textStyle="bold"
-        android:textColor="@android:color/black"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
-        android:layout_marginTop="5dp"/>
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/inputDescription"
+        android:layout_marginTop="20dp"
+        android:text="Location"
+        android:textColor="@android:color/black"
+        android:textSize="20sp"
+        android:textStyle="bold" />
 
     <Button
         android:id="@+id/buttonCurrentGPSLocation"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-
-        android:text="Button"
-        tools:text="Take current GPS location"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textLocation"
         android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"/>
+        android:layout_marginRight="15dp"
+        android:text="Take current GPS location" />
 
     <Button
         android:id="@+id/buttonPositionOnMap"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Button"
-        tools:text="Take a position on the map"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/buttonCurrentGPSLocation"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
-        android:layout_marginBottom="15dp"/>
+        android:layout_marginBottom="15dp"
+        android:text="Take a position on the map" />
 
     <Switch
         android:id="@+id/switchImageGallery"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Publish the image in the gallery    "
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/buttonPositionOnMap"
+        android:layout_marginTop="20dp"
         android:layout_marginLeft="15dp"
         android:layout_marginBottom="50dp"
-        />
+        android:text="Publish the image in the gallery    " />
 
 
     <Button
         android:id="@+id/buttonValidate"
         android:layout_width="100dp"
         android:layout_height="65dp"
-        android:layout_gravity="center"
-        android:text="Button"
-        tools:text="Validate" />EditText>
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/switchImageGallery"
+        android:layout_marginTop="50dp"
+        android:text="Validate" />
 
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

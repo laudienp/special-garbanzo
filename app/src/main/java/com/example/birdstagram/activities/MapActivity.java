@@ -1,20 +1,25 @@
-package com.example.birdstagram;
+package com.example.birdstagram.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.view.Window;
 import android.widget.ImageButton;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.birdstagram.R;
+
 import org.osmdroid.api.IMapController;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
 
-public class Map extends AppCompatActivity {
+public class MapActivity extends AppCompatActivity {
 
     private MapView map;
     private ImageButton menuButton;
+    private ImageButton cameraButton;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -25,7 +30,17 @@ public class Map extends AppCompatActivity {
         menuButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), MenuActivity.class);
+                startActivity(intent);
+            }
+        });
 
+        cameraButton = findViewById(R.id.camera_button);
+        cameraButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
+                startActivity(intent);
             }
         });
 
