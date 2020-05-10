@@ -4,23 +4,23 @@ import java.util.Date;
 
 public class Comment {
 
-    private int postID;
-    private int userID;
+    private Post postID;
+    private User userID;
     private String comment;
     private Date date;
 
-    public Comment(int postID, int userID, String comment, Date date) {
+    public Comment(Post postID, User userID, String comment, Date date) {
         this.postID = postID;
         this.userID = userID;
         this.comment = comment;
         this.date = date;
     }
 
-    public int getPostID() {
+    public Post getPostID() {
         return postID;
     }
 
-    public int getUserID() {
+    public User getUserID() {
         return userID;
     }
 

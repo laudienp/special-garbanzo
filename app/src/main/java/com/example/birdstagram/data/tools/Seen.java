@@ -4,21 +4,21 @@ import java.util.Date;
 
 public class Seen {
 
-    private int postID;
-    private int userID;
+    private Post postID;
+    private User userID;
     private Date date;
 
-    public Seen(int postID, int userID, Date date) {
+    public Seen(Post postID, User userID, Date date) {
         this.postID = postID;
         this.userID = userID;
         this.date = date;
     }
 
-    public int getPostID() {
+    public Post getPostID() {
         return postID;
     }
 
-    public int getUserID() {
+    public User getUserID() {
         return userID;
     }
 
