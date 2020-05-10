@@ -16,6 +16,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.birdstagram.R;
+import com.example.birdstagram.activities.connexion.LoginActivity;
 import com.example.birdstagram.activities.inscription.ProfileActivity;
 import com.example.birdstagram.tools.DatabaseHelper;
 
@@ -45,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
         };
 
         if (hasPermissions(this, PERMISSIONS)){
-            Intent intent = new Intent(getApplicationContext(), startingActivity);
+            Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
             startActivity(intent);
         } else {
             requestPermissions(PERMISSIONS, REQUEST_PERMISSIONS);
