@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
         };
 
         if (hasPermissions(this, PERMISSIONS)){
-            Intent intent = new Intent(getApplicationContext(), ProfileActivity.class);
+            Intent intent = new Intent(getApplicationContext(), startingActivity);
             startActivity(intent);
         } else {
             requestPermissions(PERMISSIONS, 1);
