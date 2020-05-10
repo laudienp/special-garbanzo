@@ -2,6 +2,7 @@ package com.example.birdstagram.tools;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
@@ -102,6 +103,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put(USER_AGE, user.getAge());
         values.put(USER_MAIL, user.getMail());
         values.put(USER_PASSWORD, user.getPassword());
+
         long insertResult = db.insert(USER_TABLE, null, values);
         if(insertResult == -1){
             Log.d("DATABASE", "INSERT HAS FAILED.");
@@ -109,6 +111,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         else {
             Log.d("DATABASE", "INSERT HAS SUCCEEDED.");
         }
+    }
+
+    public Cursor getConnectionUser(String pseudo, String password){
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor res = db.rawQuery("SELECT * FROM " + USER_TABLE + " WHERE " + USER_PSEUDO + " = " + pseudo + " AND " + USER_PASSWORD + " = " + password, null);
+        return res;
     }
 
 }
