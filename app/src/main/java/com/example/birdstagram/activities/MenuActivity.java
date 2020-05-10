@@ -8,6 +8,7 @@ import android.widget.Button;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.birdstagram.R;
+import com.example.birdstagram.activities.inscription.SignUpActivity;
 
 public class MenuActivity extends AppCompatActivity {
 
@@ -21,6 +22,15 @@ public class MenuActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), LocateBirdActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        Button subscriptionButton = findViewById(R.id.subscription);
+        subscriptionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), SignUpActivity.class);
                 startActivity(intent);
             }
         });
