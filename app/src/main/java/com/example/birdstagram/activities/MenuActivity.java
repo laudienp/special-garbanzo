@@ -29,14 +29,14 @@ public class MenuActivity extends AppCompatActivity {
             }
         });
 
-        Button subscriptionButton = findViewById(R.id.subscription);
-        subscriptionButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), SignUpActivity.class);
-                startActivity(intent);
-            }
-        });
+//        Button subscriptionButton = findViewById(R.id.subscription);
+//        subscriptionButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent = new Intent(getApplicationContext(), SignUpActivity.class);
+//                startActivity(intent);
+//            }
+//        });
 
         Button profilButton = findViewById(R.id.profil);
         profilButton.setOnClickListener(new View.OnClickListener() {

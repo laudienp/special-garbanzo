@@ -23,6 +23,8 @@ public class MainActivity extends AppCompatActivity {
     public static DatabaseHelper myDb;
     TextView text;
     private final Class startingActivity = MapActivity.class;
+    static final int REQUEST_IMAGE_CAPTURE = 1;
+    static final int REQUEST_PERMISSIONS = 2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(getApplicationContext(), startingActivity);
             startActivity(intent);
         } else {
-            requestPermissions(PERMISSIONS, 1);
+            requestPermissions(PERMISSIONS, REQUEST_PERMISSIONS);
         }
     }
 
@@ -63,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
     public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
 
         switch (requestCode) {
-            case 1: {
+            case REQUEST_PERMISSIONS: {
                 boolean allPermissionsAccepted = true;
                 if (grantResults.length == 0) allPermissionsAccepted = false;
                 else {
