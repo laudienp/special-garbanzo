@@ -1,6 +1,8 @@
 package com.example.birdstagram.activities;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
@@ -21,6 +23,7 @@ public class MapActivity extends AppCompatActivity {
     private ImageButton menuButton;
     private ImageButton cameraButton;
 
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,7 +43,7 @@ public class MapActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
-                startActivity(intent);
+                startActivityForResult(intent, MainActivity.REQUEST_IMAGE_CAPTURE);
             }
         });
 
@@ -51,6 +54,15 @@ public class MapActivity extends AppCompatActivity {
         IMapController mapController = map.getController();
         mapController.setZoom(16.0);
         mapController.setCenter(startPoint);
+    }
+
+    @SuppressLint("MissingSuperCall")
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == MainActivity.REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
+            Bundle extras = data.getExtras();
+            LocateBirdActivity.lastImage = (Bitmap) extras.get("data");
+        }
     }
 
     @Override
