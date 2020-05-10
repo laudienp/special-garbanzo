@@ -72,15 +72,15 @@ public class SettingActivity extends AppCompatActivity {
 
     }
 
-    boolean getDisplayNotif(){
+    public static boolean getDisplayNotif(){
         return displayNotif;
     }
 
-    boolean getDisplayGeneralNotif(){
+    public static boolean getDisplayGeneralNotif(){
         return displayGeneralNotif;
     }
 
-    boolean getDisplaySocialNotif(){
+    public static boolean getDisplaySocialNotif(){
         return displaySocialNotif;
     }
 

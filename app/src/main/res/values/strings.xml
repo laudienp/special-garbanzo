@@ -8,4 +8,13 @@
     <string name="addBird">ADD A BIRD</string>
     <string name="cancel">CANCEL</string>
     <string name="validate">VALIDATE</string>
+    <string name="bird_stagram">Bird Stagram</string>
+    <string name="conextion_image">Conextion image</string>
+    <string name="connexion_image">connexion image</string>
+    <string name="email">Email :</string>
+    <string name="mot_de_passe">Mot de Passe :</string>
+    <string name="log_in">log in</string>
+    <string name="se_connecter">Se connecter</string>
+    <string name="cr_er_un_compte">Créer un compte</string>
+    <string name="vous_n_avez_pas_de_compte">Vous n\'avez pas de compte ?</string>
 </resources>

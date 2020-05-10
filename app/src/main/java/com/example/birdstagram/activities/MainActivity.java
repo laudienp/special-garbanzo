@@ -10,11 +10,13 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Window;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.birdstagram.R;
+import com.example.birdstagram.activities.connexion.LoginActivity;
 import com.example.birdstagram.activities.inscription.ProfileActivity;
 import com.example.birdstagram.tools.DatabaseHelper;
 
@@ -30,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        Log.i("DATABASE", "ENTERING METHOD");
         myDb = new DatabaseHelper(this);
 
         text = findViewById(R.id.text);
@@ -43,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
         };
 
         if (hasPermissions(this, PERMISSIONS)){
-            Intent intent = new Intent(getApplicationContext(), startingActivity);
+            Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
             startActivity(intent);
         } else {
             requestPermissions(PERMISSIONS, REQUEST_PERMISSIONS);
