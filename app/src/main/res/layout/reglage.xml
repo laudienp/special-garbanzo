@@ -3,7 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".activities.SettingActivity">
 
     <TextView
         android:id="@+id/settings"
@@ -30,7 +31,7 @@
         android:textColor="@color/black"/>
 
     <Switch
-        android:id="@+id/switch1"
+        android:id="@+id/allNotif"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Print notifications"
@@ -44,24 +45,24 @@
 
 
     <Switch
-        android:id="@+id/switch2"
+        android:id="@+id/generalNotif"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="General"
         android:textSize="20sp"
-        app:layout_constraintTop_toBottomOf="@id/switch1"
+        app:layout_constraintTop_toBottomOf="@id/allNotif"
         app:layout_constraintLeft_toLeftOf="parent"
         android:layout_marginTop="15dp"
         android:layout_marginLeft="30dp"
         android:layout_marginRight="100dp"/>
 
     <Switch
-        android:id="@+id/switch3"
+        android:id="@+id/socialNotif"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Social"
         android:textSize="20sp"
-        app:layout_constraintTop_toBottomOf="@id/switch2"
+        app:layout_constraintTop_toBottomOf="@id/generalNotif"
         app:layout_constraintLeft_toLeftOf="parent"
         android:layout_marginTop="15dp"
         android:layout_marginLeft="30dp"
