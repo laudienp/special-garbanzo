@@ -143,6 +143,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return cursor;
     }
 
+    public Cursor getAllPosts(){
+        SQLiteDatabase db = this.getWritableDatabase();
+        return db.rawQuery("SELECT * FROM " + POST_TABLE,null);
+    }
+
+    public Cursor getSpecie(String id){
+        SQLiteDatabase db = this.getWritableDatabase();
+        return db.rawQuery("SELECT * FROM " + SPECIE_TABLE + " WHERE id=" + id ,null);
+    }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
