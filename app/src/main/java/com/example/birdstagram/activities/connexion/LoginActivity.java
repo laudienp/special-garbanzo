@@ -12,7 +12,9 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.birdstagram.R;
+import com.example.birdstagram.activities.MapActivity;
 import com.example.birdstagram.activities.inscription.SignUpActivity;
+import com.example.birdstagram.data.tools.User;
 import com.example.birdstagram.tools.DatabaseHelper;
 
 import static com.example.birdstagram.activities.MainActivity.myDb;
@@ -54,30 +56,36 @@ public class LoginActivity extends AppCompatActivity {
 
     private void onUserConnection(View view){
         myDb = new DatabaseHelper(this);
+        User user = new User();
         Cursor res = myDb.getConnectionUser(email.getText().toString(), password.getText().toString());
         if(res.getCount() == 0){
             Toast.makeText(getApplicationContext(), "Veuillez vérifier vos identifiants", Toast.LENGTH_LONG).show();
         }
         else{
-            StringBuffer buffer = new StringBuffer();
             while(res.moveToNext()){
-                buffer.append("Id :" + res.getString(0) + "\n" );
-                buffer.append("Pseudo :" + res.getString(1) + "\n"  );
-                buffer.append("Name :" + res.getString(2) + "\n"  );
-                buffer.append("Surname :" + res.getString(3) + "\n"  );
-                buffer.append("Age :" + res.getString(4) + "\n"  );
-                buffer.append("Mail :" + res.getString(5) + "\n"  );
-                buffer.append("Password :" + res.getString(6) + "\n"  );
+                String userID = res.getString(0);
+                String userPseudo = res.getString(1);
+                String userName = res.getString(2);
+                String userSurname = res.getString(3);
+                String userAge = res.getString(4);
+                String userMail = res.getString(5);
+                String userPassword = res.getString(6);
+                user = new User(Integer.parseInt(userID), userPseudo, userName, userSurname, Integer.parseInt(userAge), userMail, userPassword);
             }
-            showMessage("Database", buffer.toString());
-        }
+            Intent intent = new Intent(getApplicationContext(), MapActivity.class);
+            intent.putExtra("User Session", user);
+            startActivity(intent);
 
-        /*if (res!= null || res.getCount() > 0){
-            Toast.makeText(getApplicationContext(), "Aucun Utilisateur trouvé", Toast.LENGTH_LONG).show();
-        } else{
-            String nom = res.getString(res.getColumnIndex(DatabaseHelper.USER_NAME));
-            Toast.makeText(getApplicationContext(), nom, Toast.LENGTH_LONG).show();
-        }*/
+            /*StringBuffer buffer = new StringBuffer();
+            buffer.append("Id :" + userID + "\n" );
+            buffer.append("Pseudo :" + userPseudo + "\n"  );
+            buffer.append("Name :" + userName + "\n"  );
+            buffer.append("Surname :" + userSurname + "\n"  );
+            buffer.append("Age :" + userAge + "\n"  );
+            buffer.append("Mail :" + userMail + "\n"  );
+            buffer.append("Password :" + userPassword + "\n"  );
+            showMessage("Database", buffer.toString());*/
+        }
 
     }
 

@@ -71,6 +71,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 POST_TABLE + "(" + POST_ID + "), FOREIGN KEY("+POST_LIKER_ID +") REFERENCES " + USER_TABLE + "(" + USER_ID + "))");
         db.execSQL("create table " + POST_COMMENTS_TABLE +"(" + POST_COMMENT_POST_ID +" INTEGER, " + POST_COMMENTOR_ID + " INTEGER," + POST_COMMENT +" TEXT, " +
                 POST_COMMENT_DATE + " DATE, FOREIGN KEY("+ POST_COMMENT_POST_ID +") REFERENCES "+ POST_TABLE + "(" + POST_ID + "), FOREIGN KEY("+POST_COMMENTOR_ID +") REFERENCES " + USER_TABLE + "(" + USER_ID + "))");
+        db.execSQL("INSERT INTO USER VALUES('999', 'Super_User', 'Super_UserName', 'Super_UserSurName', '21', 'super', 'pwd')");
     }
 
     @Override
@@ -79,6 +80,23 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
+    /*public void addSuperUser(SQLiteDatabase db){
+        db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(USER_PSEUDO, "Super_Pseudo");
+        values.put(USER_NAME, "Super_Name");
+        values.put(USER_SURNAME, "Super_Surname");
+        values.put(USER_AGE, "21");
+        values.put(USER_MAIL, "super");
+        values.put(USER_PASSWORD, "pwd");
+        long insertResult = db.insert(USER_TABLE, null, values);
+        if(insertResult == -1){
+            Log.d("DATABASE", "SUPER USER INSERTION HAS FAILED.");
+        }
+        else {
+            Log.d("DATABASE", "SUPER USER INSERTION HAS SUCCEEDED.");
+        }
+    }*/
 
     public void insertDataUser(String pseudo, String name, String surname, String age, String mail, String pwd){
         SQLiteDatabase db = this.getWritableDatabase();

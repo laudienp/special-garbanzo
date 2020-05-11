@@ -1,8 +1,11 @@
 package com.example.birdstagram.data.tools;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.example.birdstagram.tools.DatabaseHelper;
 
-public class User {
+public class User implements Parcelable {
 
     private int id;
     private String pseudo;
@@ -11,6 +14,10 @@ public class User {
     private int age;
     private String mail;
     private String password;
+
+    public User() {
+
+    }
 
     public User(int id, String pseudo, String name, String surname, int age, String mail, String password) {
         this.id = id;
@@ -29,6 +36,28 @@ public class User {
         this.mail = mail;
         this.password = password;
     }
+
+    protected User(Parcel in) {
+        id = in.readInt();
+        pseudo = in.readString();
+        name = in.readString();
+        surname = in.readString();
+        age = in.readInt();
+        mail = in.readString();
+        password = in.readString();
+    }
+
+    public static final Creator<User> CREATOR = new Creator<User>() {
+        @Override
+        public User createFromParcel(Parcel in) {
+            return new User(in);
+        }
+
+        @Override
+        public User[] newArray(int size) {
+            return new User[size];
+        }
+    };
 
     public int getId() {
         return id;
@@ -84,5 +113,21 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(id);
+        dest.writeString(pseudo);
+        dest.writeString(name);
+        dest.writeString(surname);
+        dest.writeInt(age);
+        dest.writeString(mail);
+        dest.writeString(password);
     }
 }
