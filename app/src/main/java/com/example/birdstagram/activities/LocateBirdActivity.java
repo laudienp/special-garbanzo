@@ -13,6 +13,7 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
@@ -28,6 +29,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import com.example.birdstagram.R;
+import com.example.birdstagram.data.tools.DataBundle;
 import com.example.birdstagram.data.tools.Post;
 import com.example.birdstagram.data.tools.Specie;
 import com.example.birdstagram.data.tools.User;
@@ -64,6 +66,7 @@ public class LocateBirdActivity extends AppCompatActivity implements LocationLis
     private String provider;
     private MapView map;
     private final int REQUEST_PERMISSIONS_REQUEST_CODE = 1;
+    DataBundle dataBundle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,6 +74,9 @@ public class LocateBirdActivity extends AppCompatActivity implements LocationLis
         setContentView(R.layout.locate_a_bird);
         //On récupère la longitude et la latitude
         Intent intent = getIntent();
+        dataBundle = intent.getParcelableExtra("dataBundle");
+
+        fillSpinner();
 
         if(intent != null){
             longitude = intent.getDoubleExtra("longitude", 0);
@@ -102,7 +108,6 @@ public class LocateBirdActivity extends AppCompatActivity implements LocationLis
         takeCurrentPositionWithGpsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d("test", "COUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUCOU");
                 initLoc();
             }
         });
@@ -237,5 +242,10 @@ public class LocateBirdActivity extends AppCompatActivity implements LocationLis
         builder.setTitle(title);
         builder.setMessage(message);
         builder.show();
+    }
+
+    void fillSpinner(){
+        specieView = (Spinner) findViewById(R.id.spinner);
+        //specieView.setAdapter(new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_list_item_1, dataBundle.getAppSpecies()));
     }
 }
