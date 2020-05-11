@@ -27,7 +27,7 @@ import java.net.URISyntaxException;
 public class MainActivity extends AppCompatActivity {
     public static DatabaseHelper myDb;
     TextView text;
-    private final Class startingActivity = MapActivity.class;
+    private final Class startingActivity = LoginActivity.class;
     static final int REQUEST_IMAGE_CAPTURE = 1;
     static final int REQUEST_PERMISSIONS = 2;
 
