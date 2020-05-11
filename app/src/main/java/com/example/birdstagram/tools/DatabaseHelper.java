@@ -7,8 +7,11 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import com.example.birdstagram.data.tools.Post;
 import com.example.birdstagram.data.tools.Specie;
 import com.example.birdstagram.data.tools.User;
+
+import java.util.ArrayList;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
 
@@ -126,6 +129,27 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
+    public void sendDataPost(Post post){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+
+        values.put(POST_DESCRIPTION, post.getDescription());
+        values.put(POST_DATE, post.getDate().toString());
+        values.put(POST_LONGITUDE, post.getLongitude());
+        values.put(POST_LATITUDE,post.getLatitude());
+        values.put(POST_IS_PUBLIC, post.isPublic());
+        values.put(POST_FOREIGN_SPECIE_ID, post.getSpecie().getId());
+        values.put(POST_FOREIGN_USER_ID, post.getUser().getId());
+
+        long insertResult = db.insert(USER_TABLE, null, values);
+        if(insertResult == -1){
+            Log.d("DATABASE", "INSERT HAS FAILED.");
+        }
+        else {
+            Log.d("DATABASE", "INSERT HAS SUCCEEDED.");
+        }
+    }
+
     public Cursor getConnectionUser(String email, String password){
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor =  db.rawQuery("SELECT * FROM " + USER_TABLE + " WHERE " + USER_MAIL + " = '" + email + "' AND " + USER_PASSWORD + " = '" + password + "'", null);
@@ -140,6 +164,24 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public Cursor verifyEmailExists(String email){
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor =  db.rawQuery("SELECT * FROM " + USER_TABLE + " WHERE " + USER_MAIL + " = '" + email + "'", null);
+        return cursor;
+    }
+
+    public Cursor getUsers() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor =  db.rawQuery("SELECT * FROM " + USER_TABLE, null);
+        return cursor;
+    }
+
+    public Cursor getSpecies() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor =  db.rawQuery("SELECT * FROM " + SPECIE_TABLE, null);
+        return cursor;
+    }
+
+    public Cursor getUserPosts(int userID) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor =  db.rawQuery("SELECT * FROM " + POST_TABLE + " WHERE " + POST_FOREIGN_USER_ID + " = '" + userID + "'", null);
         return cursor;
     }
 
@@ -184,7 +226,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("insert into specie values('12','Parrot','Perroquet','No Description');\n");
         db.execSQL("insert into specie values('13','Flamingo','Flamant','No Description');\n");
         db.execSQL("insert into specie values('14','Seagull','Mouette','No Description');\n");
-        db.execSQL("insert into specie values('15','Swallow','Avaler','No Description');\n");
+        db.execSQL("insert into specie values('15','Swallow','Hirondelle','No Description');\n");
     }
 
     @Override
