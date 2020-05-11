@@ -191,6 +191,22 @@ public class MapActivity extends AppCompatActivity implements LocationListener {
         };
         MapEventsOverlay mapEventsOverlay = new MapEventsOverlay(getApplicationContext(), mReceive);
         map.getOverlays().add(mapEventsOverlay);
+
+        Cursor posts = MainActivity.myDb.getAllPosts();
+        while (posts.moveToNext()){
+            String id = posts.getString(0);
+            String description = posts.getString(1);
+            float longitude = posts.getFloat(3);
+            float latitude = posts.getFloat(4);
+            Cursor Specie = MainActivity.myDb.getSpecie(id);
+            String name = Specie.getString(1);
+            GeoPoint position = new GeoPoint(latitude, longitude);
+            Marker newMarker =  new Marker(map, getApplicationContext());
+            newMarker.setPosition(position);
+            newMarker.setTextIcon(name);
+            newMarker.setSubDescription(description);
+            map.getOverlays().add(newMarker);
+        }
     }
 
     private void fillDataBundle() {
