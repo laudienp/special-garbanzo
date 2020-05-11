@@ -229,7 +229,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnFocusCha
                 Toast.makeText(getApplicationContext(), "Compte Crée", Toast.LENGTH_LONG).show();
             }
             else{
-                Toast.makeText(getApplicationContext(), "Les mots de passes ne correspondent pas.", Toast.LENGTH_LONG);
+                Toast.makeText(getApplicationContext(), "Les mots de passes ne correspondent pas.", Toast.LENGTH_LONG).show();
             }
 
         }
