@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".GalleryActivity">
+    tools:context=".activities.GalleryActivity">
 
     <TextView
         android:layout_width="match_parent"
@@ -42,20 +42,11 @@
             android:background="@drawable/loupe"/>
     </LinearLayout>
 
-    <Button
-        android:id="@+id/shareButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Share"
-        android:textSize="22sp"
-        app:layout_constraintTop_toBottomOf="@id/search_bar"
-        />
-
     <FrameLayout
         android:id="@+id/frame_layout_gallery"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/shareButton"
+        app:layout_constraintTop_toBottomOf="@id/search_bar"
         app:layout_constraintLeft_toLeftOf="parent"/>
 
 
