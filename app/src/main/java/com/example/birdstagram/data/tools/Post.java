@@ -9,11 +9,11 @@ public class Post {
     private Date date;
     private double longitude;
     private double latitude;
+    private boolean isPublic;
     private Specie specie;
     private User user;
-    private boolean isPublic;
 
-    public Post(String description, Date date, double longitude, double latitude, Specie specie, User user, boolean isPublic) {
+    public Post(String description, Date date, double longitude, double latitude, boolean isPublic, Specie specie, User user) {
         this.description = description;
         this.date = date;
         this.longitude = longitude;
@@ -23,7 +23,7 @@ public class Post {
         this.isPublic = isPublic;
     }
 
-    public Post(int id, String description, Date date, double longitude, double latitude, Specie specie, User user, boolean isPublic) {
+    public Post(int id, String description, Date date, double longitude, double latitude, boolean isPublic, Specie specie, User user) {
         this.id = id;
         this.description = description;
         this.date = date;

@@ -14,6 +14,7 @@ import android.widget.Toast;
 import com.example.birdstagram.R;
 import com.example.birdstagram.activities.MapActivity;
 import com.example.birdstagram.activities.inscription.SignUpActivity;
+import com.example.birdstagram.data.tools.DataBundle;
 import com.example.birdstagram.data.tools.User;
 import com.example.birdstagram.tools.DatabaseHelper;
 
@@ -72,8 +73,10 @@ public class LoginActivity extends AppCompatActivity {
                 String userPassword = res.getString(6);
                 user = new User(Integer.parseInt(userID), userPseudo, userName, userSurname, Integer.parseInt(userAge), userMail, userPassword);
             }
+            DataBundle dataBundle = new DataBundle(user);
+
             Intent intent = new Intent(getApplicationContext(), MapActivity.class);
-            intent.putExtra("User Session", user);
+            intent.putExtra("Data Bundle", dataBundle);
             startActivity(intent);
 
             /*StringBuffer buffer = new StringBuffer();

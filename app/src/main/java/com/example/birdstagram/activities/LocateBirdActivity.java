@@ -139,7 +139,7 @@ public class LocateBirdActivity extends AppCompatActivity implements LocationLis
                     }
                 });
 
-                Post post = new Post(description, date, longitude, latitude, specie, user, isPublic);
+                Post post = new Post(description, date, longitude, latitude, isPublic, specie, user);
                 //myDb.sendDataPost(post);
 
             }
