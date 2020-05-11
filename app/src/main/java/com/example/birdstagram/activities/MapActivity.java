@@ -61,7 +61,6 @@ public class MapActivity extends AppCompatActivity implements LocationListener {
     private ImageButton addButton;
     private ImageButton cancelButton;
     private ImageButton validateButton;
-
     LocationManager locationManager = null;
     Location location;
     private String provider;
@@ -74,7 +73,7 @@ public class MapActivity extends AppCompatActivity implements LocationListener {
         setContentView(R.layout.map);
 
         Intent intent = getIntent();
-        User userSession = intent.getParcelableExtra("User Session");
+        final User userSession = intent.getParcelableExtra("User Session");
 
         menuButton = findViewById(R.id.menu_button);
         addButton = findViewById(R.id.addBird_button);
@@ -120,10 +119,15 @@ public class MapActivity extends AppCompatActivity implements LocationListener {
                 cancelButton.setVisibility(View.GONE);
                 addButton.setVisibility(View.VISIBLE);
                 Intent intent = new Intent(getApplicationContext(), LocateBirdActivity.class);
-                //TODO TRANSMIT LONGITUDE AND LATITUDE TO ACTIVITY
+                //On transmet la longitude et la latitude
                 GeoPoint position = lastMarker.getPosition();
-                position.getLongitude();
-                position.getLatitude();
+                double longitude = position.getLongitude();
+                double latitude = position.getLatitude();
+                Bundle bundle = new Bundle();
+                bundle.putDouble("longitude", longitude);
+                bundle.putDouble("latitude", latitude);
+                intent.putExtras(bundle);
+                intent.putExtra("user", userSession);
                 startActivity(intent);
             }
         });
