@@ -3,17 +3,20 @@ package com.example.birdstagram.data.tools;
 public class Specie {
 
     private int id;
-    private String name;
+    private String englishName;
+    private String frenchName;
     private String description;
 
-    public Specie(int id, String name, String description) {
+    public Specie(int id, String englishName, String frenchName, String description) {
         this.id = id;
-        this.name = name;
+        this.englishName = englishName;
+        this.frenchName = frenchName;
         this.description = description;
     }
 
-    public Specie(String name, String description) {
-        this.name = name;
+    public Specie(String englishName, String frenchName, String description) {
+        this.englishName = englishName;
+        this.frenchName = frenchName;
         this.description = description;
     }
 
@@ -25,12 +28,20 @@ public class Specie {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getEnglishName() {
+        return englishName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setEnglishName(String englishName) {
+        this.englishName = englishName;
+    }
+
+    public String getFrenchName() {
+        return frenchName;
+    }
+
+    public void setFrenchName(String frenchName) {
+        this.frenchName = frenchName;
     }
 
     public String getDescription() {
