@@ -21,11 +21,13 @@ import android.view.Window;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import com.example.birdstagram.R;
+import com.example.birdstagram.data.tools.User;
 
 import org.osmdroid.api.IMapController;
 import org.osmdroid.events.MapEventsReceiver;
@@ -70,6 +72,9 @@ public class MapActivity extends AppCompatActivity implements LocationListener {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.map);
+
+        Intent intent = getIntent();
+        User userSession = intent.getParcelableExtra("User Session");
 
         menuButton = findViewById(R.id.menu_button);
         addButton = findViewById(R.id.addBird_button);
@@ -263,5 +268,13 @@ public class MapActivity extends AppCompatActivity implements LocationListener {
     public void onProviderDisabled(String prov)
     {
         Toast.makeText(this, prov+" disabled!", Toast.LENGTH_SHORT).show();
+    }
+
+    public void showMessage(String title, String message){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setCancelable(true);
+        builder.setTitle(title);
+        builder.setMessage(message);
+        builder.show();
     }
 }
