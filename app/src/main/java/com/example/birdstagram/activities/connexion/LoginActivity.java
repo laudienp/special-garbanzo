@@ -1,5 +1,6 @@
 package com.example.birdstagram.activities.connexion;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -53,15 +54,39 @@ public class LoginActivity extends AppCompatActivity {
 
     private void onUserConnection(View view){
         myDb = new DatabaseHelper(this);
-        Cursor data = myDb.getConnectionUser(email.getText().toString(), password.getText().toString());
-
-        if (data!= null || data.getCount() > 0){
-            Toast.makeText(getApplicationContext(), "Aucun Utilisateur trouvé", Toast.LENGTH_LONG).show();
-        } else{
-            String nom = data.getString(data.getColumnIndex(DatabaseHelper.USER_NAME));
-            Toast.makeText(getApplicationContext(), nom, Toast.LENGTH_LONG).show();
+        Cursor res = myDb.getConnectionUser(email.getText().toString(), password.getText().toString());
+        if(res.getCount() == 0){
+            Toast.makeText(getApplicationContext(), "Veuillez vérifier vos identifiants", Toast.LENGTH_LONG).show();
+        }
+        else{
+            StringBuffer buffer = new StringBuffer();
+            while(res.moveToNext()){
+                buffer.append("Id :" + res.getString(0) + "\n" );
+                buffer.append("Pseudo :" + res.getString(1) + "\n"  );
+                buffer.append("Name :" + res.getString(2) + "\n"  );
+                buffer.append("Surname :" + res.getString(3) + "\n"  );
+                buffer.append("Age :" + res.getString(4) + "\n"  );
+                buffer.append("Mail :" + res.getString(5) + "\n"  );
+                buffer.append("Password :" + res.getString(6) + "\n"  );
+            }
+            showMessage("Database", buffer.toString());
         }
 
+        /*if (res!= null || res.getCount() > 0){
+            Toast.makeText(getApplicationContext(), "Aucun Utilisateur trouvé", Toast.LENGTH_LONG).show();
+        } else{
+            String nom = res.getString(res.getColumnIndex(DatabaseHelper.USER_NAME));
+            Toast.makeText(getApplicationContext(), nom, Toast.LENGTH_LONG).show();
+        }*/
+
+    }
+
+    public void showMessage(String title, String message){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setCancelable(true);
+        builder.setTitle(title);
+        builder.setMessage(message);
+        builder.show();
     }
 
 }
