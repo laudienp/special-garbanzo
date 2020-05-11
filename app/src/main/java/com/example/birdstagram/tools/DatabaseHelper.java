@@ -60,31 +60,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase(); // Active la création de la base de données
     }
 
-    @Override
-    public void onCreate(SQLiteDatabase db) {
-        Log.i("DATABASE", "IN ONCREATE");
-        db.execSQL("create table " + USER_TABLE + "("+ USER_ID +" INTEGER PRIMARY KEY AUTOINCREMENT, " + USER_PSEUDO + " TEXT,"  + USER_NAME + " TEXT, "+ USER_SURNAME +" TEXT," +
-                USER_AGE +" INTEGER, "+ USER_MAIL + " TEXT, " + USER_PASSWORD +" TEXT)");
-        db.execSQL("create table " + SPECIE_TABLE + "( " + SPECIE_ID +" INTEGER PRIMARY KEY AUTOINCREMENT, "+ SPECIE_ENGLISH_NAME  +" TEXT, " + SPECIE_FRENCH_NAME+" TEXT, " + SPECIE_DESCRIPTION + " TEXT) ");
-        db.execSQL("create table " + POST_TABLE + "(" + POST_ID +" INTEGER PRIMARY KEY AUTOINCREMENT, " + POST_DESCRIPTION + " TEXT, " + POST_DATE +" DATE, " + POST_LONGITUDE +" FLOAT" +
-                ", "+ POST_LATITUDE + " FLOAT, " + POST_IS_PUBLIC + " BOOLEAN, " + POST_FOREIGN_SPECIE_ID + " INTEGER, " + POST_FOREIGN_USER_ID +" INTEGER, FOREIGN KEY( "+POST_FOREIGN_USER_ID+" ) " +
-                "REFERENCES " + USER_TABLE + "("+ USER_ID +"), FOREIGN KEY(" + POST_FOREIGN_SPECIE_ID + " ) " +
-                "REFERENCES "+ SPECIE_TABLE +"("+ SPECIE_ID +" ))");
-        db.execSQL("create table " + POST_VIEWS_TABLE +"("+ POST_VIEW_ID +" INTEGER, " + POST_VIEWER_ID + " INTEGER, " + POST_VIEW_DATE + " DATE, FOREIGN KEY("+ POST_VIEW_ID +") REFERENCES "+
-                POST_TABLE + "(" + POST_ID + "), FOREIGN KEY("+POST_VIEWER_ID +") REFERENCES " + USER_TABLE + "(" + USER_ID + "))");
-        db.execSQL("create table " + POST_LIKES_TABLE +"("+ POST_LIKE_ID +" INTEGER, " + POST_LIKER_ID + " INTEGER, " + POST_LIKE_DATE + " DATE, FOREIGN KEY("+ POST_LIKE_ID +") REFERENCES "+
-                POST_TABLE + "(" + POST_ID + "), FOREIGN KEY("+POST_LIKER_ID +") REFERENCES " + USER_TABLE + "(" + USER_ID + "))");
-        db.execSQL("create table " + POST_COMMENTS_TABLE +"(" + POST_COMMENT_POST_ID +" INTEGER, " + POST_COMMENTOR_ID + " INTEGER," + POST_COMMENT +" TEXT, " +
-                POST_COMMENT_DATE + " DATE, FOREIGN KEY("+ POST_COMMENT_POST_ID +") REFERENCES "+ POST_TABLE + "(" + POST_ID + "), FOREIGN KEY("+POST_COMMENTOR_ID +") REFERENCES " + USER_TABLE + "(" + USER_ID + "))");
-        db.execSQL("INSERT INTO USER VALUES('999', 'Super_User', 'Super_UserName', 'Super_UserSurName', '21', 'super', 'pwd')");
-    }
-
-    @Override
-    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("DROP TABLE IF EXISTS " + USER_TABLE);
-        onCreate(db);
-    }
-
     public void insertDataUser(String pseudo, String name, String surname, String age, String mail, String pwd){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -151,7 +126,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
-
     public Cursor getConnectionUser(String email, String password){
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor =  db.rawQuery("SELECT * FROM " + USER_TABLE + " WHERE " + USER_MAIL + " = '" + email + "' AND " + USER_PASSWORD + " = '" + password + "'", null);
@@ -162,6 +136,47 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor =  db.rawQuery("SELECT * FROM " + USER_TABLE + " WHERE " + USER_MAIL + " = '" + email + "'", null);
         return cursor;
+    }
+
+
+    @Override
+    public void onCreate(SQLiteDatabase db) {
+        Log.i("DATABASE", "IN ONCREATE");
+        db.execSQL("create table " + USER_TABLE + "("+ USER_ID +" INTEGER PRIMARY KEY AUTOINCREMENT, " + USER_PSEUDO + " TEXT,"  + USER_NAME + " TEXT, "+ USER_SURNAME +" TEXT," +
+                USER_AGE +" INTEGER, "+ USER_MAIL + " TEXT, " + USER_PASSWORD +" TEXT)");
+        db.execSQL("create table " + SPECIE_TABLE + "( " + SPECIE_ID +" INTEGER PRIMARY KEY AUTOINCREMENT, "+ SPECIE_ENGLISH_NAME  +" TEXT, " + SPECIE_FRENCH_NAME+" TEXT, " + SPECIE_DESCRIPTION + " TEXT) ");
+        db.execSQL("create table " + POST_TABLE + "(" + POST_ID +" INTEGER PRIMARY KEY AUTOINCREMENT, " + POST_DESCRIPTION + " TEXT, " + POST_DATE +" DATE, " + POST_LONGITUDE +" FLOAT" +
+                ", "+ POST_LATITUDE + " FLOAT, " + POST_IS_PUBLIC + " BOOLEAN, " + POST_FOREIGN_SPECIE_ID + " INTEGER, " + POST_FOREIGN_USER_ID +" INTEGER, FOREIGN KEY( "+POST_FOREIGN_USER_ID+" ) " +
+                "REFERENCES " + USER_TABLE + "("+ USER_ID +"), FOREIGN KEY(" + POST_FOREIGN_SPECIE_ID + " ) " +
+                "REFERENCES "+ SPECIE_TABLE +"("+ SPECIE_ID +" ))");
+        db.execSQL("create table " + POST_VIEWS_TABLE +"("+ POST_VIEW_ID +" INTEGER, " + POST_VIEWER_ID + " INTEGER, " + POST_VIEW_DATE + " DATE, FOREIGN KEY("+ POST_VIEW_ID +") REFERENCES "+
+                POST_TABLE + "(" + POST_ID + "), FOREIGN KEY("+POST_VIEWER_ID +") REFERENCES " + USER_TABLE + "(" + USER_ID + "))");
+        db.execSQL("create table " + POST_LIKES_TABLE +"("+ POST_LIKE_ID +" INTEGER, " + POST_LIKER_ID + " INTEGER, " + POST_LIKE_DATE + " DATE, FOREIGN KEY("+ POST_LIKE_ID +") REFERENCES "+
+                POST_TABLE + "(" + POST_ID + "), FOREIGN KEY("+POST_LIKER_ID +") REFERENCES " + USER_TABLE + "(" + USER_ID + "))");
+        db.execSQL("create table " + POST_COMMENTS_TABLE +"(" + POST_COMMENT_POST_ID +" INTEGER, " + POST_COMMENTOR_ID + " INTEGER," + POST_COMMENT +" TEXT, " +
+                POST_COMMENT_DATE + " DATE, FOREIGN KEY("+ POST_COMMENT_POST_ID +") REFERENCES "+ POST_TABLE + "(" + POST_ID + "), FOREIGN KEY("+POST_COMMENTOR_ID +") REFERENCES " + USER_TABLE + "(" + USER_ID + "))");
+        db.execSQL("INSERT INTO USER VALUES('999', 'Super_User', 'Super_UserName', 'Super_UserSurName', '21', 'super', 'pwd')");
+        db.execSQL("insert into specie values('1','Crow','Corbeau','No Description')");
+        db.execSQL("insert into specie values('2','Peacock','Paon','No Description')");
+        db.execSQL("insert into specie values('3','Dove','Colombe','No Description')");
+        db.execSQL("insert into specie values('4','Sparrow','Moineau','No Description')");
+        db.execSQL("insert into specie values('5','Goose','Oie','No Description')");
+        db.execSQL("insert into specie values('6','Ostrich',' Autruche','No Description')");
+        db.execSQL("insert into specie values('7','Pigeon','Pigeon','No Description')");
+        db.execSQL("insert into specie values('8','Turkey','Dinde','No Description')");
+        db.execSQL("insert into specie values('9','Hawk','Faucon','No Description')");
+        db.execSQL("insert into specie values('10','Bald eagle','Pygargue à tête blanche','\tNo Description')");
+        db.execSQL("insert into specie values('11','Raven','Corbeau','No Description');\n");
+        db.execSQL("insert into specie values('12','Parrot','Perroquet','No Description');\n");
+        db.execSQL("insert into specie values('13','Flamingo','Flamant','No Description');\n");
+        db.execSQL("insert into specie values('14','Seagull','Mouette','No Description');\n");
+        db.execSQL("insert into specie values('15','Swallow','Avaler','No Description');\n");
+    }
+
+    @Override
+    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        db.execSQL("DROP TABLE IF EXISTS " + USER_TABLE);
+        onCreate(db);
     }
 
 }
