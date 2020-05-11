@@ -10,8 +10,6 @@ import android.util.Log;
 import com.example.birdstagram.data.tools.Specie;
 import com.example.birdstagram.data.tools.User;
 
-import java.sql.Date;
-
 public class DatabaseHelper extends SQLiteOpenHelper {
 
     public static final String DATABASE_NAME = "Birdstagram_DB";
@@ -31,7 +29,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String USER_PASSWORD = "PASSWORD";
 
     public static final String SPECIE_ID = "ID";
-    public static final String SPECIE_NAME = "NAME";
+    public static final String SPECIE_ENGLISH_NAME = "ENGLISH_NAME";
+    public static final String SPECIE_FRENCH_NAME = "FRENCH_NAME";
     public static final String SPECIE_DESCRIPTION = "DESCRIPTION";
 
     public static final String POST_ID = "ID";
@@ -66,14 +65,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         Log.i("DATABASE", "IN ONCREATE");
         db.execSQL("create table " + USER_TABLE + "("+ USER_ID +" INTEGER PRIMARY KEY AUTOINCREMENT, " + USER_PSEUDO + " TEXT,"  + USER_NAME + " TEXT, "+ USER_SURNAME +" TEXT," +
                 USER_AGE +" INTEGER, "+ USER_MAIL + " TEXT, " + USER_PASSWORD +" TEXT)");
-        db.execSQL("create table " + SPECIE_TABLE + "( " + SPECIE_ID +" INTEGER PRIMARY KEY AUTOINCREMENT, "+ SPECIE_NAME  +" TEXT, " + SPECIE_DESCRIPTION + " TEXT) ");
-
+        db.execSQL("create table " + SPECIE_TABLE + "( " + SPECIE_ID +" INTEGER PRIMARY KEY AUTOINCREMENT, "+ SPECIE_ENGLISH_NAME  +" TEXT, " + SPECIE_FRENCH_NAME+" TEXT, " + SPECIE_DESCRIPTION + " TEXT) ");
         db.execSQL("create table " + POST_TABLE + "(" + POST_ID +" INTEGER PRIMARY KEY AUTOINCREMENT, " + POST_DESCRIPTION + " TEXT, " + POST_DATE +" DATE, " + POST_LONGITUDE +" FLOAT" +
                 ", "+ POST_LATITUDE + " FLOAT, " + POST_IS_PUBLIC + " BOOLEAN, " + POST_FOREIGN_SPECIE_ID + " INTEGER, " + POST_FOREIGN_USER_ID +" INTEGER, FOREIGN KEY( "+POST_FOREIGN_USER_ID+" ) " +
                 "REFERENCES " + USER_TABLE + "("+ USER_ID +"), FOREIGN KEY(" + POST_FOREIGN_SPECIE_ID + " ) " +
                 "REFERENCES "+ SPECIE_TABLE +"("+ SPECIE_ID +" ))");
-
-
         db.execSQL("create table " + POST_VIEWS_TABLE +"("+ POST_VIEW_ID +" INTEGER, " + POST_VIEWER_ID + " INTEGER, " + POST_VIEW_DATE + " DATE, FOREIGN KEY("+ POST_VIEW_ID +") REFERENCES "+
                 POST_TABLE + "(" + POST_ID + "), FOREIGN KEY("+POST_VIEWER_ID +") REFERENCES " + USER_TABLE + "(" + USER_ID + "))");
         db.execSQL("create table " + POST_LIKES_TABLE +"("+ POST_LIKE_ID +" INTEGER, " + POST_LIKER_ID + " INTEGER, " + POST_LIKE_DATE + " DATE, FOREIGN KEY("+ POST_LIKE_ID +") REFERENCES "+
@@ -125,10 +121,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
-    public void insertDataSpecie(String name, String description){
+    public void insertDataSpecie(String englishName, String frenchName, String description){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put(SPECIE_NAME, name);
+        values.put(SPECIE_ENGLISH_NAME, englishName);
+        values.put(SPECIE_FRENCH_NAME, frenchName);
         values.put(SPECIE_DESCRIPTION, description);
         long insertResult = db.insert(USER_TABLE, null, values);
         if(insertResult == -1){
@@ -142,7 +139,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void insertDataSpecie(Specie specie){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put(SPECIE_NAME, specie.getName());
+        values.put(SPECIE_ENGLISH_NAME, specie.getEnglishName());
+        values.put(SPECIE_FRENCH_NAME, specie.getFrenchName());
         values.put(SPECIE_DESCRIPTION, specie.getDescription());
         long insertResult = db.insert(USER_TABLE, null, values);
         if(insertResult == -1){
