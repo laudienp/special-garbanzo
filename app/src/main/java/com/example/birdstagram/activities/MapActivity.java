@@ -84,7 +84,7 @@ public class MapActivity extends AppCompatActivity implements LocationListener {
 
         Intent intent = getIntent();
         dataBundle = intent.getParcelableExtra("Data Bundle");
-        fillDataBundle();
+        //fillDataBundle();  // NOT WORKING (CRASH APP)
 
         menuButton = findViewById(R.id.menu_button);
         addButton = findViewById(R.id.addBird_button);
