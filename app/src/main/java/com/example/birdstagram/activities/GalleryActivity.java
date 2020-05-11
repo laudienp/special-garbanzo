@@ -1,4 +1,4 @@
-package com.example.birdstagram;
+package com.example.birdstagram.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
@@ -14,7 +14,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 
+import com.example.birdstagram.R;
 import com.example.birdstagram.fragments.NotFoundFragment;
+import com.example.birdstagram.fragments.PostFragment;
 import com.example.birdstagram.fragments.TrendsFragment;
 
 
@@ -32,22 +34,6 @@ public class GalleryActivity extends AppCompatActivity {
         editText = findViewById(R.id.search_gallery_src_text);
 
         loadTrendFrag();
-
-        Button shareb = (Button)findViewById(R.id.shareButton);
-
-        shareb.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v)
-            {
-                Intent sharingIntent = new Intent(Intent.ACTION_SEND);
-                Uri screenshotUri = Uri.parse("android.resource://com.example.birdstagram/drawable/" + R.drawable.zemour);
-
-                sharingIntent.setType("image/*");
-                sharingIntent.putExtra(Intent.EXTRA_STREAM, screenshotUri);
-                startActivity(Intent.createChooser(sharingIntent, "Share image using"));
-
-            }
-        });
 
         ImageButton search = (ImageButton) findViewById(R.id.search_gallery_button);
 

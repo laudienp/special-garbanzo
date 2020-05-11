@@ -16,7 +16,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".activities.connexion.LoginActivity"></activity>
-        <activity android:name=".GalleryActivity" />
+        <activity android:name=".activities.GalleryActivity" />
         <activity android:name=".activities.inscription.ProfileActivity" />
         <activity
             android:name=".activities.MainActivity"
