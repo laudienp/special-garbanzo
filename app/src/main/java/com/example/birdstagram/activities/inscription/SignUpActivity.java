@@ -1,10 +1,13 @@
 package com.example.birdstagram.activities.inscription;
 
 import com.example.birdstagram.R;
+import com.example.birdstagram.activities.connexion.LoginActivity;
 import com.example.birdstagram.data.tools.User;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
@@ -225,8 +228,16 @@ public class SignUpActivity extends AppCompatActivity implements View.OnFocusCha
             String userCheckPassword = checkPassword.getText().toString();
             if(userPassword.equalsIgnoreCase(userCheckPassword)){
                 User newUser = new User(userName, userSurname, userPseudo, userAge, userEmail, userPassword);
-                myDb.insertDataUser(newUser);
-                Toast.makeText(getApplicationContext(), "Compte Crée", Toast.LENGTH_LONG).show();
+                Cursor res = myDb.verifyEmailExists(email.getText().toString());
+                if(res.getCount() == 0){
+                    myDb.insertDataUser(newUser);
+                    Toast.makeText(getApplicationContext(), "Compte Crée.", Toast.LENGTH_LONG).show();
+                    Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                    startActivity(intent);
+                }
+                else{
+                    Toast.makeText(getApplicationContext(), "Le compte existe déjà.", Toast.LENGTH_LONG).show();
+                }
             }
             else{
                 Toast.makeText(getApplicationContext(), "Les mots de passes ne correspondent pas.", Toast.LENGTH_LONG).show();

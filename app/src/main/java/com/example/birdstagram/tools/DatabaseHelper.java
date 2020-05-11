@@ -80,24 +80,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    /*public void addSuperUser(SQLiteDatabase db){
-        db = this.getWritableDatabase();
-        ContentValues values = new ContentValues();
-        values.put(USER_PSEUDO, "Super_Pseudo");
-        values.put(USER_NAME, "Super_Name");
-        values.put(USER_SURNAME, "Super_Surname");
-        values.put(USER_AGE, "21");
-        values.put(USER_MAIL, "super");
-        values.put(USER_PASSWORD, "pwd");
-        long insertResult = db.insert(USER_TABLE, null, values);
-        if(insertResult == -1){
-            Log.d("DATABASE", "SUPER USER INSERTION HAS FAILED.");
-        }
-        else {
-            Log.d("DATABASE", "SUPER USER INSERTION HAS SUCCEEDED.");
-        }
-    }*/
-
     public void insertDataUser(String pseudo, String name, String surname, String age, String mail, String pwd){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -138,6 +120,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public Cursor getConnectionUser(String email, String password){
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor =  db.rawQuery("SELECT * FROM " + USER_TABLE + " WHERE " + USER_MAIL + " = '" + email + "' AND " + USER_PASSWORD + " = '" + password + "'", null);
+        return cursor;
+    }
+
+    public Cursor verifyEmailExists(String email){
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor =  db.rawQuery("SELECT * FROM " + USER_TABLE + " WHERE " + USER_MAIL + " = '" + email + "'", null);
         return cursor;
     }
 
