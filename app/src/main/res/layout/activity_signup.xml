@@ -11,202 +11,218 @@
     android:id="@+id/signup"
     >
 
-    <TextView
-        android:id="@+id/birdStagramView"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="40sp"
-        android:text="Bird Stragram"
-        android:fontFamily="sans-serif-medium"
-        android:paddingTop="20sp"
-        android:gravity="center"
-        />
+        android:layout_height="wrap_content">
 
-
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        >
-        <EditText
-            android:id="@+id/pseudo"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="15dp"
-            android:background="@drawable/square"
-            android:paddingLeft="5dp"
-            android:hint="Pseudo"
-            />
-        <TextView
-            android:id="@+id/pseudo_textView"
-            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="7dp"
-            android:background="#ffffff"
-            android:text="Pseudo" />
-    </RelativeLayout>
+            android:orientation="vertical"
+            >
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp">
-        <EditText
-            android:id="@+id/name"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="15dp"
-            android:background="@drawable/square"
-            android:paddingLeft="5dp"
-            android:hint="Prénom"
-            />
-        <TextView
-            android:id="@+id/name_textView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="7dp"
-            android:background="#ffffff"
-            android:text="Prénom" />
-    </RelativeLayout>
+            <TextView
+                android:id="@+id/birdStagramView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="40sp"
+                android:text="Bird Stragram"
+                android:fontFamily="sans-serif-medium"
+                android:paddingTop="20sp"
+                android:gravity="center"
+                />
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp">
-        <EditText
-            android:id="@+id/surname"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="15dp"
-            android:background="@drawable/square"
-            android:paddingLeft="5dp"
-            android:hint="Nom"
-            />
-        <TextView
-            android:id="@+id/surname_textView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="7dp"
-            android:background="#ffffff"
-            android:text="Nom" />
-    </RelativeLayout>
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp">
-        <EditText
-            android:id="@+id/age"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="15dp"
-            android:background="@drawable/square"
-            android:paddingLeft="5dp"
-            android:hint="Age"
-            android:inputType="number"
-            />
-        <TextView
-            android:id="@+id/age_textView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="7dp"
-            android:background="#ffffff"
-            android:text="Age" />
-    </RelativeLayout>
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp">
-        <EditText
-            android:id="@+id/email"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="15dp"
-            android:background="@drawable/square"
-            android:paddingLeft="5dp"
-            android:hint="Email"
-            android:inputType="textEmailAddress"
-            />
-        <TextView
-            android:id="@+id/email_textView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="7dp"
-            android:background="#ffffff"
-            android:text="Email" />
-    </RelativeLayout>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                >
+                <EditText
+                    android:id="@+id/pseudo"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="15dp"
+                    android:background="@drawable/square"
+                    android:paddingLeft="5dp"
+                    android:hint="Pseudo"
+                    />
+                <TextView
+                    android:id="@+id/pseudo_textView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="7dp"
+                    android:background="#ffffff"
+                    android:text="Pseudo" />
+            </RelativeLayout>
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp">
-        <EditText
-            android:id="@+id/password"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="15dp"
-            android:background="@drawable/square"
-            android:paddingLeft="5dp"
-            android:hint="Mot de passe"
-            android:inputType="textPassword"
-            />
-        <TextView
-            android:id="@+id/password_textView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="7dp"
-            android:background="#ffffff"
-            android:text="Mot de passe" />
-    </RelativeLayout>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp">
+                <EditText
+                    android:id="@+id/name"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="15dp"
+                    android:background="@drawable/square"
+                    android:paddingLeft="5dp"
+                    android:hint="Prénom"
+                    />
+                <TextView
+                    android:id="@+id/name_textView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="7dp"
+                    android:background="#ffffff"
+                    android:text="Prénom" />
+            </RelativeLayout>
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp">
-        <EditText
-            android:id="@+id/confirmPassword"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="15dp"
-            android:background="@drawable/square"
-            android:paddingLeft="5dp"
-            android:hint="Confirmer le mot de passe"
-            android:inputType="textPassword"
-            />
-        <TextView
-            android:id="@+id/confirmPassword_textView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="7dp"
-            android:background="#ffffff"
-            android:text="Confirmer le mot de passe" />
-    </RelativeLayout>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp">
+                <EditText
+                    android:id="@+id/surname"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="15dp"
+                    android:background="@drawable/square"
+                    android:paddingLeft="5dp"
+                    android:hint="Nom"
+                    />
+                <TextView
+                    android:id="@+id/surname_textView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="7dp"
+                    android:background="#ffffff"
+                    android:text="Nom" />
+            </RelativeLayout>
 
-    <Button
-        android:id="@+id/signUpButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="105sp"
-        android:gravity="center"
-        android:text="S'inscrire"
-        android:textColor="@color/black"
-        android:textSize="30sp"
-        android:onClick="newSubscription"
-        />
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp">
+                <EditText
+                    android:id="@+id/age"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="15dp"
+                    android:background="@drawable/square"
+                    android:paddingLeft="5dp"
+                    android:hint="Age"
+                    android:inputType="number"
+                    />
+                <TextView
+                    android:id="@+id/age_textView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="7dp"
+                    android:background="#ffffff"
+                    android:text="Age" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp">
+                <EditText
+                    android:id="@+id/email"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="15dp"
+                    android:background="@drawable/square"
+                    android:paddingLeft="5dp"
+                    android:hint="Email"
+                    android:inputType="textEmailAddress"
+                    />
+                <TextView
+                    android:id="@+id/email_textView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="7dp"
+                    android:background="#ffffff"
+                    android:text="Email" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp">
+                <EditText
+                    android:id="@+id/password"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="15dp"
+                    android:background="@drawable/square"
+                    android:paddingLeft="5dp"
+                    android:hint="Mot de passe"
+                    android:inputType="textPassword"
+                    />
+                <TextView
+                    android:id="@+id/password_textView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="7dp"
+                    android:background="#ffffff"
+                    android:text="Mot de passe" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp">
+                <EditText
+                    android:id="@+id/confirmPassword"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="15dp"
+                    android:background="@drawable/square"
+                    android:paddingLeft="5dp"
+                    android:hint="Confirmer le mot de passe"
+                    android:inputType="textPassword"
+                    />
+                <TextView
+                    android:id="@+id/confirmPassword_textView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="7dp"
+                    android:background="#ffffff"
+                    android:text="Confirmer le mot de passe" />
+            </RelativeLayout>
+
+            <Button
+                android:id="@+id/signUpButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="105sp"
+                android:gravity="center"
+                android:text="S'inscrire"
+                android:textColor="@color/black"
+                android:textSize="30sp"
+                android:onClick="newSubscription"
+                />
+
+        </LinearLayout>
+
+    </ScrollView>
+
+
 
 </LinearLayout>
