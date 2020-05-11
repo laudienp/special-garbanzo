@@ -77,13 +77,13 @@ public class LoginActivity extends AppCompatActivity {
             startActivity(intent);
 
             /*StringBuffer buffer = new StringBuffer();
-            buffer.append("Id :" + userID + "\n" );
-            buffer.append("Pseudo :" + userPseudo + "\n"  );
-            buffer.append("Name :" + userName + "\n"  );
-            buffer.append("Surname :" + userSurname + "\n"  );
-            buffer.append("Age :" + userAge + "\n"  );
-            buffer.append("Mail :" + userMail + "\n"  );
-            buffer.append("Password :" + userPassword + "\n"  );
+            buffer.append("Id :" + user.getId() + "\n" );
+            buffer.append("Pseudo :" + user.getPseudo() + "\n"  );
+            buffer.append("Name :" + user.getName() + "\n"  );
+            buffer.append("Surname :" + user.getSurname() + "\n"  );
+            buffer.append("Age :" + user.getAge() + "\n"  );
+            buffer.append("Mail :" + user.getMail() + "\n"  );
+            buffer.append("Password :" + user.getPassword() + "\n"  );
             showMessage("Database", buffer.toString());*/
         }
 

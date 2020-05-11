@@ -132,6 +132,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return cursor;
     }
 
+    public Cursor getAllUsers(){
+        SQLiteDatabase db = this.getWritableDatabase();
+        return db.rawQuery("SELECT * FROM " + USER_TABLE,null);
+    }
+
     public Cursor verifyEmailExists(String email){
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor =  db.rawQuery("SELECT * FROM " + USER_TABLE + " WHERE " + USER_MAIL + " = '" + email + "'", null);
@@ -177,6 +182,23 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS " + USER_TABLE);
         onCreate(db);
+    }
+
+    public void modifyUserData(User connectedUser, User user) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(USER_NAME, user.getName());
+        values.put(USER_PASSWORD, user.getPassword());
+        values.put(USER_AGE, user.getAge());
+        values.put(USER_MAIL, user.getMail());
+
+        long insertResult = db.update(USER_TABLE, values, USER_ID + "=" + connectedUser.getId(), null);
+        if(insertResult == -1){
+            Log.d("DATABASE", "UPDATE HAS FAILED.");
+        }
+        else {
+            Log.d("DATABASE", "UPDATE HAS SUCCEEDED.");
+        }
     }
 
 }

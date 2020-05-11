@@ -19,12 +19,15 @@ import com.example.birdstagram.R;
 import com.example.birdstagram.activities.connexion.LoginActivity;
 import com.example.birdstagram.activities.inscription.ProfileActivity;
 import com.example.birdstagram.activities.inscription.SignUpActivity;
+import com.example.birdstagram.data.tools.User;
 import com.example.birdstagram.tools.DatabaseHelper;
+
+import java.net.URISyntaxException;
 
 public class MainActivity extends AppCompatActivity {
     public static DatabaseHelper myDb;
     TextView text;
-    private final Class startingActivity = LoginActivity.class;
+    private final Class startingActivity = MapActivity.class;
     static final int REQUEST_IMAGE_CAPTURE = 1;
     static final int REQUEST_PERMISSIONS = 2;
 
@@ -51,6 +54,8 @@ public class MainActivity extends AppCompatActivity {
         } else {
             requestPermissions(PERMISSIONS, REQUEST_PERMISSIONS);
         }
+
+
     }
 
     public static boolean hasPermissions(Context context, String... permissions) {
