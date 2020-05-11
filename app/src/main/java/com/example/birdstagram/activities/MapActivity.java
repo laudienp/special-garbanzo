@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.pm.ComponentInfo;
 import android.content.pm.PackageManager;
 import android.annotation.SuppressLint;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.location.Criteria;
 import android.location.Location;
@@ -27,7 +28,10 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import com.example.birdstagram.R;
+import com.example.birdstagram.data.tools.DataBundle;
+import com.example.birdstagram.data.tools.Post;
 import com.example.birdstagram.data.tools.User;
+import com.example.birdstagram.tools.DataRetriever;
 
 import org.osmdroid.api.IMapController;
 import org.osmdroid.events.MapEventsReceiver;
@@ -46,10 +50,13 @@ import org.osmdroid.views.overlay.OverlayItem;
 import org.osmdroid.views.overlay.mylocation.GpsMyLocationProvider;
 import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import org.osmdroid.config.Configuration;
 
 import java.util.ArrayList;
+
+import static com.example.birdstagram.activities.MainActivity.myDb;
 
 public class MapActivity extends AppCompatActivity implements LocationListener {
 
@@ -64,6 +71,8 @@ public class MapActivity extends AppCompatActivity implements LocationListener {
     LocationManager locationManager = null;
     Location location;
     private String provider;
+    private DataBundle dataBundle;
+    private DataRetriever dataRetriever;
 
     private boolean displayClick = false;
 
@@ -71,9 +80,11 @@ public class MapActivity extends AppCompatActivity implements LocationListener {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.map);
+        dataRetriever = new DataRetriever();
 
         Intent intent = getIntent();
-        final User userSession = intent.getParcelableExtra("User Session");
+        dataBundle = intent.getParcelableExtra("Data Bundle");
+        fillDataBundle();
 
         menuButton = findViewById(R.id.menu_button);
         addButton = findViewById(R.id.addBird_button);
@@ -127,7 +138,7 @@ public class MapActivity extends AppCompatActivity implements LocationListener {
                 bundle.putDouble("longitude", longitude);
                 bundle.putDouble("latitude", latitude);
                 intent.putExtras(bundle);
-                intent.putExtra("user", userSession);
+                intent.putExtra("user", dataBundle);
                 startActivity(intent);
             }
         });
@@ -180,6 +191,20 @@ public class MapActivity extends AppCompatActivity implements LocationListener {
         };
         MapEventsOverlay mapEventsOverlay = new MapEventsOverlay(getApplicationContext(), mReceive);
         map.getOverlays().add(mapEventsOverlay);
+    }
+
+    private void fillDataBundle() {
+
+        dataBundle.setAppUsers(dataRetriever.retrieveUsers());
+        dataBundle.setAppSpecies(dataRetriever.retrieveSpecies());
+
+
+        /*dataBundle.setUserPosts();
+        dataBundle.setAppPosts();
+        dataBundle.setAppLikes();
+        dataBundle.setAppComments();
+        dataBundle.setAppViewers();*/
+
     }
 
     private void removeLastMarker(){
