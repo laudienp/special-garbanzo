@@ -5,12 +5,17 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
 
 import androidx.fragment.app.Fragment;
 
 import com.example.birdstagram.R;
+import com.example.birdstagram.activities.MainActivity;
+import com.example.birdstagram.data.tools.Post;
+
+import java.util.List;
 
 public class TrendsFragment extends Fragment
 {
@@ -34,6 +39,15 @@ public class TrendsFragment extends Fragment
                 loadPostFrag();
             }
         });
+
+        List<Post> posts = MainActivity.dataBundle.getAppPosts();
+
+        Log.d("POSTTS", "il y a " + posts.size());
+        Post[] list = new Post[posts.size()];
+        for(int i=0;i<posts.size();i++)
+            list[i] = posts.get(i);
+
+        PostAdapter adapter = new PostAdapter(rootView.getContext(), list);
 
         return rootView;
     }
