@@ -3,14 +3,21 @@ package com.example.birdstagram.activities;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 
 import android.Manifest;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.view.Window;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -37,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
     public static DataRetriever dataRetriever;
     public static DataBundle dataBundle;
 
+
     TextView text;
     private final Class startingActivity = LoginActivity.class;
     static final int REQUEST_IMAGE_CAPTURE = 1;
@@ -60,8 +68,17 @@ public class MainActivity extends AppCompatActivity {
         };
 
         if (hasPermissions(this, PERMISSIONS)){
-            Intent intent = new Intent(getApplicationContext(), startingActivity);
-            startActivity(intent);
+            if (haveInternetConnection() == true) {
+                Intent intent = new Intent(getApplicationContext(), startingActivity);
+                startActivity(intent);
+            }
+            else{
+                Intent intent = new Intent(getApplicationContext(), MenuActivity.class);
+                Bundle bundleOnlineOffline = new Bundle();
+                bundleOnlineOffline.putBoolean("network", false);
+                intent.putExtras(bundleOnlineOffline);
+                startActivity(intent);
+            }
         } else {
             requestPermissions(PERMISSIONS, REQUEST_PERMISSIONS);
         }
@@ -165,4 +182,18 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(this, "portrait", Toast.LENGTH_SHORT).show();
         }
     }
+
+    private boolean haveInternetConnection(){
+        // Fonction haveInternetConnection : return true si connecté, return false dans le cas contraire
+        NetworkInfo network = ((ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE)).getActiveNetworkInfo();
+
+        if (network==null || !network.isConnected())
+        {
+            // Le périphérique n'est pas connecté à Internet
+            return false;
+        }
+        // Le périphérique est connecté à Internet
+        return true;
+    }
 }
+
