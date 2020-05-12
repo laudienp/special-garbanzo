@@ -88,11 +88,11 @@ public class MapActivity extends AppCompatActivity implements LocationListener {
         Intent intent = getIntent();
         dataBundle = intent.getParcelableExtra("Data Bundle");
 
-/*        try {
+       try {
             fillDataBundle();
         } catch (ParseException e) {
             e.printStackTrace();
-        }*/
+        }
 
 
         menuButton = findViewById(R.id.menu_button);
@@ -201,7 +201,9 @@ public class MapActivity extends AppCompatActivity implements LocationListener {
         MapEventsOverlay mapEventsOverlay = new MapEventsOverlay(getApplicationContext(), mReceive);
         map.getOverlays().add(mapEventsOverlay);
 
-        try {
+
+        // BUG A RESOUDRE
+        /*try {
             List<Post> posts = dataRetriever.retrievePosts();
             for (Post post : posts){
                 Marker newMarker = new Marker(map, getApplicationContext());
@@ -213,7 +215,7 @@ public class MapActivity extends AppCompatActivity implements LocationListener {
             }
         } catch (ParseException e) {
             e.printStackTrace();
-        }
+        }*/
     }
 
     private void fillDataBundle() throws ParseException {
