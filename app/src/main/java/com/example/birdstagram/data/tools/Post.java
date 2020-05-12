@@ -13,6 +13,10 @@ public class Post {
     private Specie specie;
     private User user;
 
+    public Post(){
+
+    }
+
     public Post(String description, Date date, double longitude, double latitude, boolean isPublic, Specie specie, User user) {
         this.description = description;
         this.date = date;

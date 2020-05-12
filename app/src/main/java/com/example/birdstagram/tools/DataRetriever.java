@@ -3,6 +3,8 @@ package com.example.birdstagram.tools;
 import android.database.Cursor;
 import android.util.Log;
 
+import com.example.birdstagram.activities.MainActivity;
+import com.example.birdstagram.data.tools.Like;
 import com.example.birdstagram.data.tools.Post;
 import com.example.birdstagram.data.tools.Specie;
 import com.example.birdstagram.data.tools.User;
@@ -58,6 +60,16 @@ public class DataRetriever {
             }
         }
         return species;
+    }
+
+    public ArrayList<Post> retrieveUserPosts(int userId) throws ParseException {
+        ArrayList<Post> userPosts = new ArrayList<>();
+        for(Post post : MainActivity.dataBundle.getAppPosts()) {
+            if (userId == post.getUser().getId()) {
+                userPosts.add(post);
+            }
+        }
+        return userPosts;
     }
 
     public ArrayList<Post> retrievePosts() throws ParseException {
@@ -160,8 +172,70 @@ public class DataRetriever {
         return foundUser;
     }
 
-    public ArrayList<Post> retrieveUserPosts(){
-        return null;
+    public ArrayList<Like> retrieveLikes() throws ParseException {
+        ArrayList<Like> foundLikes = new ArrayList<>();
+        Cursor res = BDD.getLikes();
+        if(res.getCount() == 0){
+            Log.i("BUNDLE", "Found 0 likes");
+        }
+        else{
+            while(res.moveToNext()){
+                String likeId = res.getString(0);
+                String userID = res.getString(2);
+                String postID = res.getString(1);
+                String likeDate = res.getString(3);
+                StringBuilder likeDateValueString = new StringBuilder();
+                int stringSize = likeDate.length();
+                String postDateDay = new String();
+                String postDateMonth = new String();
+                String postDateYear = new String();
+                String postDateHour = new String();
+                String postDateMinute = new String();
+                if(stringSize == 34) {
+                    postDateDay = likeDate.substring(8, 10);
+                    postDateMonth = likeDate.substring(4, 7);
+                    postDateYear = likeDate.substring(32, 34);
+                    postDateHour = likeDate.substring(11, 13);
+                    postDateMinute = likeDate.substring(14, 16);
+                }
+                if(stringSize == 28){
+                    postDateDay = likeDate.substring(8, 10);
+                    postDateMonth = likeDate.substring(4, 7);
+                    postDateYear = likeDate.substring(26, 28);
+                    postDateHour = likeDate.substring(11, 13);
+                    postDateMinute = likeDate.substring(14, 16);
+                }
+                likeDateValueString.append(postDateDay + " " + postDateMonth + " " + postDateYear + " " + postDateHour + ":" + postDateMinute);
+                Date postDateValue = new SimpleDateFormat("dd MMM yy HH:mm").parse(likeDateValueString.toString());
+                User likeUser = new User();
+                Post likePost = new Post();
+                for(User user : MainActivity.dataBundle.getAppUsers()){
+                    if(user.getId() == Integer.parseInt(userID)){
+                        likeUser = user;
+                    }
+                }
+                for(Post post : MainActivity.dataBundle.getAppPosts()){
+                    if(post.getId() == Integer.parseInt(postID)){
+                        likePost = post;
+                    }
+                }
+                foundLikes.add(new Like(Integer.parseInt(likeId), likePost, likeUser, postDateValue));
+            }
+        }
+        return foundLikes;
     }
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
