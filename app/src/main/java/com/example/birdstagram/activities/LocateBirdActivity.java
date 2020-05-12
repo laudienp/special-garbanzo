@@ -146,6 +146,9 @@ public class LocateBirdActivity extends AppCompatActivity implements LocationLis
                 Post post = new Post(description, date, longitude, latitude, isPublic, specie, user);
                 //myDb.sendDataPost(post);
 
+                Intent intent = new Intent(getApplicationContext(), MapActivity.class);
+                startActivity(intent);
+
             }
         });
     }
@@ -246,7 +249,7 @@ public class LocateBirdActivity extends AppCompatActivity implements LocationLis
     void fillSpinner(){
         specieView = findViewById(R.id.spinner);
         List<String> specieArrayString = new ArrayList<String>();
-        /*for(Specie specie : dataBundle.getAppSpecies()){
+/*        for(Specie specie : dataBundle.getAppSpecies()){
             specieArrayString.add(specie.getEnglishName());
         }*/
         //ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, specieArrayString);

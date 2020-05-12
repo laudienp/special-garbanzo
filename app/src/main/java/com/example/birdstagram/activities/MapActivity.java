@@ -87,11 +87,11 @@ public class MapActivity extends AppCompatActivity implements LocationListener {
         Intent intent = getIntent();
         dataBundle = intent.getParcelableExtra("Data Bundle");
 
-        try {
+/*        try {
             fillDataBundle();
         } catch (ParseException e) {
             e.printStackTrace();
-        }
+        }*/
 
 
         menuButton = findViewById(R.id.menu_button);
@@ -215,7 +215,6 @@ public class MapActivity extends AppCompatActivity implements LocationListener {
         dataBundle.setAppLikes();
         dataBundle.setAppComments();
         dataBundle.setAppViewers();*/
-
     }
 
     private void removeLastMarker(){
