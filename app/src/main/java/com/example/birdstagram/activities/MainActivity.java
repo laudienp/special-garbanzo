@@ -19,6 +19,7 @@ import com.example.birdstagram.R;
 import com.example.birdstagram.activities.connexion.LoginActivity;
 import com.example.birdstagram.activities.inscription.ProfileActivity;
 import com.example.birdstagram.activities.inscription.SignUpActivity;
+import com.example.birdstagram.data.tools.Comment;
 import com.example.birdstagram.data.tools.DataBundle;
 import com.example.birdstagram.data.tools.Like;
 import com.example.birdstagram.data.tools.Post;
@@ -64,8 +65,6 @@ public class MainActivity extends AppCompatActivity {
         } else {
             requestPermissions(PERMISSIONS, REQUEST_PERMISSIONS);
         }
-
-
     }
 
     private void initBDD(){
@@ -111,6 +110,10 @@ public class MainActivity extends AppCompatActivity {
         Like like2 = new Like(2, secondPost, dataBundle.getAppUsers().get(0), today);
         BDD.insertDataLike(like1);
         BDD.insertDataLike(like2);
+        Comment comment1 = new Comment(1, firstPost, dataBundle.getAppUsers().get(1), "This is a cool post !", today);
+        Comment comment2 = new Comment(2, secondPost, dataBundle.getAppUsers().get(0), "I hate this post !",today);
+        BDD.insertDataComment(comment1);
+        BDD.insertDataComment(comment2);
     }
 
     public static boolean hasPermissions(Context context, String... permissions) {
