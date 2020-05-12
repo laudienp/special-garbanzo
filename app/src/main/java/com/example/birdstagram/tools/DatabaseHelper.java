@@ -7,11 +7,11 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import com.example.birdstagram.data.tools.Like;
 import com.example.birdstagram.data.tools.Post;
 import com.example.birdstagram.data.tools.Specie;
 import com.example.birdstagram.data.tools.User;
-
-import java.util.ArrayList;
+import com.example.birdstagram.data.tools.Views;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
 
@@ -19,9 +19,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String USER_TABLE = "USER";
     public static final String SPECIE_TABLE = "SPECIE";
     public static final String POST_TABLE = "POST";
-    public static final String POST_VIEWS_TABLE = "POST_VIEW";
-    public static final String POST_LIKES_TABLE = "POST_LIKE";
-    public static final String POST_COMMENTS_TABLE = "POST_COMMENT";
+    public static final String POST_VIEWS_TABLE = "VIEWS";
+    public static final String POST_LIKES_TABLE = "LIKES";
+    public static final String POST_COMMENTS_TABLE = "COMMENTS";
 
     public static final String USER_ID = "ID";
     public static final String USER_PSEUDO = "PSEUDO";
@@ -45,14 +45,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String POST_FOREIGN_USER_ID = "USER_ID";
     public static final String POST_FOREIGN_SPECIE_ID = "SPECIE_ID";
 
-    public static final String POST_VIEW_ID = "POST_ID";
-    public static final String POST_VIEWER_ID = "USER_ID";
+    public static final String POST_VIEW_ID = "VIEW_ID";
+    public static final String POST_VIEW_POST_ID = "POST_ID";
+    public static final String POST_VIEW_USER_ID = "USER_ID";
     public static final String POST_VIEW_DATE = "DATE";
 
-    public static final String POST_LIKE_ID = "POST_ID";
+    public static final String POST_LIKE_ID = "LIKE_ID";
+    public static final String POST_LIKE_POST_ID = "POST_ID";
     public static final String POST_LIKER_ID = "USER_ID";
     public static final String POST_LIKE_DATE= "DATE";
 
+    public static final String POST_COMMENT_ID = "COMMENT_ID";
     public static final String POST_COMMENT_POST_ID = "POST_ID";
     public static final String POST_COMMENTOR_ID = "USER_ID";
     public static final String POST_COMMENT = "COMMENT";
@@ -150,6 +153,36 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
+    public void insertDataView(Views view) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(POST_VIEW_POST_ID, view.getPostID().getId());
+        values.put(POST_VIEW_USER_ID, view.getUserID().getId());
+        values.put(POST_VIEW_DATE, view.getDate().toString());
+        long insertResult = db.insert(POST_VIEWS_TABLE, null, values);
+        if(insertResult == -1){
+            Log.d("DATABASE", "INSERT HAS FAILED.");
+        }
+        else {
+            Log.d("DATABASE", "INSERT HAS SUCCEEDED.");
+        }
+    }
+
+    public void insertDataLike(Like like) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(POST_LIKE_POST_ID, like.getPostID().getId());
+        values.put(POST_LIKER_ID, like.getUserID().getId());
+        values.put(POST_LIKE_DATE, like.getDate().toString());
+        long insertResult = db.insert(POST_LIKES_TABLE, null, values);
+        if(insertResult == -1){
+            Log.d("DATABASE", "INSERT HAS FAILED.");
+        }
+        else {
+            Log.d("DATABASE", "INSERT HAS SUCCEEDED.");
+        }
+    }
+
     public Cursor getConnectionUser(String email, String password){
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor =  db.rawQuery("SELECT * FROM " + USER_TABLE + " WHERE " + USER_MAIL + " = '" + email + "' AND " + USER_PASSWORD + " = '" + password + "'", null);
@@ -220,13 +253,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("create table " + SPECIE_TABLE + "( " + SPECIE_ID +" INTEGER PRIMARY KEY AUTOINCREMENT, "+ SPECIE_ENGLISH_NAME  +" TEXT, " + SPECIE_FRENCH_NAME+" TEXT, " + SPECIE_DESCRIPTION + " TEXT) ");
         db.execSQL("create table " + POST_TABLE + "(" + POST_ID +" INTEGER PRIMARY KEY AUTOINCREMENT, " + POST_DESCRIPTION + " TEXT, " + POST_DATE +" DATE, " + POST_LONGITUDE +" FLOAT" +
                 ", "+ POST_LATITUDE + " FLOAT, " + POST_IS_PUBLIC + " BOOLEAN, " + POST_FOREIGN_SPECIE_ID + " INTEGER, " + POST_FOREIGN_USER_ID +" INTEGER)");
-        db.execSQL("create table " + POST_VIEWS_TABLE +"("+ POST_VIEW_ID +" INTEGER, " + POST_VIEWER_ID + " INTEGER, " + POST_VIEW_DATE + " DATE, FOREIGN KEY("+ POST_VIEW_ID +") REFERENCES "+
-                POST_TABLE + "(" + POST_ID + "), FOREIGN KEY("+POST_VIEWER_ID +") REFERENCES " + USER_TABLE + "(" + USER_ID + "))");
-        db.execSQL("create table " + POST_LIKES_TABLE +"("+ POST_LIKE_ID +" INTEGER, " + POST_LIKER_ID + " INTEGER, " + POST_LIKE_DATE + " DATE, FOREIGN KEY("+ POST_LIKE_ID +") REFERENCES "+
-                POST_TABLE + "(" + POST_ID + "), FOREIGN KEY("+POST_LIKER_ID +") REFERENCES " + USER_TABLE + "(" + USER_ID + "))");
+        db.execSQL("create table " + POST_VIEWS_TABLE +"("+ POST_VIEW_ID +" INTEGER PRIMARY KEY AUTOINCREMENT, " + POST_VIEW_POST_ID + " INTEGER, " + POST_VIEW_USER_ID + " INTEGER, " + POST_VIEW_DATE + " DATE)");
+        db.execSQL("create table " + POST_LIKES_TABLE +"("+ POST_LIKE_ID +" INTEGER PRIMARY KEY AUTOINCREMENT, " + POST_LIKER_ID + " INTEGER, " + POST_LIKE_POST_ID + " INTEGER," + POST_LIKE_DATE + " DATE)");
+
         db.execSQL("create table " + POST_COMMENTS_TABLE +"(" + POST_COMMENT_POST_ID +" INTEGER, " + POST_COMMENTOR_ID + " INTEGER," + POST_COMMENT +" TEXT, " +
                 POST_COMMENT_DATE + " DATE, FOREIGN KEY("+ POST_COMMENT_POST_ID +") REFERENCES "+ POST_TABLE + "(" + POST_ID + "), FOREIGN KEY("+POST_COMMENTOR_ID +") REFERENCES " + USER_TABLE + "(" + USER_ID + "))");
+
         db.execSQL("INSERT INTO USER VALUES('999', 'Super_User', 'Super_UserName', 'Super_UserSurName', '21', 'super', 'pwd')");
+        db.execSQL("INSERT INTO USER VALUES('50', 'Fan_User', 'Fan_UserName', 'Fan_UserSurName', '15', 'fan', 'pwd')");
         db.execSQL("insert into specie values('1','Crow','Corbeau','No Description')");
         db.execSQL("insert into specie values('2','Peacock','Paon','No Description')");
         db.execSQL("insert into specie values('3','Dove','Colombe','No Description')");
@@ -266,5 +300,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             Log.d("DATABASE", "UPDATE HAS SUCCEEDED.");
         }
     }
+
 
 }
