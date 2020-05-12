@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.annotation.SuppressLint;
 import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
@@ -99,6 +100,7 @@ public class MapActivity extends AppCompatActivity implements LocationListener {
                 validateButton.setVisibility(View.VISIBLE);
                 cancelButton.setVisibility(View.VISIBLE);
                 addButton.setVisibility(View.GONE);
+                lastMarker = null;
             }
         });
 
@@ -121,22 +123,24 @@ public class MapActivity extends AppCompatActivity implements LocationListener {
         validateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                putMarkerOnClick = false;
-                removeLastMarker();
-                validateButton.setVisibility(View.GONE);
-                cancelButton.setVisibility(View.GONE);
-                addButton.setVisibility(View.VISIBLE);
-                Intent intent = new Intent(getApplicationContext(), LocateBirdActivity.class);
-                //On transmet la longitude et la latitude
-                GeoPoint position = lastMarker.getPosition();
-                double longitude = position.getLongitude();
-                double latitude = position.getLatitude();
-                Bundle bundle = new Bundle();
-                bundle.putDouble("longitude", longitude);
-                bundle.putDouble("latitude", latitude);
-                intent.putExtras(bundle);
-                shareNetworkState(intent);
-                startActivity(intent);
+                if (lastMarker != null) {
+                    putMarkerOnClick = false;
+                    removeLastMarker();
+                    validateButton.setVisibility(View.GONE);
+                    cancelButton.setVisibility(View.GONE);
+                    addButton.setVisibility(View.VISIBLE);
+                    Intent intent = new Intent(getApplicationContext(), LocateBirdActivity.class);
+                    //On transmet la longitude et la latitude
+                    GeoPoint position = lastMarker.getPosition();
+                    double longitude = position.getLongitude();
+                    double latitude = position.getLatitude();
+                    Bundle bundle = new Bundle();
+                    bundle.putDouble("longitude", longitude);
+                    bundle.putDouble("latitude", latitude);
+                    intent.putExtras(bundle);
+                    shareNetworkState(intent);
+                    startActivity(intent);
+                }
             }
         });
 
@@ -178,6 +182,8 @@ public class MapActivity extends AppCompatActivity implements LocationListener {
                     removeLastMarker();
                     lastMarker = new Marker(map, getApplicationContext());
                     lastMarker.setPosition(p);
+                    Drawable otherPin = getResources().getDrawable( R.drawable.other_pin );
+                    lastMarker.setIcon(otherPin);
                     map.getOverlays().add(lastMarker);
                 }
                 return true;
@@ -198,7 +204,10 @@ public class MapActivity extends AppCompatActivity implements LocationListener {
             ArrayList<OverlayItem> items = new ArrayList<>();
             for (Post post : posts){
                 GeoPoint position = new GeoPoint(post.getLatitude(), post.getLongitude());
-                items.add(new OverlayItem(post.getSpecie().getEnglishName(), post.getDescription(), position));
+                OverlayItem item = new OverlayItem(post.getSpecie().getEnglishName(), post.getDescription(), position);
+                Drawable defaultPin = getResources().getDrawable( R.drawable.default_pin );
+                item.setMarker(defaultPin);
+                items.add(item);
             }
             ItemizedOverlayWithFocus<OverlayItem> overlays = new ItemizedOverlayWithFocus<OverlayItem>(getApplicationContext(),
                     items, new ItemizedIconOverlay.OnItemGestureListener<OverlayItem>(){
@@ -235,6 +244,21 @@ public class MapActivity extends AppCompatActivity implements LocationListener {
     }
 
     @Override
+    protected void onNewIntent(Intent intent) {
+        takePosition = intent.getBooleanExtra("takePosition", false);
+        if (takePosition){
+            putMarkerOnClick = true;
+            validateButton.setVisibility(View.VISIBLE);
+            cancelButton.setVisibility(View.VISIBLE);
+            addButton.setVisibility(View.GONE);
+            if (lastMarker != null){
+                map.getOverlays().add(lastMarker);
+            }
+        }
+        super.onNewIntent(intent);
+    }
+
+    @Override
     public void onPause() {
         super.onPause();
         map.onPause();
@@ -245,13 +269,6 @@ public class MapActivity extends AppCompatActivity implements LocationListener {
         super.onResume();
         map.onResume();
         refreshMapOverlay();
-        takePosition = getIntent().getBooleanExtra("takePosition", false);
-        if (takePosition){
-            putMarkerOnClick = true;
-            validateButton.setVisibility(View.VISIBLE);
-            cancelButton.setVisibility(View.VISIBLE);
-            addButton.setVisibility(View.GONE);
-        }
     }
 
     private void requestPermissionsIfNecessary(String[] permissions) {

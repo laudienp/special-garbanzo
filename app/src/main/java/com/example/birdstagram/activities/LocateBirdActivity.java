@@ -12,6 +12,7 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.os.PersistableBundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -23,6 +24,8 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -53,8 +56,8 @@ public class LocateBirdActivity extends AppCompatActivity implements LocationLis
     User user;
     Switch isPublicView;
     static boolean isPublic;
-    double longitude = 0;
-    double latitude = 0;
+    static double longitude;
+    static double latitude;
     LocationManager locationManager = null;
     private String provider;
     private final int REQUEST_PERMISSIONS_REQUEST_CODE = 1;
@@ -64,22 +67,32 @@ public class LocateBirdActivity extends AppCompatActivity implements LocationLis
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.locate_a_bird);
-        //On récupère la longitude et la latitude
         Intent intent = getIntent();
+
         recupNetworkState(intent);
         setOnlineOrOffline();
 
-        fillSpinner();
-
-        if(intent != null){
-            longitude = intent.getDoubleExtra("longitude", longitude);
-            latitude = intent.getDoubleExtra("latitude", latitude);
-            user = MainActivity.dataBundle.getUserSession();
+        if(savedInstanceState != null){
+            int index = getIndex(specieView, savedInstanceState.getString("specie"));
+            specieView.setSelection(index);
+            description = savedInstanceState.getString("description");
+            descriptionView.setText(description);
         }
-        currentLocation = findViewById(R.id.currentLocation);
-        currentLocation.setText("Longitude : " + longitude + "\nLatitude : " + latitude);
 
+        initComponents();
+        fillSpinner();
+        checkIntent();
+    }
+
+    private void initComponents(){
         picture = findViewById(R.id.imageButton);
+        Button takePositionOnMapButton = findViewById(R.id.buttonPositionOnMap);
+        Button takeCurrentPositionWithGpsButton = findViewById(R.id.buttonCurrentGPSLocation);
+        validate = findViewById(R.id.buttonValidate);
+        descriptionView = findViewById(R.id.inputDescription);
+        specieView = findViewById(R.id.spinner);
+        isPublicView = findViewById(R.id.switchImageGallery);
+
         picture.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -88,7 +101,6 @@ public class LocateBirdActivity extends AppCompatActivity implements LocationLis
             }
         });
 
-        Button takePositionOnMapButton = findViewById(R.id.buttonPositionOnMap);
         takePositionOnMapButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -105,7 +117,6 @@ public class LocateBirdActivity extends AppCompatActivity implements LocationLis
             }
         });
 
-        Button takeCurrentPositionWithGpsButton = findViewById(R.id.buttonCurrentGPSLocation);
         takeCurrentPositionWithGpsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -114,40 +125,29 @@ public class LocateBirdActivity extends AppCompatActivity implements LocationLis
         });
 
         //Envoi des données à la BDD
-        validate = findViewById(R.id.buttonValidate);
         validate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(netWorkState == true) {
                     ////On envoie sur le théorique serveur
-                    descriptionView = findViewById(R.id.inputDescription);
                     description = descriptionView.getText().toString();
-
                     Date date = new Date();
-
-                    specieView = findViewById(R.id.spinner);
                     specie = findSpecieAssociatedToThisString(specieView.getSelectedItem().toString());
-
                     Post post = new Post(description, date, longitude, latitude, isPublic, specie, user);
                     MainActivity.BDD.insertDataPost(post);
-
+                    resetValues();
                     Intent intent = new Intent(getApplicationContext(), MapActivity.class);
                     startActivity(intent);
                 }
                 else{
                     //On envoie sur la BDD interne
                     Toast.makeText(getApplicationContext(),"Position has been saved, it will be displayed as soon as you'll recover a network connection.",Toast.LENGTH_LONG).show();
-                    descriptionView = findViewById(R.id.inputDescription);
                     description = descriptionView.getText().toString();
-
                     Date date = new Date();
-
-                    specieView = findViewById(R.id.spinner);
                     specie = findSpecieAssociatedToThisString(specieView.getSelectedItem().toString());
-
                     Post post = new Post(description, date, longitude, latitude, isPublic, specie, user);
                     MainActivity.BDD.insertDataPost(post);
-
+                    resetValues();
                     Intent intent = new Intent(getApplicationContext(), MenuActivity.class);
                     shareNetworkState(intent);
                     startActivity(intent);
@@ -155,7 +155,6 @@ public class LocateBirdActivity extends AppCompatActivity implements LocationLis
             }
         });
 
-        isPublicView = (Switch) findViewById(R.id.switchImageGallery);
         isPublicView.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -171,12 +170,38 @@ public class LocateBirdActivity extends AppCompatActivity implements LocationLis
         });
     }
 
+    private void resetValues(){
+        lastImage = null;
+        longitude = 0;
+        latitude = 0;
+    }
+
+
+    private void checkIntent(){
+        Intent intent = getIntent();
+
+        if(intent != null){
+            longitude = intent.getDoubleExtra("longitude", longitude);
+            latitude = intent.getDoubleExtra("latitude", latitude);
+            user = MainActivity.dataBundle.getUserSession();
+        }
+        currentLocation = findViewById(R.id.currentLocation);
+        currentLocation.setText("Longitude : " + longitude + "\nLatitude : " + latitude);
+    }
+
     @Override
     public void onResume() {
-        super.onResume();
         if (lastImage!=null){
             picture.setImageBitmap(lastImage);
         }
+        super.onResume();
+    }
+
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString("specie", specie.getEnglishName());
+        outState.putString("description", descriptionView.getText().toString());
     }
 
     @SuppressLint("MissingSuperCall")
@@ -273,6 +298,15 @@ public class LocateBirdActivity extends AppCompatActivity implements LocationLis
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, specieArrayString);
         specieView.setAdapter(adapter);
 
+    }
+
+    private int getIndex(Spinner spinner, String myString){
+        for (int i = 0; i < spinner.getCount(); i++){
+            if (spinner.getItemAtPosition(i).toString().equals(myString)){
+                return i;
+            }
+        }
+        return 0;
     }
 
     Specie findSpecieAssociatedToThisString(String specieEnglishName){

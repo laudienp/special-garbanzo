@@ -22,6 +22,10 @@ public class Views {
         this.date = date;
     }
 
+    public Views() {
+
+    }
+
     public int getId() {
         return id;
     }
