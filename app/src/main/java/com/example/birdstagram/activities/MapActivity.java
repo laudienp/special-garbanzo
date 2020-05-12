@@ -100,6 +100,7 @@ public class MapActivity extends AppCompatActivity implements LocationListener {
                 validateButton.setVisibility(View.VISIBLE);
                 cancelButton.setVisibility(View.VISIBLE);
                 addButton.setVisibility(View.GONE);
+                lastMarker = null;
             }
         });
 
@@ -121,21 +122,23 @@ public class MapActivity extends AppCompatActivity implements LocationListener {
         validateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                putMarkerOnClick = false;
-                removeLastMarker();
-                validateButton.setVisibility(View.GONE);
-                cancelButton.setVisibility(View.GONE);
-                addButton.setVisibility(View.VISIBLE);
-                Intent intent = new Intent(getApplicationContext(), LocateBirdActivity.class);
-                //On transmet la longitude et la latitude
-                GeoPoint position = lastMarker.getPosition();
-                double longitude = position.getLongitude();
-                double latitude = position.getLatitude();
-                Bundle bundle = new Bundle();
-                bundle.putDouble("longitude", longitude);
-                bundle.putDouble("latitude", latitude);
-                intent.putExtras(bundle);
-                startActivity(intent);
+                if (lastMarker != null) {
+                    putMarkerOnClick = false;
+                    removeLastMarker();
+                    validateButton.setVisibility(View.GONE);
+                    cancelButton.setVisibility(View.GONE);
+                    addButton.setVisibility(View.VISIBLE);
+                    Intent intent = new Intent(getApplicationContext(), LocateBirdActivity.class);
+                    //On transmet la longitude et la latitude
+                    GeoPoint position = lastMarker.getPosition();
+                    double longitude = position.getLongitude();
+                    double latitude = position.getLatitude();
+                    Bundle bundle = new Bundle();
+                    bundle.putDouble("longitude", longitude);
+                    bundle.putDouble("latitude", latitude);
+                    intent.putExtras(bundle);
+                    startActivity(intent);
+                }
             }
         });
 

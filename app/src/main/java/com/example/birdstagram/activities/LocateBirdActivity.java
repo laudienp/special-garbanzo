@@ -49,8 +49,8 @@ public class LocateBirdActivity extends AppCompatActivity implements LocationLis
     TextView currentLocation;
     Button validate;
     Spinner specieView;
-    static Specie specie;
-    static String description;
+    Specie specie;
+    String description;
     EditText descriptionView;
     User user;
     Switch isPublicView;
@@ -65,7 +65,13 @@ public class LocateBirdActivity extends AppCompatActivity implements LocationLis
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.locate_a_bird);
-        //On récupère la longitude et la latitude
+
+        if(savedInstanceState != null){
+            int index = getIndex(specieView, savedInstanceState.getString("specie"));
+            specieView.setSelection(index);
+            description = savedInstanceState.getString("description");
+            descriptionView.setText(description);
+        }
 
         initComponents();
         fillSpinner();
@@ -124,6 +130,8 @@ public class LocateBirdActivity extends AppCompatActivity implements LocationLis
                 Post post = new Post(description, date, longitude, latitude, isPublic, specie, user);
                 MainActivity.BDD.insertDataPost(post);
 
+                resetValues();
+
                 Intent intent = new Intent(getApplicationContext(), MapActivity.class);
                 startActivity(intent);
 
@@ -143,15 +151,12 @@ public class LocateBirdActivity extends AppCompatActivity implements LocationLis
                 }
             }
         });
+    }
 
-        if (specie != null){
-            int index = getIndex(specieView, specie.getEnglishName());
-            specieView.setSelection(index);
-        }
-        if (description != null) {
-            descriptionView.setText(description);
-        }
-
+    private void resetValues(){
+        lastImage = null;
+        longitude = 0;
+        latitude = 0;
     }
 
 
@@ -176,9 +181,10 @@ public class LocateBirdActivity extends AppCompatActivity implements LocationLis
     }
 
     @Override
-    protected void onPause() {
-        description = descriptionView.getText().toString();
-        super.onPause();
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString("specie", specie.getEnglishName());
+        outState.putString("description", descriptionView.getText().toString());
     }
 
     @SuppressLint("MissingSuperCall")
