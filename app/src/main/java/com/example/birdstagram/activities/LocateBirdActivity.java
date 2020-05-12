@@ -13,6 +13,7 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.PersistableBundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -48,7 +49,6 @@ public class LocateBirdActivity extends AppCompatActivity implements LocationLis
     public static Bitmap lastImage;
     private ImageButton picture;
     TextView currentLocation;
-    Button validate;
     Spinner specieView;
     Specie specie;
     String description;
@@ -68,7 +68,6 @@ public class LocateBirdActivity extends AppCompatActivity implements LocationLis
         super.onCreate(savedInstanceState);
         setContentView(R.layout.locate_a_bird);
         Intent intent = getIntent();
-
         recupNetworkState(intent);
         setOnlineOrOffline();
 
@@ -88,7 +87,7 @@ public class LocateBirdActivity extends AppCompatActivity implements LocationLis
         picture = findViewById(R.id.imageButton);
         Button takePositionOnMapButton = findViewById(R.id.buttonPositionOnMap);
         Button takeCurrentPositionWithGpsButton = findViewById(R.id.buttonCurrentGPSLocation);
-        validate = findViewById(R.id.buttonValidate);
+        Button validate = findViewById(R.id.buttonValidate);
         descriptionView = findViewById(R.id.inputDescription);
         specieView = findViewById(R.id.spinner);
         isPublicView = findViewById(R.id.switchImageGallery);
@@ -312,7 +311,7 @@ public class LocateBirdActivity extends AppCompatActivity implements LocationLis
     Specie findSpecieAssociatedToThisString(String specieEnglishName){
         List<Specie> listSpecie = MainActivity.dataBundle.getAppSpecies();
         for(Specie specie : listSpecie){
-            if(specie.getEnglishName() == specieEnglishName) return specie;
+            if(specie.getEnglishName().equals(specieEnglishName)) return specie;
         }
         return null;
     }
@@ -330,12 +329,10 @@ public class LocateBirdActivity extends AppCompatActivity implements LocationLis
     void setOnlineOrOffline(){
         Button positionMapButton = findViewById(R.id.buttonPositionOnMap);
         Switch switchImageGallery = findViewById(R.id.switchImageGallery);
-        TextView currentLocation = findViewById(R.id.currentLocation);
         if (netWorkState == false) {
             positionMapButton.setClickable(false);
             positionMapButton.setBackgroundColor(Color.parseColor("#808080"));
             switchImageGallery.setVisibility(View.GONE);
-            currentLocation.setText("Longitude : None\nLatitude : None");
         }
     }
 }

@@ -64,14 +64,13 @@ public class MainActivity extends AppCompatActivity {
         if (hasPermissions(this, PERMISSIONS)){
             if (haveInternetConnection() == true) {
                 Intent intent = new Intent(getApplicationContext(), startingActivity);
-                Bundle bundleOnlineOffline = new Bundle();
-                bundleOnlineOffline.putBoolean("network", true);
                 startActivity(intent);
             }
             else{
                 Intent intent = new Intent(getApplicationContext(), MenuActivity.class);
                 Bundle bundleOnlineOffline = new Bundle();
                 bundleOnlineOffline.putBoolean("network", false);
+                intent.putExtras(bundleOnlineOffline);
                 startActivity(intent);
             }
         } else {
