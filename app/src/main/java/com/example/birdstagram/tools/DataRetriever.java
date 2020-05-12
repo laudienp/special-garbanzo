@@ -4,10 +4,12 @@ import android.database.Cursor;
 import android.util.Log;
 
 import com.example.birdstagram.activities.MainActivity;
+import com.example.birdstagram.data.tools.Comment;
 import com.example.birdstagram.data.tools.Like;
 import com.example.birdstagram.data.tools.Post;
 import com.example.birdstagram.data.tools.Specie;
 import com.example.birdstagram.data.tools.User;
+import com.example.birdstagram.data.tools.Views;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -223,6 +225,113 @@ public class DataRetriever {
             }
         }
         return foundLikes;
+    }
+
+    public ArrayList<Views> retrieveViews() throws ParseException {
+        ArrayList<Views> foundViews = new ArrayList<>();
+        Cursor res = BDD.getViews();
+        if(res.getCount() == 0){
+            Log.i("BUNDLE", "Found 0 views");
+        }
+        else{
+            while(res.moveToNext()){
+                String viewId = res.getString(0);
+                String userID = res.getString(2);
+                String postID = res.getString(1);
+                String viewDate = res.getString(3);
+                StringBuilder viewDateValueString = new StringBuilder();
+                int stringSize = viewDate.length();
+                String postDateDay = new String();
+                String postDateMonth = new String();
+                String postDateYear = new String();
+                String postDateHour = new String();
+                String postDateMinute = new String();
+                if(stringSize == 34) {
+                    postDateDay = viewDate.substring(8, 10);
+                    postDateMonth = viewDate.substring(4, 7);
+                    postDateYear = viewDate.substring(32, 34);
+                    postDateHour = viewDate.substring(11, 13);
+                    postDateMinute = viewDate.substring(14, 16);
+                }
+                if(stringSize == 28){
+                    postDateDay = viewDate.substring(8, 10);
+                    postDateMonth = viewDate.substring(4, 7);
+                    postDateYear = viewDate.substring(26, 28);
+                    postDateHour = viewDate.substring(11, 13);
+                    postDateMinute = viewDate.substring(14, 16);
+                }
+                viewDateValueString.append(postDateDay + " " + postDateMonth + " " + postDateYear + " " + postDateHour + ":" + postDateMinute);
+                Date postDateValue = new SimpleDateFormat("dd MMM yy HH:mm").parse(viewDateValueString.toString());
+                User viewUser = new User();
+                Post viewPost = new Post();
+                for(User user : MainActivity.dataBundle.getAppUsers()){
+                    if(user.getId() == Integer.parseInt(userID)){
+                        viewUser = user;
+                    }
+                }
+                for(Post post : MainActivity.dataBundle.getAppPosts()){
+                    if(post.getId() == Integer.parseInt(postID)){
+                        viewPost = post;
+                    }
+                }
+                foundViews.add(new Views(Integer.parseInt(viewId), viewPost, viewUser, postDateValue));
+            }
+        }
+        return foundViews;
+    }
+
+    public ArrayList<Comment> retrieveComments() throws ParseException {
+        ArrayList<Comment> foundComments = new ArrayList<>();
+        Cursor res = BDD.getComments();
+        if(res.getCount() == 0){
+            Log.i("BUNDLE", "Found 0 comments");
+        }
+        else{
+            while(res.moveToNext()){
+                String commentId = res.getString(0);
+                String userID = res.getString(2);
+                String postID = res.getString(1);
+                String commentText = res.getString(3);
+                String commentDate = res.getString(4);
+                StringBuilder commentDateValueString = new StringBuilder();
+                int stringSize = commentDate.length();
+                String postDateDay = new String();
+                String postDateMonth = new String();
+                String postDateYear = new String();
+                String postDateHour = new String();
+                String postDateMinute = new String();
+                if(stringSize == 34) {
+                    postDateDay = commentDate.substring(8, 10);
+                    postDateMonth = commentDate.substring(4, 7);
+                    postDateYear = commentDate.substring(32, 34);
+                    postDateHour = commentDate.substring(11, 13);
+                    postDateMinute = commentDate.substring(14, 16);
+                }
+                if(stringSize == 28){
+                    postDateDay = commentDate.substring(8, 10);
+                    postDateMonth = commentDate.substring(4, 7);
+                    postDateYear = commentDate.substring(26, 28);
+                    postDateHour = commentDate.substring(11, 13);
+                    postDateMinute = commentDate.substring(14, 16);
+                }
+                commentDateValueString.append(postDateDay + " " + postDateMonth + " " + postDateYear + " " + postDateHour + ":" + postDateMinute);
+                Date postDateValue = new SimpleDateFormat("dd MMM yy HH:mm").parse(commentDateValueString.toString());
+                User commentUser = new User();
+                Post commentPost = new Post();
+                for(User user : MainActivity.dataBundle.getAppUsers()){
+                    if(user.getId() == Integer.parseInt(userID)){
+                        commentUser = user;
+                    }
+                }
+                for(Post post : MainActivity.dataBundle.getAppPosts()){
+                    if(post.getId() == Integer.parseInt(postID)){
+                        commentPost = post;
+                    }
+                }
+                foundComments.add(new Comment(Integer.parseInt(commentId), commentPost, commentUser, commentText,postDateValue));
+            }
+        }
+        return foundComments;
     }
 
 }

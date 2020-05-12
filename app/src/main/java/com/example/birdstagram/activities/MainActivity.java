@@ -84,6 +84,8 @@ public class MainActivity extends AppCompatActivity {
         dataBundle.setAppSpecies(dataRetriever.retrieveSpecies());
         dataBundle.setAppPosts(dataRetriever.retrievePosts());
         dataBundle.setAppLikes(dataRetriever.retrieveLikes());
+        dataBundle.setAppViewers(dataRetriever.retrieveViews());
+        dataBundle.setAppComments(dataRetriever.retrieveComments());
     }
 
     private void fillDataBundleWithFakeData() throws ParseException {
@@ -92,8 +94,8 @@ public class MainActivity extends AppCompatActivity {
         insertFakeDataBundle();
         dataBundle.setAppPosts(dataRetriever.retrievePosts());
         dataBundle.setAppLikes(dataRetriever.retrieveLikes());
-        /*dataBundle.setAppComments();
-        dataBundle.setAppViewers();*/
+        dataBundle.setAppViewers(dataRetriever.retrieveViews());
+        dataBundle.setAppComments(dataRetriever.retrieveComments());
     }
 
     private void insertFakeDataBundle(){
