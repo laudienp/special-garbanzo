@@ -3,8 +3,12 @@ package com.example.birdstagram.activities;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 
 import android.Manifest;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -13,6 +17,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.view.Window;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -38,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
     public static DatabaseHelper BDD;
     public static DataRetriever dataRetriever;
     public static DataBundle dataBundle;
+
 
     TextView text;
     private final Class startingActivity = LoginActivity.class;
@@ -190,3 +196,4 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 }
+

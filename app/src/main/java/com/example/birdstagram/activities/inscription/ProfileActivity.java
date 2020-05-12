@@ -15,6 +15,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -22,9 +23,13 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.birdstagram.R;
+import com.example.birdstagram.activities.MainActivity;
 import com.example.birdstagram.activities.MapActivity;
+import com.example.birdstagram.data.tools.DataBundle;
 import com.example.birdstagram.data.tools.User;
 import com.example.birdstagram.tools.DatabaseHelper;
+
+import java.util.ArrayList;
 
 import static com.example.birdstagram.activities.MainActivity.BDD;
 
@@ -40,19 +45,17 @@ public class ProfileActivity extends AppCompatActivity {
     private EditText email;
     private EditText password;
     private Button apply_Btn;
+    private TextView subs;
+    private TextView likes;
+    private TextView posts;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
 
-        imageProfile = findViewById(R.id.profil_image);
-
-        name = findViewById(R.id.name_editView);
-        age = findViewById(R.id.age_editView);
-        email = findViewById(R.id.email_editView);
-        password = findViewById(R.id.password_editView);
-        apply_Btn = findViewById(R.id.apply_button);
+       initialise();
 
         imageProfile.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -81,6 +84,8 @@ public class ProfileActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "Remplissez tout les champs", Toast.LENGTH_LONG).show();
             }
         });
+
+
     }
 
     @Override
@@ -129,7 +134,8 @@ public class ProfileActivity extends AppCompatActivity {
         User user = new User();
         Cursor res = BDD.getAllUsers();
 
-        if (res.getCount() == 0) {
+        return MainActivity.dataBundle.getUserSession();
+        /*if (res.getCount() == 0) {
             Toast.makeText(getApplicationContext(), "Aucun Utlisateur trouvé", Toast.LENGTH_LONG).show();
         } else {
             while (res.moveToNext()) {
@@ -140,11 +146,27 @@ public class ProfileActivity extends AppCompatActivity {
                 String userAge = res.getString(4);
                 String userMail = res.getString(5);
                 String userPassword = res.getString(6);
-                user = new User(Integer.parseInt(userID), userPseudo, userName, userSurname, Integer.parseInt(userAge), userMail, userPassword);
+                if (connectedUser.getName().equals(userName) && connectedUser.getAge() == Integer.parseInt(userAge) && ){
+                    user = new User(Integer.parseInt(userID), userPseudo, userName, userSurname, Integer.parseInt(userAge), userMail, userPassword);
+                    break;
+                }
             }
 
         }
-        return user;
+        return user;*/
+    }
+
+    private void initialise(){
+        imageProfile = findViewById(R.id.profil_image);
+
+        name = findViewById(R.id.name_editView);
+        age = findViewById(R.id.age_editView);
+        email = findViewById(R.id.email_editView);
+        password = findViewById(R.id.password_editView);
+        apply_Btn = findViewById(R.id.apply_button);
+        subs = findViewById(R.id.nb_of_subs);
+        likes = findViewById(R.id.nb_of_likes);
+        posts = findViewById(R.id.nb_of_posts);
     }
 
 }
