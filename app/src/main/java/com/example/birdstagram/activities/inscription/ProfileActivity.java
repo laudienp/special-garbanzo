@@ -85,8 +85,8 @@ public class ProfileActivity extends AppCompatActivity {
             }
         });
 
-        likes.setText(MainActivity.dataBundle.getAppLikes().size() + " likes");
-        posts.setText(MainActivity.dataBundle.getAppPosts().size() + " posts");
+       /* likes.setText(MainActivity.dataBundle.getUserSession().get + " likes");
+        posts.setText(MainActivity.dataBundle.getAppPosts().size() + " posts");*/
     }
 
     @Override
