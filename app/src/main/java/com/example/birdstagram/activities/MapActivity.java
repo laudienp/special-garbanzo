@@ -200,27 +200,39 @@ public class MapActivity extends AppCompatActivity implements LocationListener {
         map.getOverlays().add(mapEventsOverlay);
 
         // BUG A RESOUDRE
-        /*try {
+        try {
             List<Post> posts = dataRetriever.retrievePosts();
+            ArrayList<OverlayItem> items = new ArrayList<>();
             for (Post post : posts){
-                Marker newMarker = new Marker(map, getApplicationContext());
                 GeoPoint position = new GeoPoint(post.getLatitude(), post.getLongitude());
-                newMarker.setPosition(position);
-                newMarker.setTextIcon(post.getSpecie().getEnglishName());
-                newMarker.setSubDescription(post.getDescription());
-                map.getOverlays().add(newMarker);
+                items.add(new OverlayItem(post.getSpecie().getEnglishName(), post.getDescription(), position));
             }
+            ItemizedOverlayWithFocus<OverlayItem> overlays = new ItemizedOverlayWithFocus<OverlayItem>(getApplicationContext(),
+                    items, new ItemizedIconOverlay.OnItemGestureListener<OverlayItem>(){
+
+                @Override
+                public boolean onItemSingleTapUp(int index, OverlayItem item) {
+                    return true;
+                }
+
+                @Override
+                public boolean onItemLongPress(int index, OverlayItem item) {
+                    return false;
+                }
+            });
+            overlays.setFocusItemsOnTap(true);
+            map.getOverlays().add(overlays);
         } catch (ParseException e) {
             e.printStackTrace();
-        }*/
+        }
     }
 
     private void fillDataBundle() throws ParseException {
         java.util.Date today = new java.util.Date();
         dataBundle.setAppUsers(dataRetriever.retrieveUsers());
         dataBundle.setAppSpecies(dataRetriever.retrieveSpecies());
-        Post firstPost = new Post(1,"First Post", today, -472.1484548, 74893.12548, true, dataBundle.getAppSpecies().get(0), dataBundle.getAppUsers().get(0));
-        Post secondPost = new Post(2,"Second Post", today, 7421.5481254, -14892.148548, false, dataBundle.getAppSpecies().get(5), dataBundle.getAppUsers().get(0));
+        Post firstPost = new Post(1,"Google Building", today, -122.084568, 37.42212, true, dataBundle.getAppSpecies().get(0), dataBundle.getAppUsers().get(0));
+        Post secondPost = new Post(2,"Google Building", today, -122.081741, 37.422880, false, dataBundle.getAppSpecies().get(5), dataBundle.getAppUsers().get(0));
         myDb.insertDataPost(firstPost);
         myDb.insertDataPost(secondPost);
         dataBundle.setAppPosts(dataRetriever.retrievePosts());
