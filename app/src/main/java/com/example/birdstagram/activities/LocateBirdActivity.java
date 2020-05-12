@@ -77,10 +77,9 @@ public class LocateBirdActivity extends AppCompatActivity implements LocationLis
             description = savedInstanceState.getString("description");
             descriptionView.setText(description);
         }
-
-        initComponents();
-        fillSpinner();
         checkIntent();
+        fillSpinner();
+        initComponents();
     }
 
     private void initComponents(){
@@ -123,12 +122,27 @@ public class LocateBirdActivity extends AppCompatActivity implements LocationLis
             }
         });
 
-        //Envoi des données à la BDD
+        isPublicView.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked){
+                    setIsPublic(true);
+                    Toast.makeText(getApplicationContext(),"Publication will be public.",Toast.LENGTH_LONG).show();
+                }
+                else{
+                    setIsPublic(false);
+                    Toast.makeText(getApplicationContext(),"Publication won't be public.",Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+
+
+
         validate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(netWorkState == true) {
-                    ////On envoie sur le théorique serveur
+                    //On envoie sur le théorique serveur
                     description = descriptionView.getText().toString();
                     Date date = new Date();
                     specie = findSpecieAssociatedToThisString(specieView.getSelectedItem().toString());
@@ -150,20 +164,6 @@ public class LocateBirdActivity extends AppCompatActivity implements LocationLis
                     Intent intent = new Intent(getApplicationContext(), MenuActivity.class);
                     shareNetworkState(intent);
                     startActivity(intent);
-                }
-            }
-        });
-
-        isPublicView.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked){
-                    setIsPublic(true);
-                    Toast.makeText(getApplicationContext(),"Publication will be public.",Toast.LENGTH_LONG).show();
-                }
-                else{
-                    setIsPublic(false);
-                    Toast.makeText(getApplicationContext(),"Publication won't be public.",Toast.LENGTH_LONG).show();
                 }
             }
         });
