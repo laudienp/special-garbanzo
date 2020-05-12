@@ -85,7 +85,8 @@ public class ProfileActivity extends AppCompatActivity {
             }
         });
 
-
+        likes.setText(MainActivity.dataBundle.getAppLikes().size() + " likes");
+        posts.setText(MainActivity.dataBundle.getAppPosts().size() + " posts");
     }
 
     @Override
@@ -158,13 +159,11 @@ public class ProfileActivity extends AppCompatActivity {
 
     private void initialise(){
         imageProfile = findViewById(R.id.profil_image);
-
         name = findViewById(R.id.name_editView);
         age = findViewById(R.id.age_editView);
         email = findViewById(R.id.email_editView);
         password = findViewById(R.id.password_editView);
         apply_Btn = findViewById(R.id.apply_button);
-        subs = findViewById(R.id.nb_of_subs);
         likes = findViewById(R.id.nb_of_likes);
         posts = findViewById(R.id.nb_of_posts);
     }

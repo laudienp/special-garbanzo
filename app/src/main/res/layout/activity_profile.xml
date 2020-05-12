@@ -171,16 +171,6 @@
             </View>
 
             <TextView
-                android:id="@+id/nb_of_subs"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="30sp"
-                android:text="280 subscribers"
-                android:layout_marginLeft="20sp"
-                >
-            </TextView>
-
-            <TextView
                 android:id="@+id/nb_of_likes"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
