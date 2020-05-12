@@ -182,10 +182,9 @@ public class LocateBirdActivity extends AppCompatActivity implements LocationLis
 
     @Override
     protected void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
         outState.putString("specie", specie.getEnglishName());
         outState.putString("description", descriptionView.getText().toString());
-
-        super.onSaveInstanceState(outState);
     }
 
     @SuppressLint("MissingSuperCall")
