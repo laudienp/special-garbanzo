@@ -11,6 +11,7 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.os.PersistableBundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -22,6 +23,8 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -46,14 +49,14 @@ public class LocateBirdActivity extends AppCompatActivity implements LocationLis
     TextView currentLocation;
     Button validate;
     Spinner specieView;
-    Specie specie;
-    String description;
+    static Specie specie;
+    static String description;
     EditText descriptionView;
     User user;
     Switch isPublicView;
     static boolean isPublic;
-    double longitude = 0;
-    double latitude = 0;
+    static double longitude;
+    static double latitude;
     LocationManager locationManager = null;
     private String provider;
     private final int REQUEST_PERMISSIONS_REQUEST_CODE = 1;
@@ -63,19 +66,21 @@ public class LocateBirdActivity extends AppCompatActivity implements LocationLis
         super.onCreate(savedInstanceState);
         setContentView(R.layout.locate_a_bird);
         //On récupère la longitude et la latitude
-        Intent intent = getIntent();
 
+        initComponents();
         fillSpinner();
+        checkIntent();
+    }
 
-        if(intent != null){
-            longitude = intent.getDoubleExtra("longitude", longitude);
-            latitude = intent.getDoubleExtra("latitude", latitude);
-            user = MainActivity.dataBundle.getUserSession();
-        }
-        currentLocation = findViewById(R.id.currentLocation);
-        currentLocation.setText("Longitude : " + longitude + "\nLatitude : " + latitude);
-
+    private void initComponents(){
         picture = findViewById(R.id.imageButton);
+        Button takePositionOnMapButton = findViewById(R.id.buttonPositionOnMap);
+        Button takeCurrentPositionWithGpsButton = findViewById(R.id.buttonCurrentGPSLocation);
+        validate = findViewById(R.id.buttonValidate);
+        descriptionView = findViewById(R.id.inputDescription);
+        specieView = findViewById(R.id.spinner);
+        isPublicView = findViewById(R.id.switchImageGallery);
+
         picture.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -84,7 +89,6 @@ public class LocateBirdActivity extends AppCompatActivity implements LocationLis
             }
         });
 
-        Button takePositionOnMapButton = findViewById(R.id.buttonPositionOnMap);
         takePositionOnMapButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -96,7 +100,6 @@ public class LocateBirdActivity extends AppCompatActivity implements LocationLis
             }
         });
 
-        Button takeCurrentPositionWithGpsButton = findViewById(R.id.buttonCurrentGPSLocation);
         takeCurrentPositionWithGpsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -105,11 +108,9 @@ public class LocateBirdActivity extends AppCompatActivity implements LocationLis
         });
 
         //Envoi des données à la BDD
-        validate = findViewById(R.id.buttonValidate);
         validate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                descriptionView = findViewById(R.id.inputDescription);
                 description = descriptionView.getText().toString();
 
                 /*DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
@@ -118,10 +119,8 @@ public class LocateBirdActivity extends AppCompatActivity implements LocationLis
 
                 Date date = new Date();
 
-                specieView = findViewById(R.id.spinner);
                 specie = findSpecieAssociatedToThisString(specieView.getSelectedItem().toString());
 
-                isPublicView = (Switch) findViewById(R.id.switchImageGallery);
                 isPublicView.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                     @Override
                     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -144,14 +143,42 @@ public class LocateBirdActivity extends AppCompatActivity implements LocationLis
 
             }
         });
+
+        if (specie != null){
+            int index = getIndex(specieView, specie.getEnglishName());
+            specieView.setSelection(index);
+        }
+        if (description != null) {
+            descriptionView.setText(description);
+        }
+
+    }
+
+
+    private void checkIntent(){
+        Intent intent = getIntent();
+
+        if(intent != null){
+            longitude = intent.getDoubleExtra("longitude", longitude);
+            latitude = intent.getDoubleExtra("latitude", latitude);
+            user = MainActivity.dataBundle.getUserSession();
+        }
+        currentLocation = findViewById(R.id.currentLocation);
+        currentLocation.setText("Longitude : " + longitude + "\nLatitude : " + latitude);
     }
 
     @Override
     public void onResume() {
-        super.onResume();
         if (lastImage!=null){
             picture.setImageBitmap(lastImage);
         }
+        super.onResume();
+    }
+
+    @Override
+    protected void onPause() {
+        description = descriptionView.getText().toString();
+        super.onPause();
     }
 
     @SuppressLint("MissingSuperCall")
@@ -248,6 +275,15 @@ public class LocateBirdActivity extends AppCompatActivity implements LocationLis
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, specieArrayString);
         specieView.setAdapter(adapter);
 
+    }
+
+    private int getIndex(Spinner spinner, String myString){
+        for (int i = 0; i < spinner.getCount(); i++){
+            if (spinner.getItemAtPosition(i).toString().equals(myString)){
+                return i;
+            }
+        }
+        return 0;
     }
 
     Specie findSpecieAssociatedToThisString(String specieEnglishName){
