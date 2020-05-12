@@ -14,13 +14,13 @@ public class DataBundle implements Parcelable {
     private ArrayList<Post> appPosts;
     private ArrayList<Like> appLikes;
     private ArrayList<Comment> appComments;
-    private ArrayList<View> appViewers;
+    private ArrayList<Views> appViewers;
 
     public DataBundle(User userSession) {
         this.userSession = userSession;
     }
 
-    public DataBundle(User userSession, ArrayList<Post> userPosts, ArrayList<User> appUsers, ArrayList<Specie> appSpecies, ArrayList<Post> appPosts, ArrayList<Like> appLikes, ArrayList<Comment> appComments, ArrayList<View> appViewers) {
+    public DataBundle(User userSession, ArrayList<Post> userPosts, ArrayList<User> appUsers, ArrayList<Specie> appSpecies, ArrayList<Post> appPosts, ArrayList<Like> appLikes, ArrayList<Comment> appComments, ArrayList<Views> appViewers) {
         this.userSession = userSession;
         this.userPosts = userPosts;
         this.appUsers = appUsers;
@@ -115,11 +115,11 @@ public class DataBundle implements Parcelable {
         this.appComments = appComments;
     }
 
-    public ArrayList<View> getAppViewers() {
+    public ArrayList<Views> getAppViewers() {
         return appViewers;
     }
 
-    public void setAppViewers(ArrayList<View> appViewers) {
+    public void setAppViewers(ArrayList<Views> appViewers) {
         this.appViewers = appViewers;
     }
 }

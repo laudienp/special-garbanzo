@@ -29,9 +29,11 @@ import androidx.core.content.ContextCompat;
 
 import com.example.birdstagram.R;
 import com.example.birdstagram.data.tools.DataBundle;
+import com.example.birdstagram.data.tools.Like;
 import com.example.birdstagram.data.tools.Post;
 import com.example.birdstagram.data.tools.Specie;
 import com.example.birdstagram.data.tools.User;
+import com.example.birdstagram.data.tools.Views;
 import com.example.birdstagram.tools.DataRetriever;
 
 import org.osmdroid.api.IMapController;
@@ -89,7 +91,7 @@ public class MapActivity extends AppCompatActivity implements LocationListener {
         dataBundle = intent.getParcelableExtra("Data Bundle");
 
        try {
-            fillDataBundle();
+           fillDataBundleWithFakeData();
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -199,7 +201,6 @@ public class MapActivity extends AppCompatActivity implements LocationListener {
         MapEventsOverlay mapEventsOverlay = new MapEventsOverlay(getApplicationContext(), mReceive);
         map.getOverlays().add(mapEventsOverlay);
 
-        // BUG A RESOUDRE
         try {
             List<Post> posts = dataRetriever.retrievePosts();
             ArrayList<OverlayItem> items = new ArrayList<>();
@@ -228,18 +229,38 @@ public class MapActivity extends AppCompatActivity implements LocationListener {
     }
 
     private void fillDataBundle() throws ParseException {
-        java.util.Date today = new java.util.Date();
         dataBundle.setAppUsers(dataRetriever.retrieveUsers());
         dataBundle.setAppSpecies(dataRetriever.retrieveSpecies());
-        Post firstPost = new Post(1,"Google Building", today, -122.084568, 37.42212, true, dataBundle.getAppSpecies().get(0), dataBundle.getAppUsers().get(0));
-        Post secondPost = new Post(2,"Google Building", today, -122.081741, 37.422880, false, dataBundle.getAppSpecies().get(5), dataBundle.getAppUsers().get(0));
-        myDb.insertDataPost(firstPost);
-        myDb.insertDataPost(secondPost);
         dataBundle.setAppPosts(dataRetriever.retrievePosts());
+    }
+
+    private void fillDataBundleWithFakeData() throws ParseException {
+        dataBundle.setAppUsers(dataRetriever.retrieveUsers());
+        dataBundle.setAppSpecies(dataRetriever.retrieveSpecies());
+        dataBundle.setAppPosts(dataRetriever.retrievePosts());
+        insertFakeDataBundle();
         /*dataBundle.setUserPosts();
         dataBundle.setAppLikes();
         dataBundle.setAppComments();
         dataBundle.setAppViewers();*/
+    }
+
+    private void insertFakeDataBundle(){
+        java.util.Date today = new java.util.Date();
+        Post firstPost = new Post(1,"Google Building", today, -122.084568, 37.42212, true, dataBundle.getAppSpecies().get(0), dataBundle.getAppUsers().get(0));
+        Post secondPost = new Post(2,"Google Building", today, -122.081741, 37.422880, false, dataBundle.getAppSpecies().get(5), dataBundle.getAppUsers().get(0));
+        myDb.insertDataPost(firstPost);
+        myDb.insertDataPost(secondPost);
+        Views view1 = new Views(1, firstPost, dataBundle.getAppUsers().get(1), today);
+        Views view2 = new Views(2, secondPost, dataBundle.getAppUsers().get(0), today);
+        myDb.insertDataView(view1);
+        myDb.insertDataView(view2);
+        Like like1 = new Like(1, firstPost, dataBundle.getAppUsers().get(1), today);
+        Like like2 = new Like(2, secondPost, dataBundle.getAppUsers().get(0), today);
+        myDb.insertDataLike(like1);
+        myDb.insertDataLike(like2);
+
+
     }
 
     private void removeLastMarker(){
