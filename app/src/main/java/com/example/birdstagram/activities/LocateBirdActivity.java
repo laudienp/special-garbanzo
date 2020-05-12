@@ -51,7 +51,7 @@ public class LocateBirdActivity extends AppCompatActivity implements LocationLis
     EditText descriptionView;
     User user;
     Switch isPublicView;
-    boolean isPublic;
+    static boolean isPublic;
     double longitude = 0;
     double latitude = 0;
     LocationManager locationManager = null;
@@ -71,7 +71,7 @@ public class LocateBirdActivity extends AppCompatActivity implements LocationLis
         if(intent != null){
             longitude = intent.getDoubleExtra("longitude", 0);
             latitude = intent.getDoubleExtra("latitude", 0);
-            user = intent.getParcelableExtra("user");
+            user = MainActivity.dataBundle.getUserSession();
         }
         currentLocation = findViewById(R.id.currentLocation);
         currentLocation.setText("Longitude : " + longitude + "\nLatitude : " + latitude);
@@ -117,9 +117,9 @@ public class LocateBirdActivity extends AppCompatActivity implements LocationLis
                 Date date = new Date();
 
                 specieView = findViewById(R.id.spinner);
-                specie = (Specie) specieView.getSelectedItem();
+                specie = findSpecieAssociatedToThisString(specieView.getSelectedItem().toString());
 
-                isPublicView = findViewById(R.id.switchImageGallery);
+                isPublicView = (Switch) findViewById(R.id.switchImageGallery);
                 isPublicView.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                     @Override
                     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -246,5 +246,13 @@ public class LocateBirdActivity extends AppCompatActivity implements LocationLis
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, specieArrayString);
         specieView.setAdapter(adapter);
 
+    }
+
+    Specie findSpecieAssociatedToThisString(String specieEnglishName){
+        List<Specie> listSpecie = MainActivity.dataBundle.getAppSpecies();
+        for(Specie specie : listSpecie){
+            if(specie.getEnglishName() == specieEnglishName) return specie;
+        }
+        return null;
     }
 }
