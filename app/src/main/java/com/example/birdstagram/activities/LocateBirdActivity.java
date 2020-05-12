@@ -1,10 +1,19 @@
 package com.example.birdstagram.activities;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.location.Criteria;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
@@ -14,19 +23,29 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import com.example.birdstagram.R;
+import com.example.birdstagram.data.tools.DataBundle;
 import com.example.birdstagram.data.tools.Post;
 import com.example.birdstagram.data.tools.Specie;
 import com.example.birdstagram.data.tools.User;
 
+import org.osmdroid.api.IMapController;
+import org.osmdroid.util.GeoPoint;
+import org.osmdroid.views.MapView;
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
-public class LocateBirdActivity extends AppCompatActivity {
+public class LocateBirdActivity extends AppCompatActivity implements LocationListener{
 
     public static Bitmap lastImage;
     private ImageButton picture;
@@ -41,6 +60,12 @@ public class LocateBirdActivity extends AppCompatActivity {
     boolean isPublic;
     double longitude = 0;
     double latitude = 0;
+    LocationManager locationManager = null;
+    Location location;
+    private String provider;
+    private MapView map;
+    private final int REQUEST_PERMISSIONS_REQUEST_CODE = 1;
+    DataBundle dataBundle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +73,9 @@ public class LocateBirdActivity extends AppCompatActivity {
         setContentView(R.layout.locate_a_bird);
         //On récupère la longitude et la latitude
         Intent intent = getIntent();
+        dataBundle = intent.getParcelableExtra("dataBundle");
+
+        //fillSpinner();
 
         if(intent != null){
             longitude = intent.getDoubleExtra("longitude", 0);
@@ -66,6 +94,22 @@ public class LocateBirdActivity extends AppCompatActivity {
             }
         });
 
+        Button takePositionOnMapButton = findViewById(R.id.buttonPositionOnMap);
+        takePositionOnMapButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), MapActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        Button takeCurrentPositionWithGpsButton = findViewById(R.id.buttonCurrentGPSLocation);
+        takeCurrentPositionWithGpsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                initLoc();
+            }
+        });
 
         //Envoi des données à la BDD
         validate = findViewById(R.id.buttonValidate);
@@ -126,5 +170,87 @@ public class LocateBirdActivity extends AppCompatActivity {
 
     void setIsPublic(boolean bool){
         isPublic = bool;
+    }
+
+    private void requestPermissionsIfNecessary(String[] permissions) {
+        ArrayList<String> permissionsToRequest = new ArrayList<>();
+        for (String permission : permissions) {
+            if (ContextCompat.checkSelfPermission(this, permission)
+                    != PackageManager.PERMISSION_GRANTED)
+                permissionsToRequest.add(permission);
+        }
+        if (permissionsToRequest.size() > 0) {
+            ActivityCompat.requestPermissions(
+                    this,
+                    permissionsToRequest.toArray(new String[0]),
+                    REQUEST_PERMISSIONS_REQUEST_CODE
+            );
+        }
+    }
+
+    @SuppressLint("MissingPermission")
+    private void initLoc() {
+        if (locationManager == null) {
+            locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+            Criteria criteria = new Criteria();
+            criteria.setAccuracy(Criteria.ACCURACY_FINE);
+            criteria.setAltitudeRequired(true);
+            criteria.setCostAllowed(true);
+
+            criteria.setPowerRequirement(Criteria.POWER_HIGH);
+
+            provider = locationManager.getBestProvider(criteria, true);
+        }
+
+        if (provider != null) {
+            requestPermissionsIfNecessary(new String[] { Manifest.permission.WRITE_EXTERNAL_STORAGE});
+            Location location = locationManager.getLastKnownLocation(provider);
+
+            if(location != null)
+                this.onLocationChanged(location);
+
+
+        }
+    }
+
+    public void onLocationChanged(Location localisation)
+    {
+        currentLocation.setText("Longitude : " + localisation.getLongitude() + "\nLatitude : " + localisation.getLatitude());
+    }
+
+    @Override
+    public void onStatusChanged(String provider, int status, Bundle extras) {
+        Toast.makeText(this, provider+ " state: " + status, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onProviderEnabled(String fournisseur)
+    {
+        Toast.makeText( getApplicationContext(),fournisseur + " enabled!", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onProviderDisabled(String prov)
+    {
+        Toast.makeText(this, prov+" disabled!", Toast.LENGTH_SHORT).show();
+    }
+
+    public void showMessage(String title, String message){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setCancelable(true);
+        builder.setTitle(title);
+        builder.setMessage(message);
+        builder.show();
+    }
+
+    void fillSpinner(){
+        specieView = findViewById(R.id.spinner);
+        List<String> specieArrayString = new ArrayList<String>();
+        /*for(Specie specie : dataBundle.getAppSpecies()){
+            specieArrayString.add(specie.getEnglishName());
+        }*/
+        //ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, specieArrayString);
+        //specieView.setAdapter(adapter);
+
     }
 }

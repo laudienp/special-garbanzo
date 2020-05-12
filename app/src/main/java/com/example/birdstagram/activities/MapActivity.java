@@ -87,11 +87,13 @@ public class MapActivity extends AppCompatActivity implements LocationListener {
 
         Intent intent = getIntent();
         dataBundle = intent.getParcelableExtra("Data Bundle");
+
         try {
             fillDataBundle();
         } catch (ParseException e) {
             e.printStackTrace();
         }
+
 
         menuButton = findViewById(R.id.menu_button);
         addButton = findViewById(R.id.addBird_button);
@@ -145,7 +147,7 @@ public class MapActivity extends AppCompatActivity implements LocationListener {
                 bundle.putDouble("longitude", longitude);
                 bundle.putDouble("latitude", latitude);
                 intent.putExtras(bundle);
-                intent.putExtra("user", dataBundle);
+                intent.putExtra("dataBundle", dataBundle);
                 startActivity(intent);
             }
         });

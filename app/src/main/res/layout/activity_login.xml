@@ -97,7 +97,7 @@
                 android:layout_gravity="center"
                 android:layout_marginTop="30dp"
                 android:gravity="center"
-                android:text="@string/se_connecter"
+                android:text="@string/log_in"
                 android:textSize="25sp" />
 
             <LinearLayout
@@ -110,7 +110,8 @@
                     android:layout_height="wrap_content"
                     android:paddingTop="60sp"
                     android:text="@string/vous_n_avez_pas_de_compte"
-                    android:textSize="18sp" />
+                    android:textSize="18sp"
+                    android:layout_marginLeft="15dp"/>
 
                 <Button
                     android:id="@+id/button_create_account"
