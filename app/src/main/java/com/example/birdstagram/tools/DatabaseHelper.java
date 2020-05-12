@@ -221,6 +221,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return db.rawQuery("SELECT * FROM " + POST_VIEWS_TABLE,null);
     }
 
+    public Cursor getComments(){
+        SQLiteDatabase db = this.getWritableDatabase();
+        return db.rawQuery("SELECT * FROM " + POST_COMMENTS_TABLE,null);
+    }
+
     public Cursor verifyEmailExists(String email){
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor =  db.rawQuery("SELECT * FROM " + USER_TABLE + " WHERE " + USER_MAIL + " = '" + email + "'", null);
