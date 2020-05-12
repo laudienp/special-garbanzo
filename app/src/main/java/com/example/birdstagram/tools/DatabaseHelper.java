@@ -211,6 +211,16 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return db.rawQuery("SELECT * FROM " + USER_TABLE,null);
     }
 
+    public Cursor getLikes(){
+        SQLiteDatabase db = this.getWritableDatabase();
+        return db.rawQuery("SELECT * FROM " + POST_LIKES_TABLE,null);
+    }
+
+    public Cursor getViews(){
+        SQLiteDatabase db = this.getWritableDatabase();
+        return db.rawQuery("SELECT * FROM " + POST_VIEWS_TABLE,null);
+    }
+
     public Cursor verifyEmailExists(String email){
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor =  db.rawQuery("SELECT * FROM " + USER_TABLE + " WHERE " + USER_MAIL + " = '" + email + "'", null);
@@ -271,7 +281,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("create table " + POST_TABLE + "(" + POST_ID +" INTEGER PRIMARY KEY AUTOINCREMENT, " + POST_DESCRIPTION + " TEXT, " + POST_DATE +" DATE, " + POST_LONGITUDE +" FLOAT" +
                 ", "+ POST_LATITUDE + " FLOAT, " + POST_IS_PUBLIC + " BOOLEAN, " + POST_FOREIGN_SPECIE_ID + " INTEGER, " + POST_FOREIGN_USER_ID +" INTEGER)");
         db.execSQL("create table " + POST_VIEWS_TABLE +"("+ POST_VIEW_ID +" INTEGER PRIMARY KEY AUTOINCREMENT, " + POST_VIEW_POST_ID + " INTEGER, " + POST_VIEW_USER_ID + " INTEGER, " + POST_VIEW_DATE + " DATE)");
-        db.execSQL("create table " + POST_LIKES_TABLE +"("+ POST_LIKE_ID +" INTEGER PRIMARY KEY AUTOINCREMENT, " + POST_LIKER_ID + " INTEGER, " + POST_LIKE_POST_ID + " INTEGER," + POST_LIKE_DATE + " DATE)");
+        db.execSQL("create table " + POST_LIKES_TABLE +"("+ POST_LIKE_ID +" INTEGER PRIMARY KEY AUTOINCREMENT, " + POST_LIKE_POST_ID + " INTEGER, " + POST_LIKER_ID + " INTEGER," + POST_LIKE_DATE + " DATE)");
         db.execSQL("create table " + POST_COMMENTS_TABLE +"(" + POST_COMMENT_ID +" INTEGER PRIMARY KEY , " + POST_COMMENT_POST_ID + " INTEGER," + POST_COMMENTOR_ID + " INTEGER," + POST_COMMENT_TEXT +" TEXT, " +
                 POST_COMMENT_DATE + " DATE)");
         db.execSQL("INSERT INTO USER VALUES('999', 'Super_User', 'Super_UserName', 'Super_UserSurName', '21', 'super', 'pwd')");
