@@ -53,7 +53,6 @@ public class MapActivity extends AppCompatActivity implements LocationListener {
     private ImageButton validateButton;
     LocationManager locationManager = null;
     private String provider;
-
     private boolean putMarkerOnClick = false;
     private boolean takePosition = false;
 
@@ -88,6 +87,7 @@ public class MapActivity extends AppCompatActivity implements LocationListener {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), MenuActivity.class);
+                shareNetworkState(intent);
                 startActivity(intent);
             }
         });
@@ -112,6 +112,7 @@ public class MapActivity extends AppCompatActivity implements LocationListener {
                 addButton.setVisibility(View.VISIBLE);
                 if (takePosition){
                     Intent intent = new Intent(getApplicationContext(), LocateBirdActivity.class);
+                    shareNetworkState(intent);
                     startActivity(intent);
                 }
             }
@@ -134,6 +135,7 @@ public class MapActivity extends AppCompatActivity implements LocationListener {
                 bundle.putDouble("longitude", longitude);
                 bundle.putDouble("latitude", latitude);
                 intent.putExtras(bundle);
+                shareNetworkState(intent);
                 startActivity(intent);
             }
         });
@@ -324,5 +326,11 @@ public class MapActivity extends AppCompatActivity implements LocationListener {
         builder.setTitle(title);
         builder.setMessage(message);
         builder.show();
+    }
+
+    void shareNetworkState(Intent intent){
+        Bundle bundleOnlineOffline = new Bundle();
+        bundleOnlineOffline.putBoolean("network", true);
+        intent.putExtras(bundleOnlineOffline);
     }
 }

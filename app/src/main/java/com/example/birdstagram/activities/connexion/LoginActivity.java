@@ -75,6 +75,7 @@ public class LoginActivity extends AppCompatActivity {
 
             Intent intent = new Intent(getApplicationContext(), MapActivity.class);
             intent.putExtra("Data Bundle", dataBundle);
+            shareNetworkState(intent);
             startActivity(intent);
 
             /*StringBuffer buffer = new StringBuffer();
@@ -98,4 +99,9 @@ public class LoginActivity extends AppCompatActivity {
         builder.show();
     }
 
+    void shareNetworkState(Intent intent){
+        Bundle bundleOnlineOffline = new Bundle();
+        bundleOnlineOffline.putBoolean("network", true);
+        intent.putExtras(bundleOnlineOffline);
+    }
 }

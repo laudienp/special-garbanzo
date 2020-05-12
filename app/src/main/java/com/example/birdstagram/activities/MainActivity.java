@@ -9,6 +9,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Window;
@@ -60,8 +62,18 @@ public class MainActivity extends AppCompatActivity {
         };
 
         if (hasPermissions(this, PERMISSIONS)){
-            Intent intent = new Intent(getApplicationContext(), startingActivity);
-            startActivity(intent);
+            if (haveInternetConnection() == true) {
+                Intent intent = new Intent(getApplicationContext(), startingActivity);
+                Bundle bundleOnlineOffline = new Bundle();
+                bundleOnlineOffline.putBoolean("network", true);
+                startActivity(intent);
+            }
+            else{
+                Intent intent = new Intent(getApplicationContext(), MenuActivity.class);
+                Bundle bundleOnlineOffline = new Bundle();
+                bundleOnlineOffline.putBoolean("network", false);
+                startActivity(intent);
+            }
         } else {
             requestPermissions(PERMISSIONS, REQUEST_PERMISSIONS);
         }
@@ -162,5 +174,18 @@ public class MainActivity extends AppCompatActivity {
         } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT){
             Toast.makeText(this, "portrait", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    private boolean haveInternetConnection(){
+        // Fonction haveInternetConnection : return true si connecté, return false dans le cas contraire
+        NetworkInfo network = ((ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE)).getActiveNetworkInfo();
+
+        if (network==null || !network.isConnected())
+        {
+            // Le périphérique n'est pas connecté à Internet
+            return false;
+        }
+        // Le périphérique est connecté à Internet
+        return true;
     }
 }

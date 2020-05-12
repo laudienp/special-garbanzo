@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
@@ -57,6 +58,7 @@ public class LocateBirdActivity extends AppCompatActivity implements LocationLis
     LocationManager locationManager = null;
     private String provider;
     private final int REQUEST_PERMISSIONS_REQUEST_CODE = 1;
+    boolean netWorkState;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,6 +66,8 @@ public class LocateBirdActivity extends AppCompatActivity implements LocationLis
         setContentView(R.layout.locate_a_bird);
         //On récupère la longitude et la latitude
         Intent intent = getIntent();
+        recupNetworkState(intent);
+        setOnlineOrOffline();
 
         fillSpinner();
 
@@ -88,11 +92,16 @@ public class LocateBirdActivity extends AppCompatActivity implements LocationLis
         takePositionOnMapButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), MapActivity.class);
-                Bundle bundle = new Bundle();
-                bundle.putBoolean("takePosition", true);
-                intent.putExtras(bundle);
-                startActivity(intent);
+                if(netWorkState == true) {
+                    Intent intent = new Intent(getApplicationContext(), MapActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putBoolean("takePosition", true);
+                    intent.putExtras(bundle);
+                    startActivity(intent);
+                }
+                else {
+                    Toast.makeText(getApplicationContext(),"Access denied, you don't have any network connection.",Toast.LENGTH_LONG).show();
+                }
             }
         });
 
@@ -109,24 +118,40 @@ public class LocateBirdActivity extends AppCompatActivity implements LocationLis
         validate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                descriptionView = findViewById(R.id.inputDescription);
-                description = descriptionView.getText().toString();
+                if(netWorkState == true) {
+                    ////On envoie sur le théorique serveur
+                    descriptionView = findViewById(R.id.inputDescription);
+                    description = descriptionView.getText().toString();
 
-                /*DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-                Date current = Calendar.getInstance().getTime();
-                String date = dateFormat.format(current);*/
+                    Date date = new Date();
 
-                Date date = new Date();
+                    specieView = findViewById(R.id.spinner);
+                    specie = findSpecieAssociatedToThisString(specieView.getSelectedItem().toString());
 
-                specieView = findViewById(R.id.spinner);
-                specie = findSpecieAssociatedToThisString(specieView.getSelectedItem().toString());
+                    Post post = new Post(description, date, longitude, latitude, isPublic, specie, user);
+                    MainActivity.BDD.insertDataPost(post);
 
-                Post post = new Post(description, date, longitude, latitude, isPublic, specie, user);
-                MainActivity.BDD.insertDataPost(post);
+                    Intent intent = new Intent(getApplicationContext(), MapActivity.class);
+                    startActivity(intent);
+                }
+                else{
+                    //On envoie sur la BDD interne
+                    Toast.makeText(getApplicationContext(),"Position has been saved, it will be displayed as soon as you'll recover a network connection.",Toast.LENGTH_LONG).show();
+                    descriptionView = findViewById(R.id.inputDescription);
+                    description = descriptionView.getText().toString();
 
-                Intent intent = new Intent(getApplicationContext(), MapActivity.class);
-                startActivity(intent);
+                    Date date = new Date();
 
+                    specieView = findViewById(R.id.spinner);
+                    specie = findSpecieAssociatedToThisString(specieView.getSelectedItem().toString());
+
+                    Post post = new Post(description, date, longitude, latitude, isPublic, specie, user);
+                    MainActivity.BDD.insertDataPost(post);
+
+                    Intent intent = new Intent(getApplicationContext(), MenuActivity.class);
+                    shareNetworkState(intent);
+                    startActivity(intent);
+                }
             }
         });
 
@@ -256,5 +281,27 @@ public class LocateBirdActivity extends AppCompatActivity implements LocationLis
             if(specie.getEnglishName() == specieEnglishName) return specie;
         }
         return null;
+    }
+
+    void recupNetworkState(Intent intent){
+        netWorkState = intent.getBooleanExtra("network", netWorkState);
+    }
+
+    void shareNetworkState(Intent intent){
+        Bundle bundleOnlineOffline = new Bundle();
+        bundleOnlineOffline.putBoolean("network", netWorkState);
+        intent.putExtras(bundleOnlineOffline);
+    }
+
+    void setOnlineOrOffline(){
+        Button positionMapButton = findViewById(R.id.buttonPositionOnMap);
+        Switch switchImageGallery = findViewById(R.id.switchImageGallery);
+        TextView currentLocation = findViewById(R.id.currentLocation);
+        if (netWorkState == false) {
+            positionMapButton.setClickable(false);
+            positionMapButton.setBackgroundColor(Color.parseColor("#808080"));
+            switchImageGallery.setVisibility(View.GONE);
+            currentLocation.setText("Longitude : None\nLatitude : None");
+        }
     }
 }
