@@ -26,6 +26,8 @@ import com.example.birdstagram.R;
 import com.example.birdstagram.activities.MainActivity;
 import com.example.birdstagram.activities.MapActivity;
 import com.example.birdstagram.data.tools.DataBundle;
+import com.example.birdstagram.data.tools.Like;
+import com.example.birdstagram.data.tools.Post;
 import com.example.birdstagram.data.tools.User;
 import com.example.birdstagram.tools.DatabaseHelper;
 
@@ -85,8 +87,8 @@ public class ProfileActivity extends AppCompatActivity {
             }
         });
 
-       /* likes.setText(MainActivity.dataBundle.getUserSession().get + " likes");
-        posts.setText(MainActivity.dataBundle.getAppPosts().size() + " posts");*/
+        likes.setText(String.valueOf(connectedUserLikes()) + " likes");
+        posts.setText(String.valueOf(connectedUserPost()) + " posts");
     }
 
     @Override
@@ -166,6 +168,29 @@ public class ProfileActivity extends AppCompatActivity {
         apply_Btn = findViewById(R.id.apply_button);
         likes = findViewById(R.id.nb_of_likes);
         posts = findViewById(R.id.nb_of_posts);
+    }
+
+    private int connectedUserLikes(){
+        ArrayList<Like> likes = MainActivity.dataBundle.getAppLikes();
+        int nb_likes = 0;
+
+        for (Like like : likes){
+            if (like.getUserID().getId() == getConnectedUser().getId())
+                nb_likes++;
+
+        }
+        return nb_likes;
+    }
+
+    private int connectedUserPost(){
+        ArrayList<Post> posts = MainActivity.dataBundle.getAppPosts();
+        int nb_posts = 0;
+
+        for (Post post : posts){
+            if (post.getUser().getId() == getConnectedUser().getId())
+                nb_posts++;
+        }
+        return nb_posts;
     }
 
 }
