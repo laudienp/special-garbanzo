@@ -8,10 +8,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 
 import com.example.birdstagram.R;
+import com.example.birdstagram.activities.MainActivity;
+import com.example.birdstagram.data.tools.Post;
+
+import org.w3c.dom.Text;
+
+import java.text.SimpleDateFormat;
+import java.util.Locale;
 
 public class PostFragment extends Fragment
 {
@@ -32,7 +40,7 @@ public class PostFragment extends Fragment
             public void onClick(View v)
             {
                 Intent sharingIntent = new Intent(Intent.ACTION_SEND);
-                Uri screenshotUri = Uri.parse("android.resource://com.example.birdstagram/drawable/" + R.drawable.gnome);
+                Uri screenshotUri = Uri.parse("android.resource://com.example.birdstagram/drawable/" + R.drawable.colibri);
 
                 sharingIntent.setType("image/*");
                 sharingIntent.putExtra(Intent.EXTRA_STREAM, screenshotUri);
@@ -40,6 +48,22 @@ public class PostFragment extends Fragment
 
             }
         });
+
+        Bundle bundle = getArguments();
+        int index = bundle.getInt("index", -1);
+
+        if(index != -1)
+        {
+            Post post = MainActivity.dataBundle.getAppPosts().get(index);
+
+            TextView descText = rootView.findViewById(R.id.shortDescriptionPost);
+            descText.setText(post.getDescription());
+
+            TextView dateText = rootView.findViewById(R.id.datePost);
+            dateText.setText(
+                    new SimpleDateFormat("dd MMM yyyy", Locale.US).format(post.getDate())
+            );
+        }
 
         return rootView;
     }

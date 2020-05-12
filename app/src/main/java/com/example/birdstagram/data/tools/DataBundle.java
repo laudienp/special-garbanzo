@@ -16,7 +16,15 @@ public class DataBundle implements Parcelable {
     private ArrayList<Comment> appComments;
     private ArrayList<Views> appViewers;
 
-    public DataBundle() {
+    public DataBundle()
+    {
+        userPosts = new ArrayList<>();
+        appUsers = new ArrayList<>();
+        appSpecies = new ArrayList<>();
+        appPosts = new ArrayList<>();
+        appLikes = new ArrayList<>();
+        appComments = new ArrayList<>();
+        appViewers = new ArrayList<>();
 
     }
 
@@ -34,6 +42,13 @@ public class DataBundle implements Parcelable {
     protected DataBundle(Parcel in) {
         userSession = in.readParcelable(User.class.getClassLoader());
         appUsers = in.createTypedArrayList(User.CREATOR);
+
+        userPosts = new ArrayList<>();
+        appSpecies = new ArrayList<>();
+        appPosts = new ArrayList<>();
+        appLikes = new ArrayList<>();
+        appComments = new ArrayList<>();
+        appViewers = new ArrayList<>();
     }
 
     public static final Creator<DataBundle> CREATOR = new Creator<DataBundle>() {

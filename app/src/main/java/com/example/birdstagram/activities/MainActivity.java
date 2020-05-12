@@ -13,7 +13,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
-import android.os.Build;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -67,8 +68,17 @@ public class MainActivity extends AppCompatActivity {
         };
 
         if (hasPermissions(this, PERMISSIONS)){
-            Intent intent = new Intent(getApplicationContext(), startingActivity);
-            startActivity(intent);
+            if (haveInternetConnection() == true) {
+                Intent intent = new Intent(getApplicationContext(), startingActivity);
+                startActivity(intent);
+            }
+            else{
+                Intent intent = new Intent(getApplicationContext(), MenuActivity.class);
+                Bundle bundleOnlineOffline = new Bundle();
+                bundleOnlineOffline.putBoolean("network", false);
+                intent.putExtras(bundleOnlineOffline);
+                startActivity(intent);
+            }
         } else {
             requestPermissions(PERMISSIONS, REQUEST_PERMISSIONS);
         }
@@ -86,7 +96,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void fillDataBundle() throws ParseException {
+    public static void fillDataBundle() throws ParseException {
         dataBundle.setAppUsers(dataRetriever.retrieveUsers());
         dataBundle.setAppSpecies(dataRetriever.retrieveSpecies());
         dataBundle.setAppPosts(dataRetriever.retrievePosts());
@@ -173,5 +183,17 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    private boolean haveInternetConnection(){
+        // Fonction haveInternetConnection : return true si connecté, return false dans le cas contraire
+        NetworkInfo network = ((ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE)).getActiveNetworkInfo();
 
+        if (network==null || !network.isConnected())
+        {
+            // Le périphérique n'est pas connecté à Internet
+            return false;
+        }
+        // Le périphérique est connecté à Internet
+        return true;
+    }
 }
+

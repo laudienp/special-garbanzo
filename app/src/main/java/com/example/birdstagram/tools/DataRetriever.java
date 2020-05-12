@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 
+import static android.content.Context.LOCATION_SERVICE;
 import static com.example.birdstagram.activities.MainActivity.BDD;
 
 public class DataRetriever {
@@ -107,7 +108,7 @@ public class DataRetriever {
                     postDateMinute = postDate.substring(14, 16);
                 }
                 postDateValueString.append(postDateDay + " " + postDateMonth + " " + postDateYear + " " + postDateHour + ":" + postDateMinute);
-                Date postDateValue = new SimpleDateFormat("dd MMM yy HH:mm").parse(postDateValueString.toString());
+                Date postDateValue = new SimpleDateFormat("dd MMM yy HH:mm", Locale.US).parse(postDateValueString.toString());
                 String postLongitude = res.getString(3);
                 String postLatitude = res.getString(4);
                 String isPublic = res.getString(5);
@@ -208,7 +209,7 @@ public class DataRetriever {
                     postDateMinute = likeDate.substring(14, 16);
                 }
                 likeDateValueString.append(postDateDay + " " + postDateMonth + " " + postDateYear + " " + postDateHour + ":" + postDateMinute);
-                Date postDateValue = new SimpleDateFormat("dd MMM yy HH:mm").parse(likeDateValueString.toString());
+                Date postDateValue = new SimpleDateFormat("dd MMM yy HH:mm", Locale.US).parse(likeDateValueString.toString());
                 User likeUser = new User();
                 Post likePost = new Post();
                 for(User user : MainActivity.dataBundle.getAppUsers()){
@@ -261,7 +262,7 @@ public class DataRetriever {
                     postDateMinute = viewDate.substring(14, 16);
                 }
                 viewDateValueString.append(postDateDay + " " + postDateMonth + " " + postDateYear + " " + postDateHour + ":" + postDateMinute);
-                Date postDateValue = new SimpleDateFormat("dd MMM yy HH:mm").parse(viewDateValueString.toString());
+                Date postDateValue = new SimpleDateFormat("dd MMM yy HH:mm", Locale.US).parse(viewDateValueString.toString());
                 User viewUser = new User();
                 Post viewPost = new Post();
                 for(User user : MainActivity.dataBundle.getAppUsers()){
@@ -315,7 +316,7 @@ public class DataRetriever {
                     postDateMinute = commentDate.substring(14, 16);
                 }
                 commentDateValueString.append(postDateDay + " " + postDateMonth + " " + postDateYear + " " + postDateHour + ":" + postDateMinute);
-                Date postDateValue = new SimpleDateFormat("dd MMM yy HH:mm").parse(commentDateValueString.toString());
+                Date postDateValue = new SimpleDateFormat("dd MMM yy HH:mm", Locale.US).parse(commentDateValueString.toString());
                 User commentUser = new User();
                 Post commentPost = new Post();
                 for(User user : MainActivity.dataBundle.getAppUsers()){
