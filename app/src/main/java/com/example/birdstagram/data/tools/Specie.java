@@ -20,6 +20,10 @@ public class Specie {
         this.description = description;
     }
 
+    public Specie() {
+
+    }
+
     public int getId() {
         return id;
     }

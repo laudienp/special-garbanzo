@@ -30,6 +30,7 @@ import androidx.core.content.ContextCompat;
 import com.example.birdstagram.R;
 import com.example.birdstagram.data.tools.DataBundle;
 import com.example.birdstagram.data.tools.Post;
+import com.example.birdstagram.data.tools.Specie;
 import com.example.birdstagram.data.tools.User;
 import com.example.birdstagram.tools.DataRetriever;
 
@@ -51,6 +52,7 @@ import org.osmdroid.views.overlay.mylocation.GpsMyLocationProvider;
 import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay;
 
 import java.sql.Date;
+import java.text.ParseException;
 import java.util.ArrayList;
 import org.osmdroid.config.Configuration;
 
@@ -84,7 +86,11 @@ public class MapActivity extends AppCompatActivity implements LocationListener {
 
         Intent intent = getIntent();
         dataBundle = intent.getParcelableExtra("Data Bundle");
-        fillDataBundle();
+        try {
+            fillDataBundle();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
 
         menuButton = findViewById(R.id.menu_button);
         addButton = findViewById(R.id.addBird_button);
@@ -192,31 +198,18 @@ public class MapActivity extends AppCompatActivity implements LocationListener {
         MapEventsOverlay mapEventsOverlay = new MapEventsOverlay(getApplicationContext(), mReceive);
         map.getOverlays().add(mapEventsOverlay);
 
-        Cursor posts = MainActivity.myDb.getAllPosts();
-        while (posts.moveToNext()){
-            String id = posts.getString(0);
-            String description = posts.getString(1);
-            float longitude = posts.getFloat(3);
-            float latitude = posts.getFloat(4);
-            Cursor Specie = MainActivity.myDb.getSpecie(id);
-            String name = Specie.getString(1);
-            GeoPoint position = new GeoPoint(latitude, longitude);
-            Marker newMarker =  new Marker(map, getApplicationContext());
-            newMarker.setPosition(position);
-            newMarker.setTextIcon(name);
-            newMarker.setSubDescription(description);
-            map.getOverlays().add(newMarker);
-        }
     }
 
-    private void fillDataBundle() {
-
+    private void fillDataBundle() throws ParseException {
+        java.util.Date today = new java.util.Date();
         dataBundle.setAppUsers(dataRetriever.retrieveUsers());
         dataBundle.setAppSpecies(dataRetriever.retrieveSpecies());
-
-
+        Post firstPost = new Post(1,"First Post", today, -472.1484548, 74893.12548, true, dataBundle.getAppSpecies().get(0), dataBundle.getAppUsers().get(0));
+        Post secondPost = new Post(2,"Second Post", today, 7421.5481254, -14892.148548, false, dataBundle.getAppSpecies().get(5), dataBundle.getAppUsers().get(0));
+        myDb.insertDataPost(firstPost);
+        myDb.insertDataPost(secondPost);
+        dataBundle.setAppPosts(dataRetriever.retrievePosts());
         /*dataBundle.setUserPosts();
-        dataBundle.setAppPosts();
         dataBundle.setAppLikes();
         dataBundle.setAppComments();
         dataBundle.setAppViewers();*/

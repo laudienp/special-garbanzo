@@ -129,19 +129,19 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
-    public void sendDataPost(Post post){
+    public void insertDataPost(Post post){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
 
         values.put(POST_DESCRIPTION, post.getDescription());
         values.put(POST_DATE, post.getDate().toString());
-        values.put(POST_LONGITUDE, post.getLongitude());
-        values.put(POST_LATITUDE,post.getLatitude());
-        values.put(POST_IS_PUBLIC, post.isPublic());
-        values.put(POST_FOREIGN_SPECIE_ID, post.getSpecie().getId());
-        values.put(POST_FOREIGN_USER_ID, post.getUser().getId());
+        values.put(POST_LONGITUDE, Double.toString(post.getLongitude()));
+        values.put(POST_LATITUDE, Double.toString(post.getLatitude()));
+        values.put(POST_IS_PUBLIC, Boolean.toString(post.isPublic()));
+        values.put(POST_FOREIGN_SPECIE_ID, Integer.toString(post.getSpecie().getId()));
+        values.put(POST_FOREIGN_USER_ID, Integer.toString(post.getUser().getId()));
 
-        long insertResult = db.insert(USER_TABLE, null, values);
+        long insertResult = db.insert(POST_TABLE, null, values);
         if(insertResult == -1){
             Log.d("DATABASE", "INSERT HAS FAILED.");
         }
@@ -190,9 +190,26 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return db.rawQuery("SELECT * FROM " + POST_TABLE,null);
     }
 
+    public Cursor getPostSpecieId(String id){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String query = "SELECT "+  POST_FOREIGN_SPECIE_ID  + "  FROM " + POST_TABLE + " WHERE id=" + id;
+        return db.rawQuery(query, null);
+    }
+
+    public Cursor getPostUserId(String id){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String query = "SELECT "+  POST_FOREIGN_USER_ID  + "  FROM " + POST_TABLE + " WHERE id=" + id;
+        return db.rawQuery(query, null);
+    }
+
     public Cursor getSpecie(String id){
         SQLiteDatabase db = this.getWritableDatabase();
         return db.rawQuery("SELECT * FROM " + SPECIE_TABLE + " WHERE id=" + id ,null);
+    }
+
+    public Cursor getUser(String id){
+        SQLiteDatabase db = this.getWritableDatabase();
+        return db.rawQuery("SELECT * FROM " + USER_TABLE + " WHERE id=" + id ,null);
     }
 
     @Override
@@ -201,10 +218,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("create table " + USER_TABLE + "("+ USER_ID +" INTEGER PRIMARY KEY AUTOINCREMENT, " + USER_PSEUDO + " TEXT,"  + USER_NAME + " TEXT, "+ USER_SURNAME +" TEXT," +
                 USER_AGE +" INTEGER, "+ USER_MAIL + " TEXT, " + USER_PASSWORD +" TEXT)");
         db.execSQL("create table " + SPECIE_TABLE + "( " + SPECIE_ID +" INTEGER PRIMARY KEY AUTOINCREMENT, "+ SPECIE_ENGLISH_NAME  +" TEXT, " + SPECIE_FRENCH_NAME+" TEXT, " + SPECIE_DESCRIPTION + " TEXT) ");
-        db.execSQL("create table " + POST_TABLE + "(" + POST_ID +" INTEGER PRIMARY KEY AUTOINCREMENT, " + POST_DESCRIPTION + " TEXT, " + POST_DATE +" DATE, " + POST_LONGITUDE +" FLOAT" +
-                ", "+ POST_LATITUDE + " FLOAT, " + POST_IS_PUBLIC + " BOOLEAN, " + POST_FOREIGN_SPECIE_ID + " INTEGER, " + POST_FOREIGN_USER_ID +" INTEGER, FOREIGN KEY( "+POST_FOREIGN_USER_ID+" ) " +
-                "REFERENCES " + USER_TABLE + "("+ USER_ID +"), FOREIGN KEY(" + POST_FOREIGN_SPECIE_ID + " ) " +
-                "REFERENCES "+ SPECIE_TABLE +"("+ SPECIE_ID +" ))");
+        db.execSQL("create table " + POST_TABLE + "(" + POST_ID +" INTEGER PRIMARY KEY AUTOINCREMENT, " + POST_DESCRIPTION + " TEXT, " + POST_DATE +" TEXT, " + POST_LONGITUDE +" TEXT" +
+                ", "+ POST_LATITUDE + " TEXT, " + POST_IS_PUBLIC + " TEXT, " + POST_FOREIGN_SPECIE_ID + " TEXT, " + POST_FOREIGN_USER_ID +" INTEGER)");
         db.execSQL("create table " + POST_VIEWS_TABLE +"("+ POST_VIEW_ID +" INTEGER, " + POST_VIEWER_ID + " INTEGER, " + POST_VIEW_DATE + " DATE, FOREIGN KEY("+ POST_VIEW_ID +") REFERENCES "+
                 POST_TABLE + "(" + POST_ID + "), FOREIGN KEY("+POST_VIEWER_ID +") REFERENCES " + USER_TABLE + "(" + USER_ID + "))");
         db.execSQL("create table " + POST_LIKES_TABLE +"("+ POST_LIKE_ID +" INTEGER, " + POST_LIKER_ID + " INTEGER, " + POST_LIKE_DATE + " DATE, FOREIGN KEY("+ POST_LIKE_ID +") REFERENCES "+
