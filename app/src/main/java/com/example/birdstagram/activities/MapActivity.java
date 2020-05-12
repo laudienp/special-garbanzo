@@ -57,6 +57,7 @@ import java.util.ArrayList;
 import org.osmdroid.config.Configuration;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import static com.example.birdstagram.activities.MainActivity.myDb;
 
@@ -198,6 +199,19 @@ public class MapActivity extends AppCompatActivity implements LocationListener {
         MapEventsOverlay mapEventsOverlay = new MapEventsOverlay(getApplicationContext(), mReceive);
         map.getOverlays().add(mapEventsOverlay);
 
+        try {
+            List<Post> posts = dataRetriever.retrievePosts();
+            for (Post post : posts){
+                Marker newMarker = new Marker(map, getApplicationContext());
+                GeoPoint position = new GeoPoint(post.getLatitude(), post.getLongitude());
+                newMarker.setPosition(position);
+                newMarker.setTextIcon(post.getSpecie().getEnglishName());
+                newMarker.setSubDescription(post.getDescription());
+                map.getOverlays().add(newMarker);
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
     }
 
     private void fillDataBundle() throws ParseException {

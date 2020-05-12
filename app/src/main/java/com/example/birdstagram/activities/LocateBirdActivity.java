@@ -100,7 +100,7 @@ public class LocateBirdActivity extends AppCompatActivity {
                 });
 
                 Post post = new Post(description, date, longitude, latitude, isPublic, specie, user);
-                //myDb.sendDataPost(post);
+                MainActivity.myDb.insertDataPost(post);
 
             }
         });
