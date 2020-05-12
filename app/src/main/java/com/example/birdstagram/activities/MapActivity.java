@@ -54,7 +54,8 @@ public class MapActivity extends AppCompatActivity implements LocationListener {
     LocationManager locationManager = null;
     private String provider;
 
-    private boolean displayClick = false;
+    private boolean putMarkerOnClick = false;
+    private boolean takePosition = false;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -85,7 +86,7 @@ public class MapActivity extends AppCompatActivity implements LocationListener {
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                displayClick = true;
+                putMarkerOnClick = true;
                 validateButton.setVisibility(View.VISIBLE);
                 cancelButton.setVisibility(View.VISIBLE);
                 addButton.setVisibility(View.GONE);
@@ -95,18 +96,22 @@ public class MapActivity extends AppCompatActivity implements LocationListener {
         cancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                displayClick = false;
+                putMarkerOnClick = false;
                 removeLastMarker();
                 validateButton.setVisibility(View.GONE);
                 cancelButton.setVisibility(View.GONE);
                 addButton.setVisibility(View.VISIBLE);
+                if (takePosition){
+                    Intent intent = new Intent(getApplicationContext(), LocateBirdActivity.class);
+                    startActivity(intent);
+                }
             }
         });
 
         validateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                displayClick = false;
+                putMarkerOnClick = false;
                 removeLastMarker();
                 validateButton.setVisibility(View.GONE);
                 cancelButton.setVisibility(View.GONE);
@@ -158,7 +163,7 @@ public class MapActivity extends AppCompatActivity implements LocationListener {
         MapEventsReceiver mReceive = new MapEventsReceiver() {
             @Override
             public boolean singleTapConfirmedHelper(GeoPoint p) {
-                if (displayClick){
+                if (putMarkerOnClick){
                     removeLastMarker();
                     lastMarker = new Marker(map, getApplicationContext());
                     lastMarker.setPosition(p);
@@ -229,6 +234,13 @@ public class MapActivity extends AppCompatActivity implements LocationListener {
         super.onResume();
         map.onResume();
         refreshMapOverlay();
+        takePosition = getIntent().getBooleanExtra("takePosition", false);
+        if (takePosition){
+            putMarkerOnClick = true;
+            validateButton.setVisibility(View.VISIBLE);
+            cancelButton.setVisibility(View.VISIBLE);
+            addButton.setVisibility(View.GONE);
+        }
     }
 
     private void requestPermissionsIfNecessary(String[] permissions) {
