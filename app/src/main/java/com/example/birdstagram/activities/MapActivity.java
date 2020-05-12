@@ -25,6 +25,7 @@ import androidx.core.content.ContextCompat;
 
 import com.example.birdstagram.R;
 import com.example.birdstagram.data.tools.Post;
+import com.example.birdstagram.fragments.FragmentInfoBulle;
 
 import org.osmdroid.api.IMapController;
 import org.osmdroid.events.MapEventsReceiver;
@@ -54,6 +55,7 @@ public class MapActivity extends AppCompatActivity implements LocationListener {
     private ImageButton validateButton;
     LocationManager locationManager = null;
     private String provider;
+    private List<Post> posts;
 
     private boolean putMarkerOnClick = false;
     private boolean takePosition = false;
@@ -198,11 +200,11 @@ public class MapActivity extends AppCompatActivity implements LocationListener {
 
     private void refreshMapOverlay(){
         try {
-            List<Post> posts = MainActivity.dataRetriever.retrievePosts();
+            posts = MainActivity.dataRetriever.retrievePosts();
             ArrayList<OverlayItem> items = new ArrayList<>();
             for (Post post : posts){
                 GeoPoint position = new GeoPoint(post.getLatitude(), post.getLongitude());
-                OverlayItem item = new OverlayItem(post.getSpecie().getEnglishName(), post.getDescription(), position);
+                OverlayItem item = new OverlayItem(String.valueOf(post.getId()), post.getSpecie().getEnglishName(), position);
                 Drawable defaultPin = getResources().getDrawable( R.drawable.default_pin );
                 item.setMarker(defaultPin);
                 items.add(item);
@@ -212,6 +214,10 @@ public class MapActivity extends AppCompatActivity implements LocationListener {
 
                 @Override
                 public boolean onItemSingleTapUp(int index, OverlayItem item) {
+                    FragmentInfoBulle infoBulle = new FragmentInfoBulle();
+                    Bundle bundle = generateBundle(infoBulle, Integer.parseInt(item.getTitle()));
+                    infoBulle.setArguments(bundle);
+                    getSupportFragmentManager().beginTransaction().replace(R.id.infobulle, infoBulle).commit();
                     return true;
                 }
 
@@ -220,11 +226,31 @@ public class MapActivity extends AppCompatActivity implements LocationListener {
                     return false;
                 }
             });
-            overlays.setFocusItemsOnTap(true);
+            overlays.setFocusItemsOnTap(false);
             map.getOverlays().add(overlays);
         } catch (ParseException e) {
             e.printStackTrace();
         }
+    }
+
+    private Bundle generateBundle(FragmentInfoBulle infoBulle, int id){
+        Bundle bundle = new Bundle();
+        for(Post post : posts){
+            if(post.getId() == id){
+                bundle.putString("specie", post.getSpecie().getEnglishName());
+                bundle.putFloat("fiability", 0);
+                bundle.putString("author", post.getUser().getPseudo());
+            }
+        }
+        return bundle;
+    }
+
+    public void removeFragment(){
+        getSupportFragmentManager().beginTransaction().remove(getSupportFragmentManager().findFragmentById(R.id.infobulle)).commit();
+    }
+
+    public void addView(boolean seen){
+
     }
 
     private void removeLastMarker(){

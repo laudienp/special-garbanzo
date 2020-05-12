@@ -3,6 +3,7 @@ package com.example.birdstagram.activities;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -24,7 +25,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -117,24 +117,9 @@ public class LocateBirdActivity extends AppCompatActivity implements LocationLis
         validate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                description = descriptionView.getText().toString();
-
-                /*DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-                Date current = Calendar.getInstance().getTime();
-                String date = dateFormat.format(current);*/
-
-                Date date = new Date();
-
-                specie = findSpecieAssociatedToThisString(specieView.getSelectedItem().toString());
-
-                Post post = new Post(description, date, longitude, latitude, isPublic, specie, user);
-                MainActivity.BDD.insertDataPost(post);
-
-                resetValues();
-
+                addSpecie();
                 Intent intent = new Intent(getApplicationContext(), MapActivity.class);
                 startActivity(intent);
-
             }
         });
 
@@ -151,6 +136,26 @@ public class LocateBirdActivity extends AppCompatActivity implements LocationLis
                 }
             }
         });
+    }
+
+    private void addSpecie(){
+        description = descriptionView.getText().toString();
+
+        /*DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        Date current = Calendar.getInstance().getTime();
+        String date = dateFormat.format(current);*/
+
+        Date date = new Date();
+
+        specie = findSpecieAssociatedToThisString(specieView.getSelectedItem().toString());
+
+        Post post = new Post(description, date, longitude, latitude, isPublic, specie, user);
+        MainActivity.BDD.insertDataPost(post);
+
+        resetValues();
+
+        Toast toast = Toast.makeText(getApplicationContext(), "Position ajoutée", Toast.LENGTH_SHORT);
+        toast.show();
     }
 
     private void resetValues(){
