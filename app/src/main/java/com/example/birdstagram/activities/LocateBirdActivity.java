@@ -144,7 +144,7 @@ public class LocateBirdActivity extends AppCompatActivity implements LocationLis
                 });
 
                 Post post = new Post(description, date, longitude, latitude, isPublic, specie, user);
-                //myDb.sendDataPost(post);
+                MainActivity.myDb.insertDataPost(post);
 
                 Intent intent = new Intent(getApplicationContext(), MapActivity.class);
                 startActivity(intent);
