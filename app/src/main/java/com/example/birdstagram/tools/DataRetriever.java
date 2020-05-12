@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 
-import static com.example.birdstagram.activities.MainActivity.myDb;
+import static com.example.birdstagram.activities.MainActivity.BDD;
 
 public class DataRetriever {
 
@@ -23,7 +23,7 @@ public class DataRetriever {
 
     public ArrayList<User> retrieveUsers(){
         ArrayList<User> users = new ArrayList<>();
-        Cursor res = myDb.getUsers();
+        Cursor res = BDD.getUsers();
         if(res.getCount() == 0){
             Log.i("BUNDLE", "Found 0 users");
         }
@@ -44,7 +44,7 @@ public class DataRetriever {
 
     public ArrayList<Specie> retrieveSpecies(){
         ArrayList<Specie> species = new ArrayList<>();
-        Cursor res = myDb.getSpecies();
+        Cursor res = BDD.getSpecies();
         if(res.getCount() == 0){
             Log.i("BUNDLE", "Found 0 species");
         }
@@ -62,7 +62,7 @@ public class DataRetriever {
 
     public ArrayList<Post> retrievePosts() throws ParseException {
         ArrayList<Post> foundPosts = new ArrayList<>();
-        Cursor res = myDb.getAllPosts();
+        Cursor res = BDD.getAllPosts();
         if(res.getCount() == 0){
             Log.i("BUNDLE", "Found 0 posts");
         }
@@ -100,14 +100,14 @@ public class DataRetriever {
 
     public Specie retrievePostSpecie(int postID){
         Specie foundSpecie = new Specie();
-        Cursor res = myDb.getPostSpecieId(Integer.toString(postID));
+        Cursor res = BDD.getPostSpecieId(Integer.toString(postID));
         if(res.getCount() == 0){
             Log.i("BUNDLE", "Found 0 posts");
         }
         else{
             while(res.moveToNext()){
                 String specieID = res.getString(0);
-                Cursor res2 = myDb.getSpecie(specieID);
+                Cursor res2 = BDD.getSpecie(specieID);
                 if (res2.getCount() == 0){
                     Log.i("BUNDLE", "Specie for post not found");
                 }
@@ -126,14 +126,14 @@ public class DataRetriever {
 
     public User retrievePostUser(int postID){
         User foundUser = new User();
-        Cursor res = myDb.getPostUserId(Integer.toString(postID));
+        Cursor res = BDD.getPostUserId(Integer.toString(postID));
         if(res.getCount() == 0){
             Log.i("BUNDLE", "Found 0 posts");
         }
         else{
             while(res.moveToNext()){
                 String userID = res.getString(0);
-                Cursor res2 = myDb.getUser(userID);
+                Cursor res2 = BDD.getUser(userID);
                 if (res2.getCount() == 0){
                     Log.i("BUNDLE", "User for post not found");
                 }

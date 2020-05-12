@@ -14,11 +14,10 @@ import android.widget.Toast;
 import com.example.birdstagram.R;
 import com.example.birdstagram.activities.MapActivity;
 import com.example.birdstagram.activities.inscription.SignUpActivity;
-import com.example.birdstagram.data.tools.DataBundle;
 import com.example.birdstagram.data.tools.User;
-import com.example.birdstagram.tools.DatabaseHelper;
 
-import static com.example.birdstagram.activities.MainActivity.myDb;
+import static com.example.birdstagram.activities.MainActivity.BDD;
+import static com.example.birdstagram.activities.MainActivity.dataBundle;
 
 public class LoginActivity extends AppCompatActivity {
     private EditText email;
@@ -56,9 +55,8 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void onUserConnection(View view){
-        myDb = new DatabaseHelper(this);
         User user = new User();
-        Cursor res = myDb.getConnectionUser(email.getText().toString(), password.getText().toString());
+        Cursor res = BDD.getConnectionUser(email.getText().toString(), password.getText().toString());
         if(res.getCount() == 0){
             Toast.makeText(getApplicationContext(), "Veuillez vérifier vos identifiants", Toast.LENGTH_LONG).show();
         }
@@ -73,7 +71,7 @@ public class LoginActivity extends AppCompatActivity {
                 String userPassword = res.getString(6);
                 user = new User(Integer.parseInt(userID), userPseudo, userName, userSurname, Integer.parseInt(userAge), userMail, userPassword);
             }
-            DataBundle dataBundle = new DataBundle(user);
+            dataBundle.setUserSession(user);
 
             Intent intent = new Intent(getApplicationContext(), MapActivity.class);
             intent.putExtra("Data Bundle", dataBundle);

@@ -16,8 +16,8 @@ public class DataBundle implements Parcelable {
     private ArrayList<Comment> appComments;
     private ArrayList<View> appViewers;
 
-    public DataBundle(User userSession) {
-        this.userSession = userSession;
+    public DataBundle() {
+
     }
 
     public DataBundle(User userSession, ArrayList<Post> userPosts, ArrayList<User> appUsers, ArrayList<Specie> appSpecies, ArrayList<Post> appPosts, ArrayList<Like> appLikes, ArrayList<Comment> appComments, ArrayList<View> appViewers) {

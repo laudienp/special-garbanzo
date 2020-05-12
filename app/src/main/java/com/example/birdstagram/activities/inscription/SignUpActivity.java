@@ -19,7 +19,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import static com.example.birdstagram.activities.MainActivity.myDb;
+import static com.example.birdstagram.activities.MainActivity.BDD;
 
 public class SignUpActivity extends AppCompatActivity implements View.OnFocusChangeListener {
     private EditText name;
@@ -228,9 +228,9 @@ public class SignUpActivity extends AppCompatActivity implements View.OnFocusCha
             String userCheckPassword = checkPassword.getText().toString();
             if(userPassword.equalsIgnoreCase(userCheckPassword)){
                 User newUser = new User(userName, userSurname, userPseudo, userAge, userEmail, userPassword);
-                Cursor res = myDb.verifyEmailExists(email.getText().toString());
+                Cursor res = BDD.verifyEmailExists(email.getText().toString());
                 if(res.getCount() == 0){
-                    myDb.insertDataUser(newUser);
+                    BDD.insertDataUser(newUser);
                     Toast.makeText(getApplicationContext(), "Compte Crée.", Toast.LENGTH_LONG).show();
                     Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
                     startActivity(intent);

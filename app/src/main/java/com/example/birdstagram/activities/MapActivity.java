@@ -3,22 +3,17 @@ package com.example.birdstagram.activities;
 import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.ComponentInfo;
 import android.content.pm.PackageManager;
 import android.annotation.SuppressLint;
-import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.Window;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
@@ -28,38 +23,23 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import com.example.birdstagram.R;
-import com.example.birdstagram.data.tools.DataBundle;
 import com.example.birdstagram.data.tools.Post;
-import com.example.birdstagram.data.tools.Specie;
-import com.example.birdstagram.data.tools.User;
-import com.example.birdstagram.tools.DataRetriever;
 
 import org.osmdroid.api.IMapController;
 import org.osmdroid.events.MapEventsReceiver;
-import org.osmdroid.events.MapListener;
-import org.osmdroid.events.ScrollEvent;
-import org.osmdroid.events.ZoomEvent;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.ItemizedIconOverlay;
-import org.osmdroid.views.overlay.ItemizedOverlay;
 import org.osmdroid.views.overlay.ItemizedOverlayWithFocus;
 import org.osmdroid.views.overlay.MapEventsOverlay;
 import org.osmdroid.views.overlay.Marker;
 import org.osmdroid.views.overlay.OverlayItem;
-import org.osmdroid.views.overlay.mylocation.GpsMyLocationProvider;
-import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay;
-
-import java.sql.Date;
 import java.text.ParseException;
 import java.util.ArrayList;
 import org.osmdroid.config.Configuration;
 
-import java.util.ArrayList;
 import java.util.List;
-
-import static com.example.birdstagram.activities.MainActivity.myDb;
 
 public class MapActivity extends AppCompatActivity implements LocationListener {
 
@@ -72,10 +52,7 @@ public class MapActivity extends AppCompatActivity implements LocationListener {
     private ImageButton cancelButton;
     private ImageButton validateButton;
     LocationManager locationManager = null;
-    Location location;
     private String provider;
-    private DataBundle dataBundle;
-    private DataRetriever dataRetriever;
 
     private boolean displayClick = false;
 
@@ -83,17 +60,14 @@ public class MapActivity extends AppCompatActivity implements LocationListener {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.map);
-        dataRetriever = new DataRetriever();
 
-        Intent intent = getIntent();
-        dataBundle = intent.getParcelableExtra("Data Bundle");
+        initComponents();
+        initMap();
+        initAddBirdEvent();
+        refreshMapOverlay();
+    }
 
-       try {
-            fillDataBundle();
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-
+    private void initComponents(){
         menuButton = findViewById(R.id.menu_button);
         addButton = findViewById(R.id.addBird_button);
         cancelButton = findViewById(R.id.cancel_button);
@@ -146,7 +120,6 @@ public class MapActivity extends AppCompatActivity implements LocationListener {
                 bundle.putDouble("longitude", longitude);
                 bundle.putDouble("latitude", latitude);
                 intent.putExtras(bundle);
-                intent.putExtra("dataBundle", dataBundle);
                 startActivity(intent);
             }
         });
@@ -158,19 +131,20 @@ public class MapActivity extends AppCompatActivity implements LocationListener {
                 startActivityForResult(intent, MainActivity.REQUEST_IMAGE_CAPTURE);
             }
         });
+    }
 
+    private void initMap(){
         Context ctx = getApplicationContext();
         Configuration.getInstance().load(ctx, PreferenceManager.getDefaultSharedPreferences(ctx));
 
         map = findViewById(R.id.map);
         map.setTileSource(TileSourceFactory.MAPNIK);
-        map.setBuiltInZoomControls(true);
         map.setMultiTouchControls(true);
 
         requestPermissionsIfNecessary(new String[]
-            {
-                    Manifest.permission.WRITE_EXTERNAL_STORAGE
-            });
+                {
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE
+                });
 
 
         GeoPoint startPoint = new GeoPoint(43.130190, 5.923105);
@@ -178,7 +152,9 @@ public class MapActivity extends AppCompatActivity implements LocationListener {
         mapController.setZoom(16.0);
         mapController.setCenter(startPoint);
         initLoc();
+    }
 
+    private void initAddBirdEvent(){
         MapEventsReceiver mReceive = new MapEventsReceiver() {
             @Override
             public boolean singleTapConfirmedHelper(GeoPoint p) {
@@ -198,10 +174,11 @@ public class MapActivity extends AppCompatActivity implements LocationListener {
         };
         MapEventsOverlay mapEventsOverlay = new MapEventsOverlay(getApplicationContext(), mReceive);
         map.getOverlays().add(mapEventsOverlay);
+    }
 
-        // BUG A RESOUDRE
+    private void refreshMapOverlay(){
         try {
-            List<Post> posts = dataRetriever.retrievePosts();
+            List<Post> posts = MainActivity.dataRetriever.retrievePosts();
             ArrayList<OverlayItem> items = new ArrayList<>();
             for (Post post : posts){
                 GeoPoint position = new GeoPoint(post.getLatitude(), post.getLongitude());
@@ -225,21 +202,6 @@ public class MapActivity extends AppCompatActivity implements LocationListener {
         } catch (ParseException e) {
             e.printStackTrace();
         }
-    }
-
-    private void fillDataBundle() throws ParseException {
-        java.util.Date today = new java.util.Date();
-        dataBundle.setAppUsers(dataRetriever.retrieveUsers());
-        dataBundle.setAppSpecies(dataRetriever.retrieveSpecies());
-        Post firstPost = new Post(1,"Google Building", today, -122.084568, 37.42212, true, dataBundle.getAppSpecies().get(0), dataBundle.getAppUsers().get(0));
-        Post secondPost = new Post(2,"Google Building", today, -122.081741, 37.422880, false, dataBundle.getAppSpecies().get(5), dataBundle.getAppUsers().get(0));
-        myDb.insertDataPost(firstPost);
-        myDb.insertDataPost(secondPost);
-        dataBundle.setAppPosts(dataRetriever.retrievePosts());
-        /*dataBundle.setUserPosts();
-        dataBundle.setAppLikes();
-        dataBundle.setAppComments();
-        dataBundle.setAppViewers();*/
     }
 
     private void removeLastMarker(){
@@ -266,6 +228,7 @@ public class MapActivity extends AppCompatActivity implements LocationListener {
     public void onResume() {
         super.onResume();
         map.onResume();
+        refreshMapOverlay();
     }
 
     private void requestPermissionsIfNecessary(String[] permissions) {

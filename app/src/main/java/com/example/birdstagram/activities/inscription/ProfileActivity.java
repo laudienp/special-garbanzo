@@ -26,9 +26,7 @@ import com.example.birdstagram.activities.MapActivity;
 import com.example.birdstagram.data.tools.User;
 import com.example.birdstagram.tools.DatabaseHelper;
 
-import java.net.URISyntaxException;
-
-import static com.example.birdstagram.activities.MainActivity.myDb;
+import static com.example.birdstagram.activities.MainActivity.BDD;
 
 public class ProfileActivity extends AppCompatActivity {
     private static final int PICK_IMAGE = 2;
@@ -117,7 +115,7 @@ public class ProfileActivity extends AppCompatActivity {
         builder.setPositiveButton("Oui", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                myDb.modifyUserData(getConnectedUser(), user);
+                BDD.modifyUserData(getConnectedUser(), user);
                 Toast.makeText(ProfileActivity.this, "Profil Mise à jour", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(ProfileActivity.this, MapActivity.class);
                 startActivity(intent);
@@ -127,9 +125,9 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
     private User getConnectedUser() {
-        myDb = new DatabaseHelper(this);
+        BDD = new DatabaseHelper(this);
         User user = new User();
-        Cursor res = myDb.getAllUsers();
+        Cursor res = BDD.getAllUsers();
 
         if (res.getCount() == 0) {
             Toast.makeText(getApplicationContext(), "Aucun Utlisateur trouvé", Toast.LENGTH_LONG).show();

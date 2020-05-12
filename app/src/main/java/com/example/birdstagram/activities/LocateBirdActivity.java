@@ -11,7 +11,6 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -34,14 +33,9 @@ import com.example.birdstagram.data.tools.Post;
 import com.example.birdstagram.data.tools.Specie;
 import com.example.birdstagram.data.tools.User;
 
-import org.osmdroid.api.IMapController;
-import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -61,11 +55,9 @@ public class LocateBirdActivity extends AppCompatActivity implements LocationLis
     double longitude = 0;
     double latitude = 0;
     LocationManager locationManager = null;
-    Location location;
     private String provider;
     private MapView map;
     private final int REQUEST_PERMISSIONS_REQUEST_CODE = 1;
-    DataBundle dataBundle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,9 +65,8 @@ public class LocateBirdActivity extends AppCompatActivity implements LocationLis
         setContentView(R.layout.locate_a_bird);
         //On récupère la longitude et la latitude
         Intent intent = getIntent();
-        dataBundle = intent.getParcelableExtra("dataBundle");
 
-        //fillSpinner();
+        fillSpinner();
 
         if(intent != null){
             longitude = intent.getDoubleExtra("longitude", 0);
@@ -144,7 +135,7 @@ public class LocateBirdActivity extends AppCompatActivity implements LocationLis
                 });
 
                 Post post = new Post(description, date, longitude, latitude, isPublic, specie, user);
-                MainActivity.myDb.insertDataPost(post);
+                MainActivity.BDD.insertDataPost(post);
 
                 Intent intent = new Intent(getApplicationContext(), MapActivity.class);
                 startActivity(intent);
@@ -249,11 +240,11 @@ public class LocateBirdActivity extends AppCompatActivity implements LocationLis
     void fillSpinner(){
         specieView = findViewById(R.id.spinner);
         List<String> specieArrayString = new ArrayList<String>();
-/*        for(Specie specie : dataBundle.getAppSpecies()){
+        for(Specie specie : MainActivity.dataBundle.getAppSpecies()){
             specieArrayString.add(specie.getEnglishName());
-        }*/
-        //ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, specieArrayString);
-        //specieView.setAdapter(adapter);
+        }
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, specieArrayString);
+        specieView.setAdapter(adapter);
 
     }
 }

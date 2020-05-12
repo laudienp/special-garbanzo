@@ -19,13 +19,20 @@ import com.example.birdstagram.R;
 import com.example.birdstagram.activities.connexion.LoginActivity;
 import com.example.birdstagram.activities.inscription.ProfileActivity;
 import com.example.birdstagram.activities.inscription.SignUpActivity;
+import com.example.birdstagram.data.tools.DataBundle;
+import com.example.birdstagram.data.tools.Post;
 import com.example.birdstagram.data.tools.User;
+import com.example.birdstagram.tools.DataRetriever;
 import com.example.birdstagram.tools.DatabaseHelper;
 
 import java.net.URISyntaxException;
+import java.text.ParseException;
 
 public class MainActivity extends AppCompatActivity {
-    public static DatabaseHelper myDb;
+    public static DatabaseHelper BDD;
+    public static DataRetriever dataRetriever;
+    public static DataBundle dataBundle;
+
     TextView text;
     private final Class startingActivity = LoginActivity.class;
     static final int REQUEST_IMAGE_CAPTURE = 1;
@@ -36,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Log.i("DATABASE", "ENTERING METHOD");
-        myDb = new DatabaseHelper(this);
+        initBDD();
 
         text = findViewById(R.id.text);
 
@@ -56,6 +63,32 @@ public class MainActivity extends AppCompatActivity {
         }
 
 
+    }
+
+    private void initBDD(){
+        BDD = new DatabaseHelper(this);
+        dataRetriever = new DataRetriever();
+        dataBundle = new DataBundle();
+        try {
+            fillDataBundle();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void fillDataBundle() throws ParseException {
+        java.util.Date today = new java.util.Date();
+        dataBundle.setAppUsers(dataRetriever.retrieveUsers());
+        dataBundle.setAppSpecies(dataRetriever.retrieveSpecies());
+        Post firstPost = new Post(1,"Google Building", today, -122.084568, 37.42212, true, dataBundle.getAppSpecies().get(0), dataBundle.getAppUsers().get(0));
+        Post secondPost = new Post(2,"Google Building", today, -122.081741, 37.422880, false, dataBundle.getAppSpecies().get(5), dataBundle.getAppUsers().get(0));
+        BDD.insertDataPost(firstPost);
+        BDD.insertDataPost(secondPost);
+        dataBundle.setAppPosts(dataRetriever.retrievePosts());
+        /*dataBundle.setUserPosts();
+        dataBundle.setAppLikes();
+        dataBundle.setAppComments();
+        dataBundle.setAppViewers();*/
     }
 
     public static boolean hasPermissions(Context context, String... permissions) {
