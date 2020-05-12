@@ -85,6 +85,13 @@ public class DataRetriever {
                      postDateHour = postDate.substring(11, 13);
                      postDateMinute = postDate.substring(14, 16);
                 }
+                if(stringSize == 28){
+                    postDateDay = postDate.substring(8, 10);
+                    postDateMonth = postDate.substring(4, 7);
+                    postDateYear = postDate.substring(26, 28);
+                    postDateHour = postDate.substring(11, 13);
+                    postDateMinute = postDate.substring(14, 16);
+                }
                 postDateValueString.append(postDateDay + " " + postDateMonth + " " + postDateYear + " " + postDateHour + ":" + postDateMinute);
                 Date postDateValue = new SimpleDateFormat("dd MMM yy HH:mm").parse(postDateValueString.toString());
                 String postLongitude = res.getString(3);
