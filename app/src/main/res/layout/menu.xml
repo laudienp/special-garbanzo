@@ -1,97 +1,112 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".activities.MenuActivity">
+    android:layout_width="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
-
-
-    <TextView
-        android:id="@+id/birdStagramView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="50sp"
-        android:textColor="@android:color/black"
-        android:layout_marginTop="50dp"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        android:text="Bird Stagram" />
-
-    <Button
-        android:id="@+id/add"
-        android:layout_width="200dp"
-        android:layout_height="60dp"
-        android:background="@drawable/button_border"
-        app:layout_constraintTop_toBottomOf="@+id/birdStagramView"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        android:layout_marginTop="60dp"
-        android:textSize="18sp"
-        android:text="Add Bird Position" />
-
-    <Button
-        android:id="@+id/gallery"
-        android:layout_width="200dp"
-        android:layout_height="60dp"
-        android:background="@drawable/button_border"
-        app:layout_constraintTop_toBottomOf="@+id/add"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        android:layout_marginTop="70dp"
-        android:textSize="18sp"
-        android:text="Gallery" />
-
-    <Button
-        android:id="@+id/profil"
-        android:layout_width="200dp"
-        android:layout_height="60dp"
-        android:background="@drawable/button_border"
-        app:layout_constraintTop_toBottomOf="@+id/gallery"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        android:layout_marginTop="70dp"
-        android:layout_marginBottom="60dp"
-        android:textSize="18sp"
-        android:text="Profile" />
-
-<!--Bouton inscription à changer de place-->
-<!--    <Button
-        android:id="@+id/subscription"
-        android:layout_width="200dp"
-        android:layout_height="60dp"
-        android:background="@drawable/button_border"
-        android:layout_marginTop="50dp"
-        android:layout_gravity="center"
-        android:textSize="18dp"
-        android:text="Subscription" />-->
-
-    <TextView
-        android:id="@+id/onlineView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Online"
-        android:textColor="@android:color/holo_green_dark"
-        android:textSize="30sp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/divider"
-         />
-
-    <View
-        android:id="@+id/divider"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:background="?android:attr/listDivider"
-        android:divider="@color/black"
-        app:layout_constraintBottom_toTopOf="@id/icons"
-        android:layout_marginBottom="15dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"/>
+        android:layout_height="match_parent"
+        tools:ignore="ScrollViewCount">
+
+        <androidx.constraintlayout.widget.ConstraintLayout android:layout_height="match_parent"
+            android:layout_width="match_parent">
+
+            <TextView
+                android:id="@+id/birdStagramView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="50sp"
+                android:textColor="@android:color/black"
+                android:layout_marginTop="50dp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                android:text="Bird Stagram" />
+
+            <Button
+                android:id="@+id/add"
+                android:layout_width="200dp"
+                android:layout_height="60dp"
+                android:background="@drawable/button_border"
+                app:layout_constraintTop_toBottomOf="@+id/birdStagramView"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                android:layout_marginTop="60dp"
+                android:textSize="18sp"
+                android:text="Add Bird Position" />
+
+            <Button
+                android:id="@+id/gallery"
+                android:layout_width="200dp"
+                android:layout_height="60dp"
+                android:background="@drawable/button_border"
+                app:layout_constraintTop_toBottomOf="@+id/add"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                android:layout_marginTop="70dp"
+                android:textSize="18sp"
+                android:text="Gallery" />
+
+            <Button
+                android:id="@+id/profil"
+                android:layout_width="200dp"
+                android:layout_height="60dp"
+                android:background="@drawable/button_border"
+                app:layout_constraintTop_toBottomOf="@+id/gallery"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                android:layout_marginTop="70dp"
+                android:layout_marginBottom="60dp"
+                android:textSize="18sp"
+                android:text="Profile" />
+
+            <!--Bouton inscription à changer de place-->
+            <!--    <Button
+                    android:id="@+id/subscription"
+                    android:layout_width="200dp"
+                    android:layout_height="60dp"
+                    android:background="@drawable/button_border"
+                    android:layout_marginTop="50dp"
+                    android:layout_gravity="center"
+                    android:textSize="18dp"
+                    android:text="Subscription" />-->
+
+            <TextView
+                android:id="@+id/onlineView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Online"
+                android:textColor="@android:color/holo_green_dark"
+                android:textSize="30sp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/divider"
+                />
+
+            <View
+                android:id="@+id/divider"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="?android:attr/listDivider"
+                android:divider="@color/black"
+                app:layout_constraintBottom_toTopOf="@id/icons"
+                android:layout_marginBottom="15dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"/>
+
+
+
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </ScrollView>
+
 
     <LinearLayout
         android:id="@+id/icons"
@@ -109,8 +124,8 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="70dp"
             android:background="@null"
-            app:srcCompat="@drawable/map"
-            android:contentDescription="map"/>
+            android:contentDescription="map"
+            app:srcCompat="@drawable/map" />
 
 
         <ImageButton
@@ -122,7 +137,8 @@
             app:srcCompat="@drawable/reglage"
             android:contentDescription="settings"/>
 
-
     </LinearLayout>
 
+
 </androidx.constraintlayout.widget.ConstraintLayout>
+

@@ -56,7 +56,6 @@ public class LocateBirdActivity extends AppCompatActivity implements LocationLis
     double latitude = 0;
     LocationManager locationManager = null;
     private String provider;
-    private MapView map;
     private final int REQUEST_PERMISSIONS_REQUEST_CODE = 1;
 
     @Override
@@ -69,8 +68,8 @@ public class LocateBirdActivity extends AppCompatActivity implements LocationLis
         fillSpinner();
 
         if(intent != null){
-            longitude = intent.getDoubleExtra("longitude", 0);
-            latitude = intent.getDoubleExtra("latitude", 0);
+            longitude = intent.getDoubleExtra("longitude", longitude);
+            latitude = intent.getDoubleExtra("latitude", latitude);
             user = MainActivity.dataBundle.getUserSession();
         }
         currentLocation = findViewById(R.id.currentLocation);
@@ -90,6 +89,9 @@ public class LocateBirdActivity extends AppCompatActivity implements LocationLis
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), MapActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putBoolean("takePosition", true);
+                intent.putExtras(bundle);
                 startActivity(intent);
             }
         });
