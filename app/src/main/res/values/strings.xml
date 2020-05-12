@@ -11,8 +11,8 @@
     <string name="bird_stagram">Bird Stagram</string>
     <string name="conextion_image">Conextion image</string>
     <string name="connexion_image">connexion image</string>
-    <string name="email">Email :</string>
-    <string name="mot_de_passe">Password :</string>
+    <string name="email">Email</string>
+    <string name="mot_de_passe">Password</string>
     <string name="log_in">log in</string>
     <string name="se_connecter">Se connecter</string>
     <string name="cr_er_un_compte">Sign up</string>

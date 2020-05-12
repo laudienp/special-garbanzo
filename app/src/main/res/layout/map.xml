@@ -11,39 +11,46 @@
         android:id="@+id/menu_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:layout_marginEnd="16dp"
         android:background="@null"
         android:contentDescription="@string/menu"
         android:elevation="5dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.94"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.94"
         app:srcCompat="@drawable/menu_icon" />
 
     <ImageButton
         android:id="@+id/camera_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:layout_marginTop="16dp"
         android:background="@null"
         android:contentDescription="@string/camera"
         android:elevation="5dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.94"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.06"
         app:srcCompat="@drawable/camera_icon" />
 
     <ImageButton
         android:id="@+id/addBird_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
         android:background="@null"
         android:contentDescription="@string/addBird"
         android:elevation="5dp"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toTopOf="@+id/menu_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.935"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/map"
+        app:layout_constraintVertical_bias="1.0"
         app:srcCompat="@drawable/add_icon" />
 
 
@@ -51,14 +58,16 @@
         android:id="@+id/cancel_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:layout_marginEnd="16dp"
         android:background="@null"
         android:contentDescription="@string/cancel"
         android:elevation="5dp"
+        android:visibility="gone"
         app:layout_constraintBottom_toTopOf="@+id/menu_button"
         app:layout_constraintEnd_toEndOf="parent"
-        android:visibility="gone"
+        app:layout_constraintHorizontal_bias="0.94"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0"
         app:srcCompat="@drawable/cancel_icon" />
 
 
@@ -67,14 +76,15 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
-        android:layout_marginEnd="16dp"
         android:background="@null"
         android:contentDescription="@string/validate"
         android:elevation="5dp"
+        android:visibility="gone"
         app:layout_constraintBottom_toTopOf="@+id/cancel_button"
         app:layout_constraintEnd_toEndOf="parent"
-        android:visibility="gone"
-        app:srcCompat="@drawable/validate_icon" />
+        app:layout_constraintHorizontal_bias="0.94"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/ic_add_circle_black_24dp" />
 
     <FrameLayout
         android:id="@+id/infobulle"
@@ -95,7 +105,7 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0"/>
+        app:layout_constraintVertical_bias="0.0" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
