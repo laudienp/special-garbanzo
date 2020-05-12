@@ -33,7 +33,7 @@
         </activity>
         <activity android:name=".activities.LocateBirdActivity"/>
         <activity android:name=".activities.inscription.SignUpActivity" />
-        <activity android:name=".activities.MenuActivity" />
+        <activity android:name=".activities.MenuActivity" android:screenOrientation="portrait" />
         <activity android:name=".activities.SettingActivity" />
     </application>
 

@@ -7,12 +7,14 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.PersistableBundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -47,7 +49,6 @@ public class LocateBirdActivity extends AppCompatActivity implements LocationLis
     public static Bitmap lastImage;
     private ImageButton picture;
     TextView currentLocation;
-    Button validate;
     Spinner specieView;
     Specie specie;
     String description;
@@ -60,11 +61,15 @@ public class LocateBirdActivity extends AppCompatActivity implements LocationLis
     LocationManager locationManager = null;
     private String provider;
     private final int REQUEST_PERMISSIONS_REQUEST_CODE = 1;
+    boolean netWorkState;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.locate_a_bird);
+        Intent intent = getIntent();
+        recupNetworkState(intent);
+        setOnlineOrOffline();
 
         if(savedInstanceState != null){
             int index = getIndex(specieView, savedInstanceState.getString("specie"));
@@ -72,17 +77,16 @@ public class LocateBirdActivity extends AppCompatActivity implements LocationLis
             description = savedInstanceState.getString("description");
             descriptionView.setText(description);
         }
-
-        initComponents();
-        fillSpinner();
         checkIntent();
+        fillSpinner();
+        initComponents();
     }
 
     private void initComponents(){
         picture = findViewById(R.id.imageButton);
         Button takePositionOnMapButton = findViewById(R.id.buttonPositionOnMap);
         Button takeCurrentPositionWithGpsButton = findViewById(R.id.buttonCurrentGPSLocation);
-        validate = findViewById(R.id.buttonValidate);
+        Button validate = findViewById(R.id.buttonValidate);
         descriptionView = findViewById(R.id.inputDescription);
         specieView = findViewById(R.id.spinner);
         isPublicView = findViewById(R.id.switchImageGallery);
@@ -98,11 +102,16 @@ public class LocateBirdActivity extends AppCompatActivity implements LocationLis
         takePositionOnMapButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), MapActivity.class);
-                Bundle bundle = new Bundle();
-                bundle.putBoolean("takePosition", true);
-                intent.putExtras(bundle);
-                startActivity(intent);
+                if(netWorkState == true) {
+                    Intent intent = new Intent(getApplicationContext(), MapActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putBoolean("takePosition", true);
+                    intent.putExtras(bundle);
+                    startActivity(intent);
+                }
+                else {
+                    Toast.makeText(getApplicationContext(),"Access denied, you don't have any network connection.",Toast.LENGTH_LONG).show();
+                }
             }
         });
 
@@ -139,23 +148,30 @@ public class LocateBirdActivity extends AppCompatActivity implements LocationLis
     }
 
     private void addSpecie(){
-        description = descriptionView.getText().toString();
-
-        /*DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-        Date current = Calendar.getInstance().getTime();
-        String date = dateFormat.format(current);*/
-
-        Date date = new Date();
-
-        specie = findSpecieAssociatedToThisString(specieView.getSelectedItem().toString());
-
-        Post post = new Post(description, date, longitude, latitude, isPublic, specie, user);
-        MainActivity.BDD.insertDataPost(post);
-
-        resetValues();
-
-        Toast toast = Toast.makeText(getApplicationContext(), "Position ajoutée", Toast.LENGTH_SHORT);
-        toast.show();
+        if(netWorkState == true) {
+            //On envoie sur le théorique serveur
+            description = descriptionView.getText().toString();
+            Date date = new Date();
+            specie = findSpecieAssociatedToThisString(specieView.getSelectedItem().toString());
+            Post post = new Post(description, date, longitude, latitude, isPublic, specie, user);
+            MainActivity.BDD.insertDataPost(post);
+            resetValues();
+            Intent intent = new Intent(getApplicationContext(), MapActivity.class);
+            startActivity(intent);
+        }
+        else{
+            //On envoie sur la BDD interne
+            Toast.makeText(getApplicationContext(),"Position has been saved, it will be displayed as soon as you'll recover a network connection.",Toast.LENGTH_LONG).show();
+            description = descriptionView.getText().toString();
+            Date date = new Date();
+            specie = findSpecieAssociatedToThisString(specieView.getSelectedItem().toString());
+            Post post = new Post(description, date, longitude, latitude, isPublic, specie, user);
+            MainActivity.BDD.insertDataPost(post);
+            resetValues();
+            Intent intent = new Intent(getApplicationContext(), MenuActivity.class);
+            shareNetworkState(intent);
+            startActivity(intent);
+        }
     }
 
     private void resetValues(){
@@ -300,8 +316,28 @@ public class LocateBirdActivity extends AppCompatActivity implements LocationLis
     Specie findSpecieAssociatedToThisString(String specieEnglishName){
         List<Specie> listSpecie = MainActivity.dataBundle.getAppSpecies();
         for(Specie specie : listSpecie){
-            if(specie.getEnglishName() == specieEnglishName) return specie;
+            if(specie.getEnglishName().equals(specieEnglishName)) return specie;
         }
         return null;
+    }
+
+    void recupNetworkState(Intent intent){
+        netWorkState = intent.getBooleanExtra("network", netWorkState);
+    }
+
+    void shareNetworkState(Intent intent){
+        Bundle bundleOnlineOffline = new Bundle();
+        bundleOnlineOffline.putBoolean("network", netWorkState);
+        intent.putExtras(bundleOnlineOffline);
+    }
+
+    void setOnlineOrOffline(){
+        Button positionMapButton = findViewById(R.id.buttonPositionOnMap);
+        Switch switchImageGallery = findViewById(R.id.switchImageGallery);
+        if (netWorkState == false) {
+            positionMapButton.setClickable(false);
+            positionMapButton.setBackgroundColor(Color.parseColor("#808080"));
+            switchImageGallery.setVisibility(View.GONE);
+        }
     }
 }

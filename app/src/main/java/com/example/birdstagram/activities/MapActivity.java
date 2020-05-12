@@ -1,16 +1,21 @@
 package com.example.birdstagram.activities;
 
 import android.Manifest;
+import android.app.Notification;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.annotation.SuppressLint;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
+import android.icu.util.Calendar;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
@@ -18,9 +23,12 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 import androidx.core.content.ContextCompat;
 
 import com.example.birdstagram.R;
@@ -38,9 +46,13 @@ import org.osmdroid.views.overlay.MapEventsOverlay;
 import org.osmdroid.views.overlay.Marker;
 import org.osmdroid.views.overlay.OverlayItem;
 import java.text.ParseException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import org.osmdroid.config.Configuration;
 
+import java.util.Date;
 import java.util.List;
 
 public class MapActivity extends AppCompatActivity implements LocationListener {
@@ -60,6 +72,9 @@ public class MapActivity extends AppCompatActivity implements LocationListener {
     private boolean putMarkerOnClick = false;
     private boolean takePosition = false;
 
+    private final String CHANNEL_ID = "New Bird";
+    private final int NOTIFICATION_ID = 001;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -74,6 +89,7 @@ public class MapActivity extends AppCompatActivity implements LocationListener {
         initMap();
         initAddBirdEvent();
         refreshMapOverlay();
+         // A utiliser //sendNotificationChannel("Un nouveau like ", "Quelq'un a aimé votre post", CHANNEL_ID, NotificationCompat.PRIORITY_DEFAULT, null);
     }
 
     private void loadUserPosts() throws ParseException {
@@ -91,6 +107,7 @@ public class MapActivity extends AppCompatActivity implements LocationListener {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), MenuActivity.class);
+                shareNetworkState(intent);
                 startActivity(intent);
             }
         });
@@ -116,6 +133,7 @@ public class MapActivity extends AppCompatActivity implements LocationListener {
                 addButton.setVisibility(View.VISIBLE);
                 if (takePosition){
                     Intent intent = new Intent(getApplicationContext(), LocateBirdActivity.class);
+                    shareNetworkState(intent);
                     startActivity(intent);
                 }
             }
@@ -139,6 +157,7 @@ public class MapActivity extends AppCompatActivity implements LocationListener {
                     bundle.putDouble("longitude", longitude);
                     bundle.putDouble("latitude", latitude);
                     intent.putExtras(bundle);
+                    shareNetworkState(intent);
                     startActivity(intent);
                 }
             }
@@ -367,5 +386,52 @@ public class MapActivity extends AppCompatActivity implements LocationListener {
         builder.setTitle(title);
         builder.setMessage(message);
         builder.show();
+    }
+
+
+    void shareNetworkState(Intent intent){
+        Bundle bundleOnlineOffline = new Bundle();
+        bundleOnlineOffline.putBoolean("network", true);
+        intent.putExtras(bundleOnlineOffline);
+    }
+
+    public void sendNotificationChannel(String title, String message, String channelId, int priority, Bitmap image){
+        Intent landingIntent = new Intent(getApplicationContext(), MapActivity.class);
+
+        if (title.equals("Nouvel oiseau découvert")){
+            landingIntent = new Intent(getApplicationContext(), MapActivity.class);
+            landingIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        }
+        if (title.equals("Un nouveau like")){
+           // landingIntent = new Intent(getApplicationContext(), SocialActivity.class);
+            landingIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        }
+
+        PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(), 0, landingIntent, PendingIntent.FLAG_ONE_SHOT);
+        Date currentTime = Calendar.getInstance().getTime();
+
+
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext(), channelId)
+                .setSmallIcon(R.drawable.bird)
+                .setContentTitle(title +
+                        "                                               "
+                        + currentTime.getHours() + ":" + currentTime.getMinutes())
+                .setContentText(message)
+                .setPriority(priority)
+                .setContentIntent(pendingIntent)
+                .setAutoCancel(true);
+
+        if (title.equals("Nouvel oiseau découvert") && image == null){
+            builder.setStyle(new NotificationCompat.BigPictureStyle()
+                    .bigPicture(BitmapFactory.decodeResource(getApplicationContext().getResources(), R.drawable.bird_big))
+                    .bigLargeIcon(null) );
+        } else if (image != null){
+            builder.setStyle(new NotificationCompat.BigPictureStyle()
+                    .bigPicture(image)
+                    .bigLargeIcon(null) );
+        }
+
+        NotificationManagerCompat notificationCompat = NotificationManagerCompat.from(this);
+        notificationCompat.notify(NOTIFICATION_ID, builder.build());
     }
 }
