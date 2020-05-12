@@ -43,13 +43,12 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 public class LocateBirdActivity extends AppCompatActivity implements LocationListener{
 
     public static Bitmap lastImage;
     private ImageButton picture;
-    Button takePositionOnMapButton;
-    Button takeCurrentPositionWithGpsButton;
     TextView currentLocation;
     Button validate;
     Spinner specieView;
@@ -76,7 +75,7 @@ public class LocateBirdActivity extends AppCompatActivity implements LocationLis
         Intent intent = getIntent();
         dataBundle = intent.getParcelableExtra("dataBundle");
 
-        fillSpinner();
+        //fillSpinner();
 
         if(intent != null){
             longitude = intent.getDoubleExtra("longitude", 0);
@@ -95,7 +94,7 @@ public class LocateBirdActivity extends AppCompatActivity implements LocationLis
             }
         });
 
-        takePositionOnMapButton = findViewById(R.id.buttonPositionOnMap);
+        Button takePositionOnMapButton = findViewById(R.id.buttonPositionOnMap);
         takePositionOnMapButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -104,7 +103,7 @@ public class LocateBirdActivity extends AppCompatActivity implements LocationLis
             }
         });
 
-        takeCurrentPositionWithGpsButton = findViewById(R.id.buttonCurrentGPSLocation);
+        Button takeCurrentPositionWithGpsButton = findViewById(R.id.buttonCurrentGPSLocation);
         takeCurrentPositionWithGpsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -245,7 +244,13 @@ public class LocateBirdActivity extends AppCompatActivity implements LocationLis
     }
 
     void fillSpinner(){
-        specieView = (Spinner) findViewById(R.id.spinner);
-        //specieView.setAdapter(new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_list_item_1, dataBundle.getAppSpecies()));
+        specieView = findViewById(R.id.spinner);
+        List<String> specieArrayString = new ArrayList<String>();
+        /*for(Specie specie : dataBundle.getAppSpecies()){
+            specieArrayString.add(specie.getEnglishName());
+        }*/
+        //ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, specieArrayString);
+        //specieView.setAdapter(adapter);
+
     }
 }
