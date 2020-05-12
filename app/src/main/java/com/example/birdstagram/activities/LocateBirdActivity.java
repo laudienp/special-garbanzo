@@ -119,27 +119,27 @@ public class LocateBirdActivity extends AppCompatActivity implements LocationLis
                 specieView = findViewById(R.id.spinner);
                 specie = findSpecieAssociatedToThisString(specieView.getSelectedItem().toString());
 
-                isPublicView = (Switch) findViewById(R.id.switchImageGallery);
-                isPublicView.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                    @Override
-                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                        if (isChecked){
-                            setIsPublic(true);
-                            Toast.makeText(getApplicationContext(),"Publication will be public.",Toast.LENGTH_LONG).show();
-                        }
-                        else{
-                            setIsPublic(false);
-                            Toast.makeText(getApplicationContext(),"Publication won't be public.",Toast.LENGTH_LONG).show();
-                        }
-                    }
-                });
-
                 Post post = new Post(description, date, longitude, latitude, isPublic, specie, user);
                 MainActivity.BDD.insertDataPost(post);
 
                 Intent intent = new Intent(getApplicationContext(), MapActivity.class);
                 startActivity(intent);
 
+            }
+        });
+
+        isPublicView = (Switch) findViewById(R.id.switchImageGallery);
+        isPublicView.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked){
+                    setIsPublic(true);
+                    Toast.makeText(getApplicationContext(),"Publication will be public.",Toast.LENGTH_LONG).show();
+                }
+                else{
+                    setIsPublic(false);
+                    Toast.makeText(getApplicationContext(),"Publication won't be public.",Toast.LENGTH_LONG).show();
+                }
             }
         });
     }
