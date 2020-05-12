@@ -68,16 +68,23 @@ public class DataRetriever {
         }
         else{
             while(res.moveToNext()){
-                java.util.Date today = new java.util.Date();
                 String postID = res.getString(0);
                 String postDescription = res.getString(1);
                 String postDate = res.getString(2);
-                String postDateDay = postDate.substring(8, 10);
-                String postDateMonth = postDate.substring(4, 7);
-                String postDateYear = postDate.substring(32, 34);
-                String postDateHour = postDate.substring(11,13);
-                String postDateMinute = postDate.substring(14,16);
                 StringBuilder postDateValueString = new StringBuilder();
+                int stringSize = postDate.length();
+                String postDateDay = new String();
+                String postDateMonth = new String();
+                String postDateYear = new String();
+                String postDateHour = new String();
+                String postDateMinute = new String();
+                if(stringSize == 34) {
+                     postDateDay = postDate.substring(8, 10);
+                     postDateMonth = postDate.substring(4, 7);
+                     postDateYear = postDate.substring(32, 34);
+                     postDateHour = postDate.substring(11, 13);
+                     postDateMinute = postDate.substring(14, 16);
+                }
                 postDateValueString.append(postDateDay + " " + postDateMonth + " " + postDateYear + " " + postDateHour + ":" + postDateMinute);
                 Date postDateValue = new SimpleDateFormat("dd MMM yy HH:mm").parse(postDateValueString.toString());
                 String postLongitude = res.getString(3);

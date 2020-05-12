@@ -94,7 +94,6 @@ public class MapActivity extends AppCompatActivity implements LocationListener {
             e.printStackTrace();
         }
 
-
         menuButton = findViewById(R.id.menu_button);
         addButton = findViewById(R.id.addBird_button);
         cancelButton = findViewById(R.id.cancel_button);
@@ -163,7 +162,6 @@ public class MapActivity extends AppCompatActivity implements LocationListener {
         Context ctx = getApplicationContext();
         Configuration.getInstance().load(ctx, PreferenceManager.getDefaultSharedPreferences(ctx));
 
-
         map = findViewById(R.id.map);
         map.setTileSource(TileSourceFactory.MAPNIK);
         map.setBuiltInZoomControls(true);
@@ -200,7 +198,6 @@ public class MapActivity extends AppCompatActivity implements LocationListener {
         };
         MapEventsOverlay mapEventsOverlay = new MapEventsOverlay(getApplicationContext(), mReceive);
         map.getOverlays().add(mapEventsOverlay);
-
 
         // BUG A RESOUDRE
         /*try {
