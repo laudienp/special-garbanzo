@@ -79,7 +79,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void fillDataBundle() throws ParseException {
+    public static void fillDataBundle() throws ParseException {
         dataBundle.setAppUsers(dataRetriever.retrieveUsers());
         dataBundle.setAppSpecies(dataRetriever.retrieveSpecies());
         dataBundle.setAppPosts(dataRetriever.retrievePosts());

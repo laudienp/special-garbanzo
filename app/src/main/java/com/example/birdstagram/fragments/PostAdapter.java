@@ -22,7 +22,7 @@ public class PostAdapter extends ArrayAdapter<Post>
         ImageView imageView = (ImageView)postView.findViewById(R.id.glistImage);
 
         if(convertView == null)
-            imageView.setImageResource(R.drawable.zemour);
+            imageView.setImageResource(R.drawable.colibri);
         else
             postView = (View)convertView;
 

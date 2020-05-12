@@ -13,7 +13,8 @@ public class Post {
     private Specie specie;
     private User user;
 
-    public Post(){
+    public Post()
+    {
 
     }
 
