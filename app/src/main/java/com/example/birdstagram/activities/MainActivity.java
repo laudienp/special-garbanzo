@@ -83,23 +83,24 @@ public class MainActivity extends AppCompatActivity {
         dataBundle.setAppUsers(dataRetriever.retrieveUsers());
         dataBundle.setAppSpecies(dataRetriever.retrieveSpecies());
         dataBundle.setAppPosts(dataRetriever.retrievePosts());
+        dataBundle.setAppLikes(dataRetriever.retrieveLikes());
+        dataBundle.setAppViewers(dataRetriever.retrieveViews());
     }
 
     private void fillDataBundleWithFakeData() throws ParseException {
         dataBundle.setAppUsers(dataRetriever.retrieveUsers());
         dataBundle.setAppSpecies(dataRetriever.retrieveSpecies());
-        dataBundle.setAppPosts(dataRetriever.retrievePosts());
         insertFakeDataBundle();
-        /*dataBundle.setUserPosts();
-        dataBundle.setAppLikes();
-        dataBundle.setAppComments();
-        dataBundle.setAppViewers();*/
+        dataBundle.setAppPosts(dataRetriever.retrievePosts());
+        dataBundle.setAppLikes(dataRetriever.retrieveLikes());
+        dataBundle.setAppViewers(dataRetriever.retrieveViews());
+        /*dataBundle.setAppComments();*/
     }
 
     private void insertFakeDataBundle(){
         Date today = new Date();
         Post firstPost = new Post(1,"Google Building", today, -122.084568, 37.42212, true, dataBundle.getAppSpecies().get(0), dataBundle.getAppUsers().get(0));
-        Post secondPost = new Post(2,"Google Building", today, -122.081741, 37.422880, false, dataBundle.getAppSpecies().get(5), dataBundle.getAppUsers().get(0));
+        Post secondPost = new Post(2,"Google Building", today, -122.081741, 37.422880, false, dataBundle.getAppSpecies().get(5), dataBundle.getAppUsers().get(1));
         BDD.insertDataPost(firstPost);
         BDD.insertDataPost(secondPost);
         Views view1 = new Views(1, firstPost, dataBundle.getAppUsers().get(1), today);

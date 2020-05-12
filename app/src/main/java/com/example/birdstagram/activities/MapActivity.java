@@ -63,10 +63,19 @@ public class MapActivity extends AppCompatActivity implements LocationListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.map);
 
+        try {
+            loadUserPosts();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
         initComponents();
         initMap();
         initAddBirdEvent();
         refreshMapOverlay();
+    }
+
+    private void loadUserPosts() throws ParseException {
+        MainActivity.dataBundle.setUserPosts(MainActivity.dataRetriever.retrieveUserPosts(MainActivity.dataBundle.getUserSession().getId()));
     }
 
     private void initComponents(){
