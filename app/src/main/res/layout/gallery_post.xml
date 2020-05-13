@@ -12,7 +12,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="1000dp"
+            android:layout_height="1500dp"
             android:orientation="vertical">
 
 
@@ -35,7 +35,7 @@
                     android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/shortDescriptionPost"
+                        android:id="@+id/speciePost"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Strange bird"
@@ -61,12 +61,57 @@
 
             </LinearLayout>
 
+            <TextureView
+                android:id="@+id/textureView"
+                android:layout_width="match_parent"
+                android:layout_marginLeft="25dp"
+                android:layout_marginRight="25dp"
+                android:layout_marginTop="10dp"
+                android:layout_gravity="center"
+                android:layout_height="2dp"/>
+
+            <TextView
+                android:id="@+id/userPost"
+                android:layout_marginTop="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Shupa_User"
+                android:textSize="24sp"
+                android:layout_marginStart="40dp"/>
+
+            <TextView
+                android:id="@+id/shortDescriptionPost"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginStart="20dp"
+                android:textSize="20sp"
+                android:text="yo la street j'ai fait une drole de découvert hier..."/>
+
+            <TextureView
+                android:id="@+id/textureView1"
+                android:layout_width="match_parent"
+                android:layout_marginLeft="25dp"
+                android:layout_marginRight="25dp"
+                android:layout_marginTop="15dp"
+
+                android:layout_gravity="center"
+                android:layout_height="2dp"/>
+
             <Button
                 android:id="@+id/shareButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
                 android:text="Share"
                 android:textSize="22sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="0 comment"
+                android:layout_marginStart="10dp"
+                android:textSize="20sp"/>
 
         </LinearLayout>
 
