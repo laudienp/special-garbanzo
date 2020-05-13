@@ -1,6 +1,7 @@
 package com.example.birdstagram.activities;
 
 import android.Manifest;
+import android.app.AlarmManager;
 import android.app.Notification;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -17,6 +18,7 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
@@ -32,6 +34,7 @@ import androidx.core.app.NotificationManagerCompat;
 import androidx.core.content.ContextCompat;
 
 import com.example.birdstagram.R;
+import com.example.birdstagram.activities.inscription.ProfileActivity;
 import com.example.birdstagram.data.tools.Post;
 import com.example.birdstagram.fragments.FragmentInfoBulle;
 
@@ -72,7 +75,9 @@ public class MapActivity extends AppCompatActivity implements LocationListener {
     private boolean putMarkerOnClick = false;
     private boolean takePosition = false;
 
-
+    private Handler mRepeatHandler;
+    private Runnable mRepeatRunnable;
+    private final static int UPDATE_INTERVAL = 5000;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -88,8 +93,20 @@ public class MapActivity extends AppCompatActivity implements LocationListener {
         initMap();
         initAddBirdEvent();
         refreshMapOverlay();
-         // A utiliser //sendNotificationChannel("Un nouveau like ", "Quelq'un a aimé votre post", CHANNEL_ID, NotificationCompat.PRIORITY_DEFAULT, null);
+
+        /*mRepeatHandler = new Handler();
+        mRepeatHandler.postDelayed(m_Runnable, 5000);*/
     }
+    //Map getting refreshed every 5 seconds // bug
+    /*private final Runnable m_Runnable = new Runnable()
+    {
+        public void run()
+        {
+            refreshMapOverlay();
+            mRepeatHandler.postDelayed(m_Runnable, 5000);
+        }
+
+    };//runnable*/
 
     private void loadUserPosts() throws ParseException {
         MainActivity.dataBundle.setUserPosts(MainActivity.dataRetriever.retrieveUserPosts(MainActivity.dataBundle.getUserSession().getId()));
