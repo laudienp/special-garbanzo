@@ -2,7 +2,6 @@ package com.example.birdstagram.activities;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
-import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -165,7 +164,7 @@ public class LocateBirdActivity extends AppCompatActivity implements LocationLis
             resetValues();
             Intent intent = new Intent(getApplicationContext(), MapActivity.class);
             startActivity(intent);
-            if (SettingActivity.getDisplayGeneralNotif() && SettingActivity.getDisplayNotif())
+            if (Notification.getDisplayGeneralNotif() && Notification.getDisplayNotif())
                 sendNotificationChannel("Nouvel oiseau ajouté", specie.getFrenchName(), CHANNEL_ID, 1, null);
         }
         else{
