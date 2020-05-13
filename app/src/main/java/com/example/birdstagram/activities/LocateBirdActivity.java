@@ -2,7 +2,6 @@ package com.example.birdstagram.activities;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
-import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -136,8 +135,6 @@ public class LocateBirdActivity extends AppCompatActivity implements LocationLis
             @Override
             public void onClick(View v) {
                 addSpecie();
-                Intent intent = new Intent(getApplicationContext(), MapActivity.class);
-                startActivity(intent);
             }
         });
 
@@ -167,7 +164,7 @@ public class LocateBirdActivity extends AppCompatActivity implements LocationLis
             resetValues();
             Intent intent = new Intent(getApplicationContext(), MapActivity.class);
             startActivity(intent);
-            if (SettingActivity.getDisplayGeneralNotif() || SettingActivity.getDisplayNotif() || SettingActivity.getDisplaySocialNotif())
+            if (Notification.getDisplayGeneralNotif() && Notification.getDisplayNotif())
                 sendNotificationChannel("Nouvel oiseau ajouté", specie.getFrenchName(), CHANNEL_ID, 1, null);
         }
         else{
@@ -212,12 +209,13 @@ public class LocateBirdActivity extends AppCompatActivity implements LocationLis
         super.onResume();
     }
 
-    @Override
-    protected void onSaveInstanceState(@NonNull Bundle outState) {
-        super.onSaveInstanceState(outState);
-        outState.putString("specie", specie.getEnglishName());
-        outState.putString("description", descriptionView.getText().toString());
-    }
+//    @Override
+//    protected void onSaveInstanceState(@NonNull Bundle outState) {
+//        super.onSaveInstanceState(outState);
+//        outState.putString("specie", specie.getEnglishName());
+//        outState.putString("description", descriptionView.getText().toString());
+//    }
+
 
     @SuppressLint("MissingSuperCall")
     @Override
