@@ -89,6 +89,12 @@ public class ProfileActivity extends AppCompatActivity {
 
         likes.setText(String.valueOf(connectedUserLikes()) + " likes");
         posts.setText(String.valueOf(connectedUserPost()) + " posts");
+
+        User currentUser = MainActivity.dataBundle.getUserSession();
+        name.setText(currentUser.getName());
+        age.setText(currentUser.getAge()+"");
+        email.setText(currentUser.getMail());
+
     }
 
     @Override
