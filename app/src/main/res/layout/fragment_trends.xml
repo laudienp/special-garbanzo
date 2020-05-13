@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -7,28 +8,39 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Trends"
+            android:textAlignment="center"
+            android:layout_gravity="center"
             android:textSize="26dp"/>
 
 
 
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:layout_gravity="center">
 
             <ImageButton
                 android:id="@+id/trendButton1"
                 android:layout_width="150dp"
                 android:layout_height="150dp"
+                android:layout_margin="10dp"
                 android:background="@drawable/colibri"
-                android:layout_margin="10dp"/>
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <ImageButton
                 android:layout_width="150dp"
                 android:layout_height="150dp"
+                android:layout_margin="10dp"
                 android:background="@drawable/corbeau"
-                android:layout_margin="10dp"/>
-        </LinearLayout>
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/trendButton1"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
 
         <TextureView
             android:id="@+id/textureView"
@@ -41,6 +53,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textAlignment="center"
             android:text="Pic of the month"
             android:textSize="26dp"/>
 
