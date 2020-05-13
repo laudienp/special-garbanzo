@@ -173,7 +173,12 @@ public class LocateBirdActivity extends AppCompatActivity implements LocationLis
             }
         }
         else{
-            //On envoie sur la BDD interne
+            Toast.makeText(getApplicationContext(),"Position has been saved, it will be displayed as soon as you'll recover a network connection.",Toast.LENGTH_LONG).show();
+            Intent intent = new Intent(getApplicationContext(), MenuActivity.class);
+            shareNetworkState(intent);
+            startActivity(intent);
+
+            /*//On envoie sur la BDD interne
             Toast.makeText(getApplicationContext(),"Position has been saved, it will be displayed as soon as you'll recover a network connection.",Toast.LENGTH_LONG).show();
             description = descriptionView.getText().toString();
             Date date = new Date();
@@ -183,7 +188,7 @@ public class LocateBirdActivity extends AppCompatActivity implements LocationLis
             resetValues();
             Intent intent = new Intent(getApplicationContext(), MenuActivity.class);
             shareNetworkState(intent);
-            startActivity(intent);
+            startActivity(intent);*/
         }
     }
 
