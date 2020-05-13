@@ -81,9 +81,9 @@ public class ProfileActivity extends AppCompatActivity {
             public void onClick(View v) {
                 //Confirmation de l'utilisateur
                 if (!name.getText().toString().isEmpty() && !age.getText().toString().isEmpty() && !email.getText().toString().isEmpty() && !password.getText().toString().isEmpty())
-                    showMessage("Confirmation", "Voulez vous enregitrer ces changements?");
+                    showMessage("Confirmation", "Apply  Changes ?");
                 else
-                    Toast.makeText(getApplicationContext(), "Remplissez tout les champs", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "Fill all the fields please.", Toast.LENGTH_LONG).show();
             }
         });
 
