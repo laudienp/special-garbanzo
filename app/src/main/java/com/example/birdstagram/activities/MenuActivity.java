@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.birdstagram.activities.inscription.ProfileActivity;
 
@@ -52,8 +53,13 @@ public class MenuActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), ProfileActivity.class);
-                startActivity(intent);
+                if(netWorkState == true) {
+                    Intent intent = new Intent(getApplicationContext(), ProfileActivity.class);
+                    startActivity(intent);
+                }
+                else {
+                    Toast.makeText( getApplicationContext(),"Not available while you don't have a network connection.", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
@@ -61,8 +67,13 @@ public class MenuActivity extends AppCompatActivity {
         galleryButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v){
-                Intent intent = new Intent(getApplicationContext(), GalleryActivity.class);
-                startActivity(intent);
+                if(netWorkState == true) {
+                    Intent intent = new Intent(getApplicationContext(), GalleryActivity.class);
+                    startActivity(intent);
+                }
+                else {
+                    Toast.makeText( getApplicationContext(),"Not available while you don't have a network connection.", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
@@ -113,6 +124,8 @@ public class MenuActivity extends AppCompatActivity {
         ImageButton newSettingsButton = findViewById(R.id.reglageIconOffline);
         View divider1 = findViewById(R.id.divider);
         View divider2 = findViewById(R.id.divider2);
+        Button profilButton = findViewById(R.id.profil);
+        Button galleryButton = findViewById(R.id.gallery);
         if (netWorkState == true) {
             onlineView.setVisibility(View.VISIBLE);
             offlineView.setVisibility(View.GONE);
@@ -130,6 +143,11 @@ public class MenuActivity extends AppCompatActivity {
             newSettingsButton.setVisibility(View.VISIBLE);
             divider1.setVisibility(View.GONE);
             divider2.setVisibility(View.VISIBLE);
+            profilButton.setClickable(false);
+            profilButton.setBackgroundColor(Color.parseColor("#808080"));
+            galleryButton.setClickable(false);
+            galleryButton.setBackgroundColor(Color.parseColor("#808080"));
         }
     }
+
 }
