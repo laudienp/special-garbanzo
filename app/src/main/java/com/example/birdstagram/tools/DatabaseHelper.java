@@ -294,7 +294,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("create table " + POST_LIKES_TABLE +"("+ POST_LIKE_ID +" INTEGER PRIMARY KEY AUTOINCREMENT, " + POST_LIKE_POST_ID + " INTEGER, " + POST_LIKER_ID + " INTEGER," + POST_LIKE_DATE + " DATE)");
         db.execSQL("create table " + POST_COMMENTS_TABLE +"(" + POST_COMMENT_ID +" INTEGER PRIMARY KEY , " + POST_COMMENT_POST_ID + " INTEGER," + POST_COMMENTOR_ID + " INTEGER," + POST_COMMENT_TEXT +" TEXT, " +
                 POST_COMMENT_DATE + " DATE)");
-        db.execSQL("INSERT INTO USER VALUES('999', 'Freese', 'François', 'Reese', '23', 'freese@gmail.com', 'freese')");
+        db.execSQL("INSERT INTO USER VALUES('999', 'Freese', 'François', 'Reese', '31', 'freese@gmail.com', 'freese')");
         db.execSQL("INSERT INTO USER VALUES('50', 'Athomas', 'Angèle', 'Thomas', '26', 'athomas@gmail.com', 'athomas')");
         db.execSQL("INSERT INTO USER VALUES('30', 'Hrichard', 'Helene', 'Richard', '29', 'hrichard@gmail.com', 'hrichard')");
         db.execSQL("INSERT INTO USER VALUES('31', 'Gmartin', 'Gérald', 'Martin', '44', 'gmartin@gmail.com', 'gmartin')");
