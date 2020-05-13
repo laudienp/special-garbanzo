@@ -57,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Log.i("DATABASE", "ENTERING METHOD");
         initBDD();
-
+        initNotif();
 
         text = findViewById(R.id.text);
 
@@ -205,6 +205,10 @@ public class MainActivity extends AppCompatActivity {
         }
         // Le périphérique est connecté à Internet
         return true;
+    }
+
+    void initNotif(){
+        Notification notification = new Notification();
     }
 }
 
