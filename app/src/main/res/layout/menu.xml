@@ -5,68 +5,59 @@
     android:layout_width="match_parent"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:ignore="ScrollViewCount">
-
-        <androidx.constraintlayout.widget.ConstraintLayout android:layout_height="match_parent"
-            android:layout_width="match_parent">
-
-            <TextView
-                android:id="@+id/birdStagramView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="50sp"
-                android:textColor="@android:color/black"
-                android:layout_marginTop="50dp"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                android:text="Bird Stagram" />
-
-            <Button
-                android:id="@+id/add"
-                android:layout_width="200dp"
-                android:layout_height="60dp"
-                android:background="@drawable/button_border"
-                app:layout_constraintTop_toBottomOf="@+id/birdStagramView"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                android:layout_marginTop="60dp"
-                android:textSize="18sp"
-                android:text="Add Bird Position" />
-
-            <Button
-                android:id="@+id/gallery"
-                android:layout_width="200dp"
-                android:layout_height="60dp"
-                android:background="@drawable/button_border"
-                app:layout_constraintTop_toBottomOf="@+id/add"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                android:layout_marginTop="70dp"
-                android:textSize="18sp"
-                android:text="Gallery" />
-
-            <Button
-                android:id="@+id/profil"
-                android:layout_width="200dp"
-                android:layout_height="60dp"
-                android:background="@drawable/button_border"
-                app:layout_constraintTop_toBottomOf="@+id/gallery"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                android:layout_marginTop="70dp"
-                android:layout_marginBottom="60dp"
-                android:textSize="18sp"
-                android:text="Profile" />
 
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+    <TextView
+        android:id="@+id/birdStagramView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="50sp"
+        android:textColor="@android:color/black"
+        android:layout_marginTop="50dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:text="Bird Stagram" />
 
+    <Button
+        android:id="@+id/add"
+        android:layout_width="200dp"
+        android:layout_height="60dp"
+        android:background="@drawable/button_border"
+        android:text="Add Bird Position"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/birdStagramView"
+        app:layout_constraintVertical_bias="0.15" />
 
-    </ScrollView>
+    <Button
+        android:id="@+id/gallery"
+        android:layout_width="200dp"
+        android:layout_height="60dp"
+        android:background="@drawable/button_border"
+        android:text="Gallery"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/birdStagramView"
+        app:layout_constraintVertical_bias="0.37" />
+
+    <Button
+        android:id="@+id/profil"
+        android:layout_width="200dp"
+        android:layout_height="60dp"
+        android:background="@drawable/button_border"
+        android:text="Profile"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/birdStagramView"
+        app:layout_constraintVertical_bias="0.59" />
+
 
     <TextView
         android:id="@+id/onlineView"
@@ -75,54 +66,96 @@
         android:text="Online"
         android:textColor="@android:color/holo_green_dark"
         android:textSize="30sp"
+        app:layout_constraintBottom_toTopOf="@+id/divider"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/divider"
-        />
+        app:layout_constraintTop_toBottomOf="@+id/profil"
+        app:layout_constraintVertical_bias="0.95" />
+
+    <TextView
+        android:id="@+id/offlineView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Offline"
+        android:textColor="@android:color/holo_red_dark"
+        android:textSize="30sp"
+        app:layout_constraintBottom_toTopOf="@+id/divider2"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/profil"
+        app:layout_constraintVertical_bias="0.95" />
+
 
     <View
         android:id="@+id/divider"
         android:layout_width="match_parent"
         android:layout_height="2dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
         android:background="?android:attr/listDivider"
         android:divider="@color/black"
-        app:layout_constraintBottom_toTopOf="@id/icons"
-        android:layout_marginBottom="15dp"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"/>
+        app:layout_constraintBottom_toTopOf="@+id/mapIcon"
+        android:layout_marginBottom="15dp"
+         />
 
-    <LinearLayout
-        android:id="@+id/icons"
+    <View
+        android:id="@+id/divider2"
         android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:background="?android:attr/listDivider"
+        android:divider="@color/black"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/reglageIconOffline"
+        android:layout_marginBottom="15dp"
+        />
+
+
+    <ImageButton
+        android:id="@+id/mapIcon"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center_horizontal"
+        android:layout_marginBottom="32dp"
+        android:background="@null"
+        android:contentDescription="map"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginBottom="10dp">
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.35"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/map" />
 
+    <ImageButton
+        android:id="@+id/reglageIcon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="32dp"
+        android:background="@null"
+        android:contentDescription="settings"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.65"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/reglage" />
 
-        <ImageButton
-            android:id="@+id/mapIcon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="70dp"
-            android:background="@null"
-            android:contentDescription="map"
-            app:srcCompat="@drawable/map" />
+    <ImageButton
+        android:id="@+id/reglageIconOffline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="32dp"
+        android:background="@null"
+        android:contentDescription="settings"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/reglage" />
 
-
-        <ImageButton
-            android:id="@+id/reglageIcon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-
-            android:background="@null"
-            app:srcCompat="@drawable/reglage"
-            android:contentDescription="settings"/>
-
-    </LinearLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

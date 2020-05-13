@@ -1,6 +1,7 @@
 package com.example.birdstagram.activities;
 
 import android.Manifest;
+import android.app.AlarmManager;
 import android.app.Notification;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -17,6 +18,7 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
@@ -32,7 +34,9 @@ import androidx.core.app.NotificationManagerCompat;
 import androidx.core.content.ContextCompat;
 
 import com.example.birdstagram.R;
+import com.example.birdstagram.activities.inscription.ProfileActivity;
 import com.example.birdstagram.data.tools.Post;
+import com.example.birdstagram.data.tools.Views;
 import com.example.birdstagram.fragments.FragmentInfoBulle;
 
 import org.osmdroid.api.IMapController;
@@ -72,8 +76,9 @@ public class MapActivity extends AppCompatActivity implements LocationListener {
     private boolean putMarkerOnClick = false;
     private boolean takePosition = false;
 
-    private final String CHANNEL_ID = "New Bird";
-    private final int NOTIFICATION_ID = 001;
+    private Handler mRepeatHandler;
+    private Runnable mRepeatRunnable;
+    private final static int UPDATE_INTERVAL = 5000;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -89,8 +94,20 @@ public class MapActivity extends AppCompatActivity implements LocationListener {
         initMap();
         initAddBirdEvent();
         refreshMapOverlay();
-         // A utiliser //sendNotificationChannel("Un nouveau like ", "Quelq'un a aimé votre post", CHANNEL_ID, NotificationCompat.PRIORITY_DEFAULT, null);
+
+        /*mRepeatHandler = new Handler();
+        mRepeatHandler.postDelayed(m_Runnable, 5000);*/
     }
+    //Map getting refreshed every 5 seconds // bug
+    /*private final Runnable m_Runnable = new Runnable()
+    {
+        public void run()
+        {
+            refreshMapOverlay();
+            mRepeatHandler.postDelayed(m_Runnable, 5000);
+        }
+
+    };//runnable*/
 
     private void loadUserPosts() throws ParseException {
         MainActivity.dataBundle.setUserPosts(MainActivity.dataRetriever.retrieveUserPosts(MainActivity.dataBundle.getUserSession().getId()));
@@ -256,8 +273,16 @@ public class MapActivity extends AppCompatActivity implements LocationListener {
         Bundle bundle = new Bundle();
         for(Post post : posts){
             if(post.getId() == id){
+                bundle.putInt("id", id);
                 bundle.putString("specie", post.getSpecie().getEnglishName());
-                bundle.putFloat("fiability", 0);
+                List<Views> views = MainActivity.dataBundle.getAppViewers();
+                int nbviews = 0;
+                for (Views view : views){
+                    if (view.getPostID().getId() == id){
+                        nbviews++;
+                    }
+                }
+                bundle.putFloat("fiability", nbviews);
                 bundle.putString("author", post.getUser().getPseudo());
             }
         }
@@ -268,8 +293,26 @@ public class MapActivity extends AppCompatActivity implements LocationListener {
         getSupportFragmentManager().beginTransaction().remove(getSupportFragmentManager().findFragmentById(R.id.infobulle)).commit();
     }
 
-    public void addView(boolean seen){
-
+    public void addView(boolean seen, int id){
+        for(Post post : posts){
+            if(post.getId() == id){
+                if (seen) {
+                    MainActivity.BDD.insertDataView(new Views(post, MainActivity.dataBundle.getUserSession(), new Date()));
+                } else {
+                    List<Views> views = MainActivity.dataBundle.getAppViewers();
+                    for (Views view : views){
+                        if (view.getPostID().getId() == id && view.getUserID().getId() == MainActivity.dataBundle.getUserSession().getId()){
+                            MainActivity.BDD.removeDataView(view.getId());
+                        }
+                    }
+                }
+                try {
+                    MainActivity.fillDataBundle();
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
     }
 
     private void removeLastMarker(){
@@ -395,43 +438,5 @@ public class MapActivity extends AppCompatActivity implements LocationListener {
         intent.putExtras(bundleOnlineOffline);
     }
 
-    public void sendNotificationChannel(String title, String message, String channelId, int priority, Bitmap image){
-        Intent landingIntent = new Intent(getApplicationContext(), MapActivity.class);
 
-        if (title.equals("Nouvel oiseau découvert")){
-            landingIntent = new Intent(getApplicationContext(), MapActivity.class);
-            landingIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        }
-        if (title.equals("Un nouveau like")){
-           // landingIntent = new Intent(getApplicationContext(), SocialActivity.class);
-            landingIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        }
-
-        PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(), 0, landingIntent, PendingIntent.FLAG_ONE_SHOT);
-        Date currentTime = Calendar.getInstance().getTime();
-
-
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext(), channelId)
-                .setSmallIcon(R.drawable.bird)
-                .setContentTitle(title +
-                        "                                               "
-                        + currentTime.getHours() + ":" + currentTime.getMinutes())
-                .setContentText(message)
-                .setPriority(priority)
-                .setContentIntent(pendingIntent)
-                .setAutoCancel(true);
-
-        if (title.equals("Nouvel oiseau découvert") && image == null){
-            builder.setStyle(new NotificationCompat.BigPictureStyle()
-                    .bigPicture(BitmapFactory.decodeResource(getApplicationContext().getResources(), R.drawable.bird_big))
-                    .bigLargeIcon(null) );
-        } else if (image != null){
-            builder.setStyle(new NotificationCompat.BigPictureStyle()
-                    .bigPicture(image)
-                    .bigLargeIcon(null) );
-        }
-
-        NotificationManagerCompat notificationCompat = NotificationManagerCompat.from(this);
-        notificationCompat.notify(NOTIFICATION_ID, builder.build());
-    }
 }

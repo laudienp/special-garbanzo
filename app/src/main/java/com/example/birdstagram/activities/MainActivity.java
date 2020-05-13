@@ -16,6 +16,7 @@ import android.content.res.Configuration;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
@@ -57,6 +58,7 @@ public class MainActivity extends AppCompatActivity {
         Log.i("DATABASE", "ENTERING METHOD");
         initBDD();
 
+
         text = findViewById(R.id.text);
 
         String[] PERMISSIONS = {
@@ -69,8 +71,17 @@ public class MainActivity extends AppCompatActivity {
 
         if (hasPermissions(this, PERMISSIONS)){
             if (haveInternetConnection() == true) {
-                Intent intent = new Intent(getApplicationContext(), startingActivity);
-                startActivity(intent);
+
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        Intent intent = new Intent(getApplicationContext(), startingActivity);
+                        startActivity(intent);
+                        finish();
+                    }
+                }, 3000);
+
+
             }
             else{
                 Intent intent = new Intent(getApplicationContext(), MenuActivity.class);
