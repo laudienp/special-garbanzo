@@ -16,8 +16,12 @@ import androidx.fragment.app.Fragment;
 
 public class FragmentInfoBulle extends Fragment {
 
+    private int id;
     private Button seen;
     private Button notSeen;
+
+    private Float fiability;
+    private TextView textFiability;
 
     public FragmentInfoBulle(){
 
@@ -32,12 +36,12 @@ public class FragmentInfoBulle extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_infobulle, container, false);
         TextView textSpecie = view.findViewById(R.id.textSpecie);
-        TextView textFiability = view.findViewById(R.id.textFiability);
+        textFiability = view.findViewById(R.id.textFiability);
         TextView textAuthor = view.findViewById(R.id.textAuthor);
 
+        id =  getArguments().getInt("id");
         String specie = getArguments().getString("specie");
-        textSpecie.setText(specie);
-        Float fiability = getArguments().getFloat("fiability");
+        fiability = getArguments().getFloat("fiability");
         String author = getArguments().getString("author");
 
         textSpecie.setText("Specie: " + specie);
@@ -59,7 +63,9 @@ public class FragmentInfoBulle extends Fragment {
             public void onClick(View v) {
                 seen.setEnabled(false);
                 notSeen.setEnabled(true);
-                ((MapActivity) getActivity()).addView(true);
+                ((MapActivity) getActivity()).addView(true, id);
+                fiability++;
+                textFiability.setText("Fiability: " + fiability + "%");
             }
         });
 
@@ -69,9 +75,12 @@ public class FragmentInfoBulle extends Fragment {
             public void onClick(View v) {
                 notSeen.setEnabled(false);
                 seen.setEnabled(true);
-                ((MapActivity) getActivity()).addView(false);
+                ((MapActivity) getActivity()).addView(false, id);
+                fiability--;
+                textFiability.setText("Fiability: " + fiability + "%");
             }
         });
+        notSeen.setEnabled(false);
 
         return view;
     }
