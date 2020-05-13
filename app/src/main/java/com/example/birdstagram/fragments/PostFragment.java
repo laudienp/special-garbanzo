@@ -46,7 +46,7 @@ public class PostFragment extends Fragment
             public void onClick(View v)
             {
                 Intent sharingIntent = new Intent(Intent.ACTION_SEND);
-                Uri screenshotUri = Uri.parse("android.resource://com.example.birdstagram/drawable/" + R.drawable.colibri);
+                Uri screenshotUri = Uri.parse("android.resource://com.example.birdstagram/drawable/" + R.drawable.colibri + ".jpg");
 
                 sharingIntent.setType("image/*");
                 sharingIntent.putExtra(Intent.EXTRA_STREAM, screenshotUri);
