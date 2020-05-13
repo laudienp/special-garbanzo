@@ -40,6 +40,7 @@ public class PostFragment extends Fragment
 {
     private final String CHANNEL_ID = "New Like";
     private final int NOTIFICATION_ID = 002;
+    Notification notification;
 
     Post linkedPost;
     public PostFragment()
@@ -110,35 +111,33 @@ public class PostFragment extends Fragment
 
         likeButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v)
-            {
+            public void onClick(View v) {
                 Like newlike = new Like(linkedPost, MainActivity.dataBundle.getUserSession(), new Date());
                 MainActivity.BDD.insertDataLike(newlike);
 
                 try {
                     MainActivity.fillDataBundle();
-                }
-                catch (Exception e)
-                {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
 
                 TextView likeCounter = rootView.findViewById(R.id.likeCounter);
 
                 List<Like> allLikes = MainActivity.dataBundle.getAppLikes();
-                int count=0;
+                int count = 0;
 
                 for (Like like :
                         allLikes) {
-                    if(like.getPostID().getId() == linkedPost.getId())
+                    if (like.getPostID().getId() == linkedPost.getId())
                         count++;
                 }
 
                 String likes = count + " like";
 
                 likeCounter.setText(likes);
-                if (Notification.getDisplaySocialNotif())
-                    sendNotificationChannel("Un nouveau like", "Position :" +newlike.getPostID().getDescription() + "     Bird :" + newlike.getPostID().getSpecie().getEnglishName(), CHANNEL_ID, 1, null);
+                if (Notification.getDisplaySocialNotif() && Notification.getDisplayNotif()) {
+                    sendNotificationChannel("Un nouveau like", "Position :" + newlike.getPostID().getDescription() + "     Bird :" + newlike.getPostID().getSpecie().getEnglishName(), CHANNEL_ID, 1, null);
+                }
             }
         });
 
