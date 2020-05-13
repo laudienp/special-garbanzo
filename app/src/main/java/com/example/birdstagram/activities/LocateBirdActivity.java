@@ -2,6 +2,7 @@ package com.example.birdstagram.activities;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -16,6 +17,7 @@ import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.util.Log;
@@ -49,6 +51,7 @@ import org.osmdroid.views.MapView;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 public class LocateBirdActivity extends AppCompatActivity implements LocationListener{
 
@@ -164,8 +167,10 @@ public class LocateBirdActivity extends AppCompatActivity implements LocationLis
             resetValues();
             Intent intent = new Intent(getApplicationContext(), MapActivity.class);
             startActivity(intent);
-            if (Notification.getDisplayGeneralNotif() && Notification.getDisplayNotif())
+            if (Notification.getDisplayGeneralNotif() && Notification.getDisplayNotif()) {
+                createNotificationChannel();
                 sendNotificationChannel("Nouvel oiseau ajouté", specie.getFrenchName(), CHANNEL_ID, 1, null);
+            }
         }
         else{
             //On envoie sur la BDD interne
@@ -398,5 +403,18 @@ public class LocateBirdActivity extends AppCompatActivity implements LocationLis
 
         NotificationManagerCompat notificationCompat = NotificationManagerCompat.from(this);
         notificationCompat.notify(NOTIFICATION_ID, builder.build());
+    }
+
+    private void createNotificationChannel() {
+        // Créer le NotificationChannel, seulement pour API 26+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            CharSequence name = "Add bird";
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            NotificationChannel channel = new NotificationChannel(CHANNEL_ID, name, importance);
+            channel.setDescription("Display a notification when adding a bird on the map.");
+            // Enregister le canal sur le système : attention de ne plus rien modifier après
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            Objects.requireNonNull(notificationManager).createNotificationChannel(channel);
+        }
     }
 }

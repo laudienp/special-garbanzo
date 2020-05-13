@@ -1,6 +1,18 @@
 package com.example.birdstagram.activities;
 
-public class Notification {
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.content.Context;
+import android.os.Build;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import java.util.Objects;
+
+import static androidx.core.content.ContextCompat.getSystemService;
+
+
+public class Notification extends AppCompatActivity {
     static boolean displayNotif;
     static boolean displayGeneralNotif;
     static boolean displaySocialNotif;

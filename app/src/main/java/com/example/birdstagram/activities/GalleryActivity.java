@@ -4,9 +4,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Intent;
 import android.media.Image;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -19,6 +22,8 @@ import com.example.birdstagram.fragments.NotFoundFragment;
 import com.example.birdstagram.fragments.PostFragment;
 import com.example.birdstagram.fragments.TrendsFragment;
 
+import java.util.Objects;
+
 
 public class GalleryActivity extends AppCompatActivity {
 
@@ -30,7 +35,7 @@ public class GalleryActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_gallery);
-
+        enableNotifForFragment();
         editText = findViewById(R.id.search_gallery_src_text);
 
         loadTrendFrag();
@@ -87,6 +92,23 @@ public class GalleryActivity extends AppCompatActivity {
         {
             Log.d("dd", "deleted fragggggggg");
             getSupportFragmentManager().beginTransaction().remove(trendsFragment).commit();
+        }
+    }
+
+    void enableNotifForFragment(){
+        createNotificationChannelNewLike();
+    }
+
+    public void createNotificationChannelNewLike() {
+        // Créer le NotificationChannel, seulement pour API 26+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            CharSequence name = "Add bird";
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            NotificationChannel channel = new NotificationChannel("New Like", name, importance);
+            channel.setDescription("Display a notification when adding a bird on the map.");
+            // Enregister le canal sur le système : attention de ne plus rien modifier après
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            Objects.requireNonNull(notificationManager).createNotificationChannel(channel);
         }
     }
 }
