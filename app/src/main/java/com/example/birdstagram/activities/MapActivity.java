@@ -36,6 +36,7 @@ import androidx.core.content.ContextCompat;
 import com.example.birdstagram.R;
 import com.example.birdstagram.activities.inscription.ProfileActivity;
 import com.example.birdstagram.data.tools.Post;
+import com.example.birdstagram.data.tools.Views;
 import com.example.birdstagram.fragments.FragmentInfoBulle;
 
 import org.osmdroid.api.IMapController;
@@ -272,8 +273,16 @@ public class MapActivity extends AppCompatActivity implements LocationListener {
         Bundle bundle = new Bundle();
         for(Post post : posts){
             if(post.getId() == id){
+                bundle.putInt("id", id);
                 bundle.putString("specie", post.getSpecie().getEnglishName());
-                bundle.putFloat("fiability", 0);
+                List<Views> views = MainActivity.dataBundle.getAppViewers();
+                int nbviews = 0;
+                for (Views view : views){
+                    if (view.getPostID().getId() == id){
+                        nbviews++;
+                    }
+                }
+                bundle.putFloat("fiability", nbviews);
                 bundle.putString("author", post.getUser().getPseudo());
             }
         }
@@ -284,8 +293,26 @@ public class MapActivity extends AppCompatActivity implements LocationListener {
         getSupportFragmentManager().beginTransaction().remove(getSupportFragmentManager().findFragmentById(R.id.infobulle)).commit();
     }
 
-    public void addView(boolean seen){
-
+    public void addView(boolean seen, int id){
+        for(Post post : posts){
+            if(post.getId() == id){
+                if (seen) {
+                    MainActivity.BDD.insertDataView(new Views(post, MainActivity.dataBundle.getUserSession(), new Date()));
+                } else {
+                    List<Views> views = MainActivity.dataBundle.getAppViewers();
+                    for (Views view : views){
+                        if (view.getPostID().getId() == id && view.getUserID().getId() == MainActivity.dataBundle.getUserSession().getId()){
+                            MainActivity.BDD.removeDataView(view.getId());
+                        }
+                    }
+                }
+                try {
+                    MainActivity.fillDataBundle();
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
     }
 
     private void removeLastMarker(){

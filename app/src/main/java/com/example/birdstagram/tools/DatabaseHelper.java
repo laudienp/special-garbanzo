@@ -169,6 +169,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
+    public void removeDataView(int idView){
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(POST_VIEWS_TABLE, POST_VIEW_ID + "=" + idView, null);
+    }
+
     public void insertDataLike(Like like) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();

@@ -56,6 +56,12 @@ public class PostFragment extends Fragment
         {
             Post post = MainActivity.dataBundle.getAppPosts().get(index);
 
+            TextView titleText = rootView.findViewById(R.id.userPost);
+            titleText.setText(post.getUser().getPseudo());
+
+            TextView specieText = rootView.findViewById(R.id.speciePost);
+            specieText.setText(post.getSpecie().getEnglishName());
+
             TextView descText = rootView.findViewById(R.id.shortDescriptionPost);
             descText.setText(post.getDescription());
 
