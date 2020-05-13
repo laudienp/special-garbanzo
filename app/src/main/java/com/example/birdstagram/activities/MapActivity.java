@@ -280,6 +280,9 @@ public class MapActivity extends AppCompatActivity implements LocationListener {
                 for (Views view : views){
                     if (view.getPostID().getId() == id){
                         nbviews++;
+                        if (view.getUserID().getId() == MainActivity.dataBundle.getUserSession().getId()){
+                            bundle.putBoolean("alreadySeen", true);
+                        }
                     }
                 }
                 bundle.putFloat("fiability", nbviews);
