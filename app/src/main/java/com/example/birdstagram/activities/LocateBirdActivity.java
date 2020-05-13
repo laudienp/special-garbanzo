@@ -136,8 +136,6 @@ public class LocateBirdActivity extends AppCompatActivity implements LocationLis
             @Override
             public void onClick(View v) {
                 addSpecie();
-                Intent intent = new Intent(getApplicationContext(), MapActivity.class);
-                startActivity(intent);
             }
         });
 
@@ -167,7 +165,7 @@ public class LocateBirdActivity extends AppCompatActivity implements LocationLis
             resetValues();
             Intent intent = new Intent(getApplicationContext(), MapActivity.class);
             startActivity(intent);
-            if (SettingActivity.getDisplayGeneralNotif() || SettingActivity.getDisplayNotif() || SettingActivity.getDisplaySocialNotif())
+            if (SettingActivity.getDisplayGeneralNotif() && SettingActivity.getDisplayNotif())
                 sendNotificationChannel("Nouvel oiseau ajouté", specie.getFrenchName(), CHANNEL_ID, 1, null);
         }
         else{
