@@ -23,19 +23,6 @@ public class Notification extends AppCompatActivity {
         displaySocialNotif = true;
     }
 
-    public void createNotificationChannelNewLike() {
-        // Créer le NotificationChannel, seulement pour API 26+
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            CharSequence name = "Add bird";
-            int importance = NotificationManager.IMPORTANCE_DEFAULT;
-            NotificationChannel channel = new NotificationChannel("New Like", name, importance);
-            channel.setDescription("Display a notification when adding a bird on the map.");
-            // Enregister le canal sur le système : attention de ne plus rien modifier après
-            NotificationManager notificationManager = getSystemService(NotificationManager.class);
-            Objects.requireNonNull(notificationManager).createNotificationChannel(channel);
-        }
-    }
-
     public static boolean getDisplayNotif(){
         return displayNotif;
     }

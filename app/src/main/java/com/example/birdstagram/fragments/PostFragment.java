@@ -60,7 +60,7 @@ public class PostFragment extends Fragment
             public void onClick(View v)
             {
                 Intent sharingIntent = new Intent(Intent.ACTION_SEND);
-                Uri screenshotUri = Uri.parse("android.resource://com.example.birdstagram/drawable/" + R.drawable.colibri);
+                Uri screenshotUri = Uri.parse("android.resource://com.example.birdstagram/drawable/" + R.drawable.colibri + ".jpg");
 
                 sharingIntent.setType("image/*");
                 sharingIntent.putExtra(Intent.EXTRA_STREAM, screenshotUri);
@@ -135,8 +135,7 @@ public class PostFragment extends Fragment
                 String likes = count + " like";
 
                 likeCounter.setText(likes);
-                if (Notification.getDisplaySocialNotif()) {
-                    notification.createNotificationChannelNewLike();
+                if (Notification.getDisplaySocialNotif() && Notification.getDisplayNotif()) {
                     sendNotificationChannel("Un nouveau like", "Position :" + newlike.getPostID().getDescription() + "     Bird :" + newlike.getPostID().getSpecie().getEnglishName(), CHANNEL_ID, 1, null);
                 }
             }
