@@ -72,8 +72,7 @@ public class MapActivity extends AppCompatActivity implements LocationListener {
     private boolean putMarkerOnClick = false;
     private boolean takePosition = false;
 
-    private final String CHANNEL_ID = "New Bird";
-    private final int NOTIFICATION_ID = 001;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -395,43 +394,5 @@ public class MapActivity extends AppCompatActivity implements LocationListener {
         intent.putExtras(bundleOnlineOffline);
     }
 
-    public void sendNotificationChannel(String title, String message, String channelId, int priority, Bitmap image){
-        Intent landingIntent = new Intent(getApplicationContext(), MapActivity.class);
 
-        if (title.equals("Nouvel oiseau découvert")){
-            landingIntent = new Intent(getApplicationContext(), MapActivity.class);
-            landingIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        }
-        if (title.equals("Un nouveau like")){
-           // landingIntent = new Intent(getApplicationContext(), SocialActivity.class);
-            landingIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        }
-
-        PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(), 0, landingIntent, PendingIntent.FLAG_ONE_SHOT);
-        Date currentTime = Calendar.getInstance().getTime();
-
-
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext(), channelId)
-                .setSmallIcon(R.drawable.bird)
-                .setContentTitle(title +
-                        "                                               "
-                        + currentTime.getHours() + ":" + currentTime.getMinutes())
-                .setContentText(message)
-                .setPriority(priority)
-                .setContentIntent(pendingIntent)
-                .setAutoCancel(true);
-
-        if (title.equals("Nouvel oiseau découvert") && image == null){
-            builder.setStyle(new NotificationCompat.BigPictureStyle()
-                    .bigPicture(BitmapFactory.decodeResource(getApplicationContext().getResources(), R.drawable.bird_big))
-                    .bigLargeIcon(null) );
-        } else if (image != null){
-            builder.setStyle(new NotificationCompat.BigPictureStyle()
-                    .bigPicture(image)
-                    .bigLargeIcon(null) );
-        }
-
-        NotificationManagerCompat notificationCompat = NotificationManagerCompat.from(this);
-        notificationCompat.notify(NOTIFICATION_ID, builder.build());
-    }
 }
