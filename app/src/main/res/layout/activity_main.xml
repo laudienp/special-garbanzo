@@ -19,10 +19,10 @@
     <ImageView
         android:id="@+id/image"
         android:layout_width="match_parent"
-        android:layout_height="900dp"
+        android:layout_height="match_parent"
         android:contentDescription="Splash Screen"
-        android:src="@drawable/splash_screen"
-        android:background="@drawable/splash_screen"
+        android:src="@drawable/splash2"
+        android:background="@drawable/splash2"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
