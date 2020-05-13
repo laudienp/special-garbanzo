@@ -56,8 +56,7 @@ public class ProfileActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
-
-       initialise();
+        initialise();
 
         imageProfile.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -87,13 +86,16 @@ public class ProfileActivity extends AppCompatActivity {
             }
         });
 
+
+
+
         likes.setText(String.valueOf(connectedUserLikes()) + " likes");
         posts.setText(String.valueOf(connectedUserPost()) + " posts");
 
         User currentUser = MainActivity.dataBundle.getUserSession();
-        name.setText(currentUser.getName());
-        age.setText(currentUser.getAge()+"");
-        email.setText(currentUser.getMail());
+        name.setHint(currentUser.getName());
+        age.setHint(currentUser.getAge()+"");
+        email.setHint(currentUser.getMail());
 
     }
 

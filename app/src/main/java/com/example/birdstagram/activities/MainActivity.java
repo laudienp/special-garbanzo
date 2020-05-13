@@ -45,7 +45,6 @@ public class MainActivity extends AppCompatActivity {
     public static DataRetriever dataRetriever;
     public static DataBundle dataBundle;
 
-
     TextView text;
     private final Class startingActivity = LoginActivity.class;
     static final int REQUEST_IMAGE_CAPTURE = 1;
