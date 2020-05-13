@@ -23,6 +23,7 @@ import androidx.fragment.app.Fragment;
 import com.example.birdstagram.R;
 import com.example.birdstagram.activities.MainActivity;
 import com.example.birdstagram.activities.MapActivity;
+import com.example.birdstagram.activities.Notification;
 import com.example.birdstagram.activities.SettingActivity;
 import com.example.birdstagram.data.tools.Like;
 import com.example.birdstagram.data.tools.Post;
@@ -136,7 +137,7 @@ public class PostFragment extends Fragment
                 String likes = count + " like";
 
                 likeCounter.setText(likes);
-                if (SettingActivity.getDisplaySocialNotif())
+                if (Notification.getDisplaySocialNotif())
                     sendNotificationChannel("Un nouveau like", "Position :" +newlike.getPostID().getDescription() + "     Bird :" + newlike.getPostID().getSpecie().getEnglishName(), CHANNEL_ID, 1, null);
             }
         });
