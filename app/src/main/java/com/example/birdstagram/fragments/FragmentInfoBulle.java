@@ -80,7 +80,13 @@ public class FragmentInfoBulle extends Fragment {
                 textFiability.setText("Fiability: " + fiability + "%");
             }
         });
-        notSeen.setEnabled(false);
+
+        boolean alreadySeen = getArguments().getBoolean("alreadySeen", false);
+        if (alreadySeen){
+            seen.setEnabled(false);
+        } else {
+            notSeen.setEnabled(false);
+        }
 
         return view;
     }
