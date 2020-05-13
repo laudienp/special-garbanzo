@@ -75,6 +75,15 @@ public class MenuActivity extends AppCompatActivity {
             }
         });
 
+        ImageButton reglageButtonOffline = (ImageButton) findViewById(R.id.reglageIconOffline);
+        reglageButtonOffline.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), SettingActivity.class);
+                startActivity(intent);
+            }
+        });
+
         ImageButton mapButton = (ImageButton) findViewById(R.id.mapIcon);
         mapButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -98,15 +107,29 @@ public class MenuActivity extends AppCompatActivity {
 
     void setOnlineOrOffline(){
         TextView onlineView = findViewById(R.id.onlineView);
+        TextView offlineView = findViewById(R.id.offlineView);
         ImageButton mapButton = findViewById(R.id.mapIcon);
+        ImageButton settingsButton = findViewById(R.id.reglageIcon);
+        ImageButton newSettingsButton = findViewById(R.id.reglageIconOffline);
+        View divider1 = findViewById(R.id.divider);
+        View divider2 = findViewById(R.id.divider2);
         if (netWorkState == true) {
-            onlineView.setText("Online");
-            onlineView.setTextColor(Color.GREEN);
+            onlineView.setVisibility(View.VISIBLE);
+            offlineView.setVisibility(View.GONE);
+            mapButton.setVisibility(View.VISIBLE);
+            settingsButton.setVisibility(View.VISIBLE);
+            newSettingsButton.setVisibility(View.GONE);
+            divider1.setVisibility(View.VISIBLE);
+            divider2.setVisibility(View.GONE);
         }
         else {
-            onlineView.setText("Offline");
-            onlineView.setTextColor(Color.RED);
+            onlineView.setVisibility(View.GONE);
+            offlineView.setVisibility(View.VISIBLE);
             mapButton.setVisibility(View.GONE);
+            settingsButton.setVisibility(View.GONE);
+            newSettingsButton.setVisibility(View.VISIBLE);
+            divider1.setVisibility(View.GONE);
+            divider2.setVisibility(View.VISIBLE);
         }
     }
 }

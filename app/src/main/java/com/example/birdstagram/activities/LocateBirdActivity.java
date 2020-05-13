@@ -168,7 +168,7 @@ public class LocateBirdActivity extends AppCompatActivity implements LocationLis
             Intent intent = new Intent(getApplicationContext(), MapActivity.class);
             startActivity(intent);
             if (SettingActivity.getDisplayGeneralNotif() || SettingActivity.getDisplayNotif() || SettingActivity.getDisplaySocialNotif())
-                sendNotificationChannel("Nouvel oiseau ajouté", specie.getFrenchName(), CHANNEL_ID, Notification.PRIORITY_MAX, null);
+                sendNotificationChannel("Nouvel oiseau ajouté", specie.getFrenchName(), CHANNEL_ID, 1, null);
         }
         else{
             //On envoie sur la BDD interne
