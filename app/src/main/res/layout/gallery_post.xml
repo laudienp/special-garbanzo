@@ -12,7 +12,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="1000dp"
+            android:layout_height="1500dp"
             android:orientation="vertical">
 
 
@@ -35,7 +35,7 @@
                     android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/shortDescriptionPost"
+                        android:id="@+id/speciePost"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Strange bird"
@@ -51,9 +51,10 @@
                 </LinearLayout>
 
                 <TextView
+                    android:id="@+id/likeCounter"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="18K - 1"
+                    android:text="0 like"
                     android:textSize="20sp"
                     android:layout_marginEnd="10dp"
                     android:layout_marginTop="20dp"
@@ -61,12 +62,81 @@
 
             </LinearLayout>
 
+            <TextureView
+                android:id="@+id/textureView"
+                android:layout_width="match_parent"
+                android:layout_marginLeft="25dp"
+                android:layout_marginRight="25dp"
+                android:layout_marginTop="10dp"
+                android:layout_gravity="center"
+                android:layout_height="2dp"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginStart="10dp"
+                    android:src="@drawable/zemour"/>
+
+                <TextView
+                    android:id="@+id/userPost"
+                    android:layout_marginTop="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Shupa_User"
+                    android:layout_gravity="center"
+                    android:textSize="24sp"
+                    android:layout_marginStart="20dp"/>
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/shortDescriptionPost"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginStart="20dp"
+                android:textSize="20sp"
+                android:text="yo la street j'ai fait une drole de découvert hier..."/>
+
+
+
+            <TextureView
+                android:id="@+id/textureView1"
+                android:layout_width="match_parent"
+                android:layout_marginLeft="25dp"
+                android:layout_marginRight="25dp"
+                android:layout_marginTop="15dp"
+
+                android:layout_gravity="center"
+                android:layout_height="2dp"/>
+
+            <Button
+                android:id="@+id/likeButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Like"
+                android:textSize="22sp"/>
+
             <Button
                 android:id="@+id/shareButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
                 android:text="Share"
                 android:textSize="22sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="0 comment"
+                android:layout_marginStart="10dp"
+                android:textSize="20sp"/>
 
         </LinearLayout>
 
